@@ -144,9 +144,11 @@ import {ProductService} from './demo/service/productservice';
 // Application services
 import {BreadcrumbService} from './app.breadcrumb.service';
 import {MenuService} from './app.menu.service';
+import {ModulesModule} from "./modules/modules.module";
 
 @NgModule({
     imports: [
+        ModulesModule,
         BrowserModule,
         FormsModule,
         AppRoutingModule,
