@@ -29,7 +29,7 @@
 							</div>
 							<div class="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
 								<span class="text-2xl font-semibold mb-2 align-self-center md:align-self-end">${{product.price}}</span>
-								<p-button icon="pi pi-shopping-cart" label="Add to Cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'" class="mb-2"></p-button>
+								<p-button icon="pi pi-shopping-cart" label="Add to Cart" [disabled]="product.inventoryStatus === 'ROL_C'" class="mb-2"></p-button>
 								<span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
 							</div>
 						</div>
@@ -54,7 +54,7 @@
 							</div>
 							<div class="flex align-items-center justify-content-between">
 								<span class="text-2xl font-semibold">${{product.price}}</span>
-								<p-button icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button>
+								<p-button icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'ROL_C'"></p-button>
 							</div>
 						</div>
 					</div>

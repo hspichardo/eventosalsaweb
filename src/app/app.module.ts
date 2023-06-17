@@ -4,7 +4,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-import {AppRoutingModule} from './app-routing.module';
+import {AppRoutingModule} from './modules/routing/routing.component';
 
 import {AccordionModule} from 'primeng/accordion';
 import {AutoCompleteModule} from 'primeng/autocomplete';
@@ -21,7 +21,6 @@ import {ChartModule} from 'primeng/chart';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ChipModule} from 'primeng/chip';
 import {ChipsModule} from 'primeng/chips';
-import {CodeHighlighterModule} from 'primeng/codehighlighter';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {ColorPickerModule} from 'primeng/colorpicker';
@@ -42,7 +41,6 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {KnobModule} from 'primeng/knob';
-import {LightboxModule} from 'primeng/lightbox';
 import {ListboxModule} from 'primeng/listbox';
 import {MegaMenuModule} from 'primeng/megamenu';
 import {MenuModule} from 'primeng/menu';
@@ -144,7 +142,7 @@ import {ProductService} from './demo/service/productservice';
 // Application services
 import {BreadcrumbService} from './app.breadcrumb.service';
 import {MenuService} from './app.menu.service';
-import {ModulesModule} from "./modules/modules.module";
+import { ModulesModule } from './modules/modules.module';
 
 @NgModule({
     imports: [
@@ -169,7 +167,6 @@ import {ModulesModule} from "./modules/modules.module";
         CheckboxModule,
         ChipModule,
         ChipsModule,
-        CodeHighlighterModule,
         ConfirmDialogModule,
         ConfirmPopupModule,
         ColorPickerModule,
@@ -190,7 +187,6 @@ import {ModulesModule} from "./modules/modules.module";
         InputTextModule,
         InputTextareaModule,
         KnobModule,
-        LightboxModule,
         ListboxModule,
         MegaMenuModule,
         MenuModule,

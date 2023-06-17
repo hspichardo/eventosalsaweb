@@ -5,9 +5,7 @@ import { AppMainComponent } from './app.main.component';
 @Component({
     selector: 'app-config',
     template: `
-        <a style="cursor: pointer" id="layout-config-button" class="layout-config-button" (click)="onConfigButtonClick($event)">
-            <i class="pi pi-cog"></i>
-        </a>
+
         <div class="layout-config" [ngClass]="{'layout-config-active': appMain.configActive}" (click)="appMain.onConfigClick($event)">
             <h5>Menu Type</h5>
             <div class="field-radiobutton">

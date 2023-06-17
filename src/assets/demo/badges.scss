@@ -6,17 +6,17 @@
     font-size: 12px;
     letter-spacing: .3px;
 
-    &.status-instock {
+    &.status-rol_a {
         background: #C8E6C9;
         color: #256029;
     }
 
-    &.status-outofstock {
+    &.status-rol_c {
         background: #FFCDD2;
         color: #C63737;
     }
 
-    &.status-lowstock {
+    &.status-rol_b {
         background: #FEEDAF;
         color: #8A5340;
     }

@@ -1,0 +1,85 @@
+.login-body {
+    margin: 0 auto;
+    position: relative;
+    height: 100vh;
+  }
+.login-body .login-image {
+    height: 100%;
+    // background: url("../../layout/images/bg-image-login.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.login-body .login-topbar {
+    height: 60px;
+    width: 100%;
+    background-color: #2872B4;
+    background-image: -webkit-gradient(linear, left top, right top, from(#2872B4), to(#26BED0));
+    background-image: -webkit-linear-gradient(to right, #2872B4, #26BED0);
+    background-image: -moz-linear-gradient(to right, #2872B4, #26BED0);
+    background-image: -ms-linear-gradient(to right, #2872B4, #26BED0);
+    background-image: -o-linear-gradient(to right, #2872B4, #26BED0);
+    background-image: linear-gradient(to right, #2872B4, #26BED0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2872B4", endColorstr="#26BED0", gradientType="1");
+    text-align: center;
+    position: fixed;
+}
+.login-body .login-topbar .logo {
+    height: 60px;
+    top: 20px;
+    position: relative;
+}
+.login-body .login-topbar .logo img {
+    height: 14px;
+    width: auto;
+    vertical-align: middle;
+    border: 0 none;
+}
+.login-body .login-panel {
+    padding: 70px 36px;
+    position: relative;
+    margin: 0 auto;
+    width: 350px;
+    height: 400px;
+    text-align: center;
+    background-color: white;
+    top: 30%;
+}
+.login-body .login-panel img {
+    height: 28px;
+    width: auto;
+    margin-bottom: 54px;
+}
+.login-body .login-panel .p-inputtext {
+    width: 100%;
+    margin: 6px 0;
+}
+.login-body .login-panel .checkbox-container {
+    padding: 6px 0 20px 0;
+}
+.login-body .login-panel .checkbox-container .remember-me {
+    float: left;
+}
+.login-body .login-panel .checkbox-container .remember-me span:not(.p-checkbox-icon) {
+    margin-left: 0.5em;
+    font-size: 12px;
+    color: #8a8a8a;
+    vertical-align: middle;
+}
+.login-body .login-panel .checkbox-container .p-button {
+    float: right;
+}
+.login-body .login-panel .separator {
+    height: 1px;
+    width: 100%;
+    background-color: #E2E2E2;
+    display: inline-block;
+    margin: 25px 0;
+}
+.login-body .login-panel .subinfo {
+    text-decoration: none;
+    color: #2D8EE3;
+}
+.login-body .login-panel .subinfo span {
+    font-size: 14px;
+}
+
