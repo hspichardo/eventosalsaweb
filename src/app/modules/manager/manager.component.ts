@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {Product} from '../demo/domain/product';
-import {ProductService} from '../demo/service/productservice';
+import {Product} from '../../demo/domain/product';
+import {ProductService} from '../../demo/service/productservice';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {BreadcrumbService} from "../app.breadcrumb.service";
+import {BreadcrumbService} from "../../app.breadcrumb.service";
 import { Table } from 'primeng/table';
 
 @Component({
-    templateUrl: './app.crud.component.html',
+    templateUrl: './manager.component.html',
     providers: [MessageService, ConfirmationService],
-    styleUrls: ['../../assets/demo/badges.scss']
+    styleUrls: ['../../../assets/demo/badges.scss']
 })
-export class AppCrudComponent implements OnInit {
+export class managerComponent implements OnInit {
 
     productDialog: boolean;
 
