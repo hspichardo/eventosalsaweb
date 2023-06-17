@@ -9,17 +9,35 @@ import { managerComponent } from './manager/manager.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
+import {FileUploadModule} from "primeng/fileupload";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {DropdownModule} from "primeng/dropdown";
+import {FormsModule} from "@angular/forms";
+import {RadioButtonModule} from "primeng/radiobutton";
+import {InputNumberModule} from "primeng/inputnumber";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AppRoutingModule,
-    CheckboxModule,
-    ToastModule,
-    ToolbarModule,
-    TableModule,
-    DialogModule,
-  ],
+    imports: [
+        CommonModule,
+        AppRoutingModule,
+        CheckboxModule,
+        ToastModule,
+        ToolbarModule,
+        TableModule,
+        DialogModule,
+        ButtonModule,
+        RippleModule,
+        FileUploadModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        FormsModule,
+        RadioButtonModule,
+        InputNumberModule,
+    ],
   declarations: [
     AuthComponent,
     LoginComponent,
