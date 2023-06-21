@@ -143,6 +143,7 @@ import {ProductService} from './demo/service/productservice';
 import {BreadcrumbService} from './app.breadcrumb.service';
 import {MenuService} from './app.menu.service';
 import { ModulesModule } from './modules/modules.module';
+import { RolesService } from './demo/service/rolesService';
 
 @NgModule({
     imports: [
@@ -279,7 +280,7 @@ import { ModulesModule } from './modules/modules.module';
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, BreadcrumbService, MenuService
+        PhotoService, ProductService, BreadcrumbService, MenuService, RolesService
     ],
     bootstrap: [AppComponent]
 })

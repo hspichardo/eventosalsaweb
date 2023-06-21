@@ -32,6 +32,7 @@ import {AppInvoiceComponent} from '../../pages/app.invoice.component';
 import {AppHelpComponent} from '../../pages/app.help.component';
 import {BlocksComponent} from '../../blocks/blocks/blocks.component';
 import {managerComponent} from '../manager/manager.component';
+import { RolesComponent } from '../roles/roles.component';
 
 @NgModule({
     imports: [
@@ -40,7 +41,7 @@ import {managerComponent} from '../manager/manager.component';
                 path: '', component: AppMainComponent,
                 children: [
                     {path: '', component: managerComponent},
-                    {path: 'roles', component: managerComponent},
+                    {path: 'roles', component: RolesComponent},
                 ]
             },
             {path: 'error', component: AppErrorComponent},

@@ -18,7 +18,9 @@ import {DropdownModule} from "primeng/dropdown";
 import {FormsModule} from "@angular/forms";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {InputNumberModule} from "primeng/inputnumber";
-
+import { FullCalendarComponent } from '@fullcalendar/angular'; 
+import { PanelModule } from 'primeng/panel';
+import { RolesComponent } from './roles/roles.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -37,11 +39,13 @@ import {InputNumberModule} from "primeng/inputnumber";
         FormsModule,
         RadioButtonModule,
         InputNumberModule,
+        PanelModule
     ],
   declarations: [
     AuthComponent,
     LoginComponent,
     managerComponent,
+    RolesComponent
   ],
   exports:[
   ]
