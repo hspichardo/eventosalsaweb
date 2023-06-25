@@ -19,6 +19,7 @@ export class RolesComponent implements OnInit {
     roleDialog: boolean;
 
     deleteProductDialog: boolean = false;
+    deleteRolesDialog: boolean = false;
 
     deleteProductsDialog: boolean = false;
 
@@ -29,6 +30,7 @@ export class RolesComponent implements OnInit {
     role: Role;
 
     selectedProducts: Product[];
+    selectedRoles: Role[];
 
     submitted: boolean;
 
@@ -77,6 +79,10 @@ export class RolesComponent implements OnInit {
 
     deleteSelectedProducts() {
         this.deleteProductsDialog = true;
+    }
+
+    deleteSelectedRoles() {
+        this.deleteRolesDialog = true;
     }
 
     editProduct(product: Product) {
