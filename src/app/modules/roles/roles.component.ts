@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Product} from '../../demo/domain/product';
-import {ProductService} from '../../demo/service/productservice';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {BreadcrumbService} from "../../app.breadcrumb.service";
-import { Table } from 'primeng/table';
 import { Role } from 'src/app/demo/interfaces/role';
 import { RolesService } from 'src/app/demo/service/rolesService';
+import { Observer } from 'rxjs';
+import { Table } from 'primeng/table';
 
 
 @Component({
@@ -15,45 +14,56 @@ import { RolesService } from 'src/app/demo/service/rolesService';
 })
 export class RolesComponent implements OnInit {
 
-    productDialog: boolean;
     roleDialog: boolean;
 
-    deleteProductDialog: boolean = false;
     deleteRolesDialog: boolean = false;
 
-    deleteProductsDialog: boolean = false;
+    deleteRoleDialog: boolean = false;
 
-    products: Product[];
     roles: Role[];
 
-    product: Product;
     role: Role;
 
-    selectedProducts: Product[];
     selectedRoles: Role[];
 
     submitted: boolean;
 
     cols: any[];
 
-    statuses: any[];
 
     rowsPerPageOptions = [5, 10, 20];
 
     
 
-    constructor(private productService: ProductService, private messageService: MessageService,
-                private confirmationService: ConfirmationService, private breadcrumbService: BreadcrumbService,
+    constructor(private messageService: MessageService,
+                private breadcrumbService: BreadcrumbService,
                 private roleService: RolesService) {
+
         this.breadcrumbService.setItems([
-            {label: 'Pages'},
-            {label: 'Crud'}
+            {label: 'Roles'}
         ]);
+
     }
   
     ngOnInit() {
-        this.productService.getProducts().then(data => this.products = data);
-        this.roleService.getRoles().then(data => {this.roles = data;console.log(data)});
+        const getRolesObserver: Observer<any> = {
+            next: (rolesArray: any) => {                
+                this.roles = rolesArray.map(role => {
+                    return {id: role.id, 
+                            name: role.nombre, 
+                            description: role.descripcion 
+                    }})
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                return 0;
+            }
+        };
+
+        this.roleService.getRoles().subscribe(getRolesObserver);
         
         
         this.cols = [
@@ -62,102 +72,110 @@ export class RolesComponent implements OnInit {
             { field: 'actions', header: 'Acciones' },
         ];
 
-        this.statuses = [
-            { label: 'ROL_A', value: 'ROL_A' },
-            { label: 'ROL_B', value: 'ROL_B' },
-            { label: 'ROL_C', value: 'ROL_C' }
-        ];
     }
 
     openNew() {
-        this.product = {};
         this.submitted = false;
-        // this.productDialog = true;
         this.role = {};
         this.roleDialog = true;
-    }
-
-    deleteSelectedProducts() {
-        this.deleteProductsDialog = true;
     }
 
     deleteSelectedRoles() {
         this.deleteRolesDialog = true;
     }
 
-    editProduct(product: Product) {
-        this.product = { ...product };
-        this.productDialog = true;
+
+    editRole(role: Role) {
+        this.role = { ...role };
+        this.roleDialog = true;
     }
 
-    deleteProduct(product: Product) {
-        this.deleteProductDialog = true;
-        this.product = { ...product };
+
+    deleteRole(role: Role) {
+        this.deleteRoleDialog = true;
+        this.role = { ...role };
     }
 
     confirmDeleteSelected() {
-        this.deleteProductsDialog = false;
-        this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-        this.selectedProducts = [];
+        this.deleteRolesDialog = false;
+        this.roles = this.roles.filter(role => !this.selectedRoles.includes(role));
+        if ( this.roleService.deleteRoles(this.selectedRoles) == 0 ){
+            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Roles eliminados', life: 3000 });
+        }
+        else{
+            console.error("no se pudieron eliminar los roles seleccionados")
+        }
+        this.selectedRoles = [];
     }
 
+    /**
+     * Use roleService to delete this.role assign on deletRole method
+     */
     confirmDelete() {
-        this.deleteProductDialog = false;
-        this.products = this.products.filter(val => val.id !== this.product.id);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-        this.product = {};
+        const deleteRoleObserver: Observer<any> = {
+            next: (value: string) => {
+                // Update role array to refresh table
+                this.roles = this.roles.filter(val => val.id !== this.role.id);
+                // UI successful message
+                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Rol eliminado', life: 3000 });
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                // Hide role dialog
+                this.deleteRoleDialog = false;
+                return 0;
+            }
+        };
+
+        this.roleService.deleteRole(this.role).subscribe(deleteRoleObserver)
     }
 
     hideDialog() {
-        this.productDialog = false;
+        this.roleDialog = false;
         this.submitted = false;
     }
 
-    saveProduct() {
+    saveRole() {
         this.submitted = true;
 
-        if (this.product.name?.trim()) {
-            if (this.product.id) {
-                // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-                this.products[this.findIndexById(this.product.id)] = this.product;
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-            } else {
-                this.product.id = this.createId();
-                this.product.code = this.createId();
-                this.product.image = 'product-placeholder.svg';
-                // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'ROL_A';
-                this.products.push(this.product);
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+        const saveRoleObserver: Observer<any> = {
+            next: (role: any) => {
+                // Update role array to refresh table
+                const oldRoleIndex = this.roles.findIndex(r => r.id == role.id);
+                const newRole: Role = {id: role.id, name: role.nombre, description: role.descripcion };
+                if (oldRoleIndex != -1)  {
+                    this.roles[oldRoleIndex] = newRole
+                }
+                else {
+                    this.roles = [...this.roles, newRole]
+                }
+                // UI successful message
+                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'accion completada', life: 3000 });
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                // Hide role dialog
+                this.roleDialog = false;
+                this.role = {};
+                return 0;
             }
+        };
 
-            this.products = [...this.products];
-            this.productDialog = false;
-            this.product = {};
-        }
-    }
-
-    findIndexById(id: string): number {
-        let index = -1;
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === id) {
-                index = i;
-                break;
+        if (this.role.name?.trim()) {
+            if (this.role.id) {
+                this.roleService.updateRole(this.role).subscribe(saveRoleObserver)
+            }
+            else {
+                this.roleService.newRole(this.role).subscribe(saveRoleObserver)
             }
         }
 
-        return index;
-    }
-
-    createId(): string {
-        let id = '';
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (let i = 0; i < 5; i++) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
     }
 
     onGlobalFilter(table: Table, event: Event) {

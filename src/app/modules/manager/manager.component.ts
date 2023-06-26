@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Product} from '../../demo/domain/product';
-import {ProductService} from '../../demo/service/productservice';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {BreadcrumbService} from "../../app.breadcrumb.service";
 import { Table } from 'primeng/table';
+import { UserElement } from 'src/app/demo/interfaces/userElement';
+import { UserElementService } from 'src/app/demo/service/userElementservice';
 
 @Component({
     templateUrl: './manager.component.html',
@@ -12,17 +12,17 @@ import { Table } from 'primeng/table';
 })
 export class managerComponent implements OnInit {
 
-    productDialog: boolean;
+    userElementDialog: boolean;
 
-    deleteProductDialog: boolean = false;
+    deleteUserElementDialog: boolean = false;
 
-    deleteProductsDialog: boolean = false;
+    deleteUserElementsDialog: boolean = false;
 
-    products: Product[];
+    userElements: UserElement[];
 
-    product: Product;
+    userElement: UserElement;
 
-    selectedProducts: Product[];
+    selectedUserElements: UserElement[];
 
     submitted: boolean;
 
@@ -32,7 +32,7 @@ export class managerComponent implements OnInit {
 
     rowsPerPageOptions = [5, 10, 20];
 
-    constructor(private productService: ProductService, private messageService: MessageService,
+    constructor(private userElementService: UserElementService, private messageService: MessageService,
                 private confirmationService: ConfirmationService, private breadcrumbService: BreadcrumbService) {
         this.breadcrumbService.setItems([
             {label: 'Pages'},
@@ -41,10 +41,10 @@ export class managerComponent implements OnInit {
     }
   
     ngOnInit() {
-        this.productService.getProducts().then(data => this.products = data);
+        this.userElementService.getUserElements().then(data => this.userElements = data);
 
         this.cols = [
-            { field: 'product', header: 'Product' },
+            { field: 'userElement', header: 'UserElement' },
             { field: 'price', header: 'Price' },
             { field: 'category', header: 'Category' },
             { field: 'rating', header: 'Reviews' },
@@ -59,73 +59,73 @@ export class managerComponent implements OnInit {
     }
 
     openNew() {
-        this.product = {};
+        this.userElement = {};
         this.submitted = false;
-        this.productDialog = true;
+        this.userElementDialog = true;
     }
 
-    deleteSelectedProducts() {
-        this.deleteProductsDialog = true;
+    deleteSelectedUserElements() {
+        this.deleteUserElementsDialog = true;
     }
 
-    editProduct(product: Product) {
-        this.product = { ...product };
-        this.productDialog = true;
+    editUserElement(userElement: UserElement) {
+        this.userElement = { ...userElement };
+        this.userElementDialog = true;
     }
 
-    deleteProduct(product: Product) {
-        this.deleteProductDialog = true;
-        this.product = { ...product };
+    deleteUserElement(userElement: UserElement) {
+        this.deleteUserElementDialog = true;
+        this.userElement = { ...userElement };
     }
 
     confirmDeleteSelected() {
-        this.deleteProductsDialog = false;
-        this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-        this.selectedProducts = [];
+        this.deleteUserElementsDialog = false;
+        this.userElements = this.userElements.filter(val => !this.selectedUserElements.includes(val));
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'UserElements Deleted', life: 3000 });
+        this.selectedUserElements = [];
     }
 
     confirmDelete() {
-        this.deleteProductDialog = false;
-        this.products = this.products.filter(val => val.id !== this.product.id);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-        this.product = {};
+        this.deleteUserElementDialog = false;
+        this.userElements = this.userElements.filter(val => val.id !== this.userElement.id);
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'UserElement Deleted', life: 3000 });
+        this.userElement = {};
     }
 
     hideDialog() {
-        this.productDialog = false;
+        this.userElementDialog = false;
         this.submitted = false;
     }
 
-    saveProduct() {
+    saveUserElement() {
         this.submitted = true;
 
-        if (this.product.name?.trim()) {
-            if (this.product.id) {
+        if (this.userElement.name?.trim()) {
+            if (this.userElement.id) {
                 // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-                this.products[this.findIndexById(this.product.id)] = this.product;
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+                this.userElement.inventoryStatus = this.userElement.inventoryStatus.value ? this.userElement.inventoryStatus.value : this.userElement.inventoryStatus;
+                this.userElements[this.findIndexById(this.userElement.id)] = this.userElement;
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'UserElement Updated', life: 3000 });
             } else {
-                this.product.id = this.createId();
-                this.product.code = this.createId();
-                this.product.image = 'product-placeholder.svg';
+                this.userElement.id = this.createId();
+                this.userElement.code = this.createId();
+                this.userElement.image = 'userElement-placeholder.svg';
                 // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'ROL_A';
-                this.products.push(this.product);
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+                this.userElement.inventoryStatus = this.userElement.inventoryStatus ? this.userElement.inventoryStatus.value : 'ROL_A';
+                this.userElements.push(this.userElement);
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'UserElement Created', life: 3000 });
             }
 
-            this.products = [...this.products];
-            this.productDialog = false;
-            this.product = {};
+            this.userElements = [...this.userElements];
+            this.userElementDialog = false;
+            this.userElement = {};
         }
     }
 
     findIndexById(id: string): number {
         let index = -1;
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === id) {
+        for (let i = 0; i < this.userElements.length; i++) {
+            if (this.userElements[i].id === id) {
                 index = i;
                 break;
             }

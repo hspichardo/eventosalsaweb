@@ -280,7 +280,7 @@ import { RolesService } from './demo/service/rolesService';
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, BreadcrumbService, MenuService, RolesService
+        PhotoService, ProductService, BreadcrumbService, MenuService, RolesService, 
     ],
     bootstrap: [AppComponent]
 })

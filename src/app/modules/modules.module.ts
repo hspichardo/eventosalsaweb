@@ -21,6 +21,7 @@ import {InputNumberModule} from "primeng/inputnumber";
 import { FullCalendarComponent } from '@fullcalendar/angular'; 
 import { PanelModule } from 'primeng/panel';
 import { RolesComponent } from './roles/roles.component';
+import { UserElementService } from '../demo/service/userElementservice';
 @NgModule({
     imports: [
         CommonModule,
@@ -48,6 +49,7 @@ import { RolesComponent } from './roles/roles.component';
     RolesComponent
   ],
   exports:[
-  ]
+  ],
+  providers:[UserElementService]
 })
 export class ModulesModule { }
