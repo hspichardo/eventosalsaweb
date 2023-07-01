@@ -31,6 +31,7 @@ import {AppInvoiceComponent} from './pages/app.invoice.component';
 import {AppHelpComponent} from './pages/app.help.component';
 import {BlocksComponent} from './blocks/blocks/blocks.component';
 import { RolesComponent } from './modules/roles/roles.component';
+import { UsersComponent } from './modules/users/users.component';
 
 @NgModule({
     imports: [
@@ -40,6 +41,7 @@ import { RolesComponent } from './modules/roles/roles.component';
                 children: [
                     {path: '', component: DashboardDemoComponent},
                     {path: 'roles', component: RolesComponent},
+                    {path: 'users', component: UsersComponent},
                     {path: 'uikit/formlayout', component: FormLayoutDemoComponent},
                     {path: 'uikit/input', component: InputDemoComponent},
                     {path: 'uikit/floatlabel', component: FloatLabelDemoComponent},

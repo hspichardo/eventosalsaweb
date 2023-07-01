@@ -5,7 +5,6 @@ import { AppRoutingModule } from './routing/routing.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { LoginComponent } from './login/login.component';
 import {ToastModule, Toast} from 'primeng/toast'
-import { managerComponent } from './manager/manager.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
@@ -21,7 +20,8 @@ import {InputNumberModule} from "primeng/inputnumber";
 import { FullCalendarComponent } from '@fullcalendar/angular'; 
 import { PanelModule } from 'primeng/panel';
 import { RolesComponent } from './roles/roles.component';
-import { UserElementService } from '../demo/service/userElementservice';
+import { UsersComponent } from './users/users.component';
+import { UserService } from '../demo/service/userService';
 @NgModule({
     imports: [
         CommonModule,
@@ -45,11 +45,11 @@ import { UserElementService } from '../demo/service/userElementservice';
   declarations: [
     AuthComponent,
     LoginComponent,
-    managerComponent,
-    RolesComponent
+    RolesComponent,
+    UsersComponent
   ],
   exports:[
   ],
-  providers:[UserElementService]
+  providers:[UserService]
 })
 export class ModulesModule { }
