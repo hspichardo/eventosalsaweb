@@ -5,6 +5,7 @@ import { Role } from 'src/app/demo/interfaces/role';
 import { RolesService } from 'src/app/demo/service/rolesService';
 import { Observer } from 'rxjs';
 import { Table } from 'primeng/table';
+import { Console } from 'console';
 
 
 @Component({
@@ -46,12 +47,14 @@ export class RolesComponent implements OnInit {
     }
   
     ngOnInit() {
+
+
         const getRolesObserver: Observer<any> = {
-            next: (rolesArray: any) => {                
+            next: (rolesArray: any) => {   
                 this.roles = rolesArray.map(role => {
                     return {id: role.id, 
-                            name: role.nombre, 
-                            description: role.descripcion 
+                            name: role.code, 
+                            description: role.description 
                     }})
             },
             error: (error: any) => {
@@ -138,6 +141,9 @@ export class RolesComponent implements OnInit {
         this.submitted = false;
     }
 
+    /**
+     * Use roleService.updateRole tu update/create a role
+     */
     saveRole() {
         this.submitted = true;
 
@@ -145,7 +151,7 @@ export class RolesComponent implements OnInit {
             next: (role: any) => {
                 // Update role array to refresh table
                 const oldRoleIndex = this.roles.findIndex(r => r.id == role.id);
-                const newRole: Role = {id: role.id, name: role.nombre, description: role.descripcion };
+                const newRole: Role = {id: role.id, name: role.code, description: role.description };
                 if (oldRoleIndex != -1)  {
                     this.roles[oldRoleIndex] = newRole
                 }
@@ -169,7 +175,7 @@ export class RolesComponent implements OnInit {
 
         if (this.role.name?.trim()) {
             if (this.role.id) {
-                this.roleService.updateRole(this.role).subscribe(saveRoleObserver)
+                // this.roleService.updateRole(this.role).subscribe(saveRoleObserver)
             }
             else {
                 this.roleService.newRole(this.role).subscribe(saveRoleObserver)

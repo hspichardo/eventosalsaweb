@@ -11,11 +11,11 @@ export class RolesService {
 
 
     getRoles(): Observable<Role[]> {
-        return this.http.get<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/rol');
+        return this.http.get<any>('http://localhost:3000/roles');
     }
 
     deleteRole(role: Role): Observable<void>  {
-        return this.http.delete<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/rol/' + role.id)
+        return this.http.delete<any>('http://localhost:3000/roles' + role.name)
     }
 
     updateRole(role: Role): Observable<Role> {
@@ -23,7 +23,7 @@ export class RolesService {
     }
 
     newRole(role: Role): Observable<Role> {
-        return this.http.post<Role>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/rol', {nombre:role.name, descripcion:role.description})
+        return this.http.post<Role>('http://localhost:3000/roles', {code:role.name, description:role.description})
     }
 
 

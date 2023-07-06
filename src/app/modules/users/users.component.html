@@ -60,17 +60,12 @@
                         <td>
                             <p-tableCheckbox [value]="user"></p-tableCheckbox>
                         </td>
-                        <td style="width:35%; min-width:10rem;"><span class="p-column-title">Nombre</span>
-                            {{ user.name }}
+                        <td style="width:35%; min-width:10rem;"><span class="p-column-title">username</span>
+                            {{ user.username }}
                         </td>
                         <td style="width:35%; min-width:10rem;">
                             <span class="p-column-title">Apellido</span>
-                            {{ user.lastName }}
-                        </td>
-
-                        <td style="width:35%; min-width:10rem;">
-                            <span class="p-column-title">Correo</span>
-                            {{ user.email }}
+                            {{ user.roles }}
                         </td>
 
                         <td>
@@ -89,17 +84,14 @@
             <ng-template pTemplate="content">
                 <div class="field">
                     <label for="name">Nombre</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="user.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.name">Debe poner un nombre.</small>
+                    <input type="text" pInputText id="name" [(ngModel)]="user.username" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.username}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.username">Debe poner un nombre.</small>
                 </div>
                 <div class="field">
-                    <label for="lastName">Apellido</label>
-                    <input id="lastName" pInputText [(ngModel)]="user.lastName" required />
+                    <label for="roles">Roles</label>
+                    <input id="roles" pInputText [(ngModel)]="user.roles" required />
                 </div>
-                <div class="field">
-                    <label for="email">Correo</label>
-                    <input id="email" pInputText [(ngModel)]="user.email" required />
-                </div>
+
 
             </ng-template>
 
@@ -123,7 +115,7 @@
         <p-dialog [(visible)]="deleteUsersDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Seguro que desea eliminarlos users seleccionados?</span>
+                <span>Seguro que desea eliminar a los usuarios seleccionados?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteUsersDialog = false"></button>

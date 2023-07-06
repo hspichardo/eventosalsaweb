@@ -51,9 +51,7 @@ export class UsersComponent implements OnInit {
                 this.users = usersArray.map(user => {
                     return {
                         id: user.id, 
-                        name: user.nombre, 
-                        lastName: user.apellido,
-                        email: user.email,
+                        username: user.username
                         }
                     })
             },
@@ -70,10 +68,8 @@ export class UsersComponent implements OnInit {
         
         
         this.cols = [
-            { field: 'name', header: 'Nombre' },
-            { field: 'lastName', header: 'Apellido' },
-            { field: 'email', header: 'Correo' },
-            { field: 'actions', header: 'Acciones' },
+            { field: 'username', header: 'Nombre de usuario' },
+            { field: 'roles', header: 'Roles' },
         ];
 
     }
@@ -149,7 +145,7 @@ export class UsersComponent implements OnInit {
             next: (user: any) => {
                 // Update user array to refresh table
                 const oldUserIndex = this.users.findIndex(r => r.id == user.id);
-                const newUser: User = {id: user.id, name: user.nombre, lastName: user.apellido, email: user.email};
+                const newUser: User = {id: user.id, username: user.username};
                 if (oldUserIndex != -1)  {
                     this.users[oldUserIndex] = newUser
                 }
@@ -171,7 +167,7 @@ export class UsersComponent implements OnInit {
             }
         };
 
-        if (this.user.name?.trim()) {
+        if (this.user.username?.trim()) {
             if (this.user.id) {
                 this.userService.updateUser(this.user).subscribe(saveUserObserver)
             }

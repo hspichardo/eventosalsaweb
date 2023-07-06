@@ -10,7 +10,7 @@ export class UserService {
     
 
     getUsers(): Observable<User[]> {
-        return this.http.get<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/usuario');
+        return this.http.get<any>('http://localhost:3000/users');
     }
 
     deleteUser(user: User): Observable<void>  {
@@ -21,18 +21,14 @@ export class UserService {
         return this.http.put<User>(
             'https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/usuario/' + user.id,
             {
-                "nombre": user.name,
-                "apellido": user.lastName,
-                "email": user.email,
+                "username": user.username,
             })
     }
 
     newUser(user: User): Observable<User> {
         return this.http.post<User>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/usuario', 
             {
-                "nombre": user.name,
-                "apellido": user.lastName,
-                "email": user.email,
+                "username": user.username
             })
     }
 
@@ -52,7 +48,7 @@ export class UserService {
         }
 
         for (let i = 0; i < users.length; i++) {
-            this.http.delete<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/usuario/' + users[i].id).subscribe(deleteObserver)
+            this.http.delete<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/usuario/' + users[i].username).subscribe(deleteObserver)
         }
         return 0;
     }
