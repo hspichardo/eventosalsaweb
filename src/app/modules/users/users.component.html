@@ -64,8 +64,15 @@
                             {{ user.username }}
                         </td>
                         <td style="width:35%; min-width:10rem;">
-                            <span class="p-column-title">Apellido</span>
-                            {{ user.roles }}
+                            <span class="p-column-title">Roles</span>
+
+                            <span 
+                                *ngFor=" let role of user.roles"
+                                [class]="'user-badge role-' + (role.code ? role.code.toUpperCase() : '')"
+                            >
+                                {{role.code}}
+                            </span>
+                            
                         </td>
 
                         <td>

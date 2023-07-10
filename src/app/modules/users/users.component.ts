@@ -51,7 +51,8 @@ export class UsersComponent implements OnInit {
                 this.users = usersArray.map(user => {
                     return {
                         id: user.id, 
-                        username: user.username
+                        username: user.username,
+                        roles: user.roles
                         }
                     })
             },
