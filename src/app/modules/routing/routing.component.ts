@@ -7,6 +7,9 @@ import {AppAccessdeniedComponent} from '../../pages/app.accessdenied.component';
 import { LoginComponent } from '../login/login.component';
 import { RolesComponent } from '../roles/roles.component';
 import { UsersComponent } from '../users/users.component';
+import { LoginGuard } from '../auth/checkRolesGuard';
+import { createAccountComponent } from '../createAccount/createAccount.component';
+import { CheckLoginGuard } from '../auth/checkLoginGuard';
 
 @NgModule({
     imports: [
@@ -14,10 +17,11 @@ import { UsersComponent } from '../users/users.component';
             {
                 path: '', component: AppMainComponent,
                 children: [
-                    {path: '', component: UsersComponent},
-                    {path: 'roles', component: RolesComponent},
+                    {path: '', component: UsersComponent, canActivate:[CheckLoginGuard]},
+                    {path: 'roles', component: RolesComponent, canActivate:[CheckLoginGuard]},
                 ]
             },
+            {path: 'createAccount', component: createAccountComponent},
             {path: 'error', component: AppErrorComponent},
             {path: 'access', component: AppAccessdeniedComponent},
             {path: 'notfound', component: AppNotfoundComponent},

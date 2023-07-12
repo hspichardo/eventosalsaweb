@@ -144,6 +144,7 @@ import {BreadcrumbService} from './app.breadcrumb.service';
 import {MenuService} from './app.menu.service';
 import { ModulesModule } from './modules/modules.module';
 import { RolesService } from './demo/service/rolesService';
+import { CheckRolesService } from './modules/auth/checkRolesService';
 
 @NgModule({
     imports: [
@@ -280,7 +281,7 @@ import { RolesService } from './demo/service/rolesService';
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, BreadcrumbService, MenuService, RolesService, 
+        PhotoService, ProductService, BreadcrumbService, MenuService, RolesService, CheckRolesService
     ],
     bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
 import { Observable, Observer } from 'rxjs';
@@ -25,11 +25,14 @@ export class UserService {
             })
     }
 
-    newUser(user: User): Observable<User> {
-        return this.http.post<User>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/usuario', 
+    newUser(user: User): any {
+        return this.http.post<HttpResponse<any>>('http://localhost:3000/users',
             {
-                "username": user.username
-            })
+                "username": user.username,
+                "password": user.password,
+                "roleCodes": ["USUARIO"]
+            },{observe: 'response'})
+
     }
 
 

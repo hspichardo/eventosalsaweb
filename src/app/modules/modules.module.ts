@@ -22,6 +22,9 @@ import { PanelModule } from 'primeng/panel';
 import { RolesComponent } from './roles/roles.component';
 import { UsersComponent } from './users/users.component';
 import { UserService } from '../demo/service/userService';
+import { LoginGuard } from './auth/checkRolesGuard';
+import { createAccountComponent } from './createAccount/createAccount.component';
+import { AuthenticationService } from '../demo/service/authenticationService';
 @NgModule({
     imports: [
         CommonModule,
@@ -46,10 +49,11 @@ import { UserService } from '../demo/service/userService';
     AuthComponent,
     LoginComponent,
     RolesComponent,
-    UsersComponent
+    UsersComponent,
+    createAccountComponent
   ],
   exports:[
   ],
-  providers:[UserService]
+  providers:[UserService, AuthenticationService]
 })
 export class ModulesModule { }

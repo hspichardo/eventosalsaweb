@@ -1,0 +1,37 @@
+
+
+
+<div class="createAccount-body">
+    
+    <div class="createAccount-topbar">
+        <a href="#" class="logo">
+            <img src="assets/layout/images/ecuador-logo.png" alt="ecuador-layout"/>
+        </a>
+    </div>
+    <div class="createAccount-image">
+        <div class="createAccount-panel">
+            <img src="assets/layout/images/ecuador-orange-logo.png" alt="ecuador-layout"/>
+            <div class="p-col-12">
+                <div class="input-wrapper">
+                    <input [(ngModel)]="newUser.username" type="text" autocomplete="off" placeholder="Nombre de usuario" pInputText class="p-inputtext p-component p-element">
+                </div>
+            </div>
+            <div class="p-col-12">
+                <div class="input-wrapper">
+                    <input [(ngModel)]="newUser.password" type="password" autocomplete="off" placeholder="Contraseña" pInputText class="p-inputtext p-component p-element">
+                </div>
+            </div>
+
+            <div class="checkbox-container">
+                <a routerLink="/login" class="subinfo p-auto">
+                    <span>Cancelar</span>
+                </a>
+
+                <button type="button" pButton class="p-element p-button p-component" (click)="saveNewUser()">
+                    <span class="p-button-label" >Crear cuenta</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

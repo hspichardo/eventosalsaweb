@@ -1,5 +1,5 @@
 import {RouterModule} from '@angular/router';
-import {NgModule} from '@angular/core';
+import {NgModule, OnInit} from '@angular/core';
 import {DashboardDemoComponent} from './demo/view/dashboarddemo.component';
 import {FormLayoutDemoComponent} from './demo/view/formlayoutdemo.component';
 import {PanelsDemoComponent} from './demo/view/panelsdemo.component';
@@ -32,6 +32,7 @@ import {AppHelpComponent} from './pages/app.help.component';
 import {BlocksComponent} from './blocks/blocks/blocks.component';
 import { RolesComponent } from './modules/roles/roles.component';
 import { UsersComponent } from './modules/users/users.component';
+import { LoginGuard } from './modules/auth/checkRolesGuard';
 
 @NgModule({
     imports: [
@@ -39,7 +40,7 @@ import { UsersComponent } from './modules/users/users.component';
             {
                 path: '', component: AppMainComponent,
                 children: [
-                    {path: '', component: DashboardDemoComponent},
+                    {path: '', component: DashboardDemoComponent, canActivate:[LoginGuard]},
                     {path: 'roles', component: RolesComponent},
                     {path: 'users', component: UsersComponent},
                     {path: 'uikit/formlayout', component: FormLayoutDemoComponent},
@@ -78,5 +79,13 @@ import { UsersComponent } from './modules/users/users.component';
     ],
     exports: [RouterModule]
 })
-export class AppRoutingModule {
+export class AppRoutingModule implements OnInit {
+
+    constructor() {
+        console.log("constructyor verificacion")
+     }
+
+    ngOnInit(){
+        console.log("verificacion")
+    }
 }

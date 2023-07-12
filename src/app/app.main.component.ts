@@ -113,6 +113,7 @@ export class AppMainComponent implements OnInit{
     }
 
     onTopbarSubItemClick(event) {
+        localStorage.setItem('access_token', 'undefined')
         event.preventDefault();
     }
 

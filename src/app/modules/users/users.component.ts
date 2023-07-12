@@ -145,14 +145,14 @@ export class UsersComponent implements OnInit {
         const saveUserObserver: Observer<any> = {
             next: (user: any) => {
                 // Update user array to refresh table
-                const oldUserIndex = this.users.findIndex(r => r.id == user.id);
-                const newUser: User = {id: user.id, username: user.username};
-                if (oldUserIndex != -1)  {
-                    this.users[oldUserIndex] = newUser
-                }
-                else {
-                    this.users = [...this.users, newUser]
-                }
+                // const oldUserIndex = this.users.findIndex(r => r.id == user.id);
+                // const newUser: User = {id: user.id, username: user.username};
+                // if (oldUserIndex != -1)  {
+                //     this.users[oldUserIndex] = newUser
+                // }
+                // else {
+                //     this.users = [...this.users, newUser]
+                // }
                 // UI successful message
                 this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'accion completada', life: 3000 });
             },
