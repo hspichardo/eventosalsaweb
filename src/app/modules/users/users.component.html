@@ -87,16 +87,21 @@
         </div>
 
 
-        <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Detalles del Rol" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Detalles del usuario" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
-                    <label for="name">Nombre</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="user.username" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.username}"/>
+                    <label for="username">Nombre</label>
+                    <input type="text" pInputText id="username" [(ngModel)]="user.username" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.username}"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.username">Debe poner un nombre.</small>
                 </div>
                 <div class="field">
-                    <label for="roles">Roles</label>
-                    <input id="roles" pInputText [(ngModel)]="user.roles" required />
+                    <label for="password">Contraseña</label>
+                    <input id="password" pInputText type="password" [(ngModel)]="user.password" required  />
+                </div>
+                <div class="field">
+                    <label for="password">Roles</label>
+                    <br>
+                    <p-multiSelect style="z-index:5; position:absolute; min-width: 200px; max-width: 410px" [options]="actualRoles" [(ngModel)]="user.roles" optionLabel="name" display="chip"></p-multiSelect>
                 </div>
 
 

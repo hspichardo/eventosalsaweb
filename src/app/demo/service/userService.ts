@@ -1,7 +1,8 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
-import { Observable, Observer } from 'rxjs';
+import { Observable, Observer, elementAt } from 'rxjs';
+import { ResponseData } from '../interfaces/ResponseData';
 
 @Injectable()
 export class UserService {
@@ -9,7 +10,7 @@ export class UserService {
     constructor(private http: HttpClient) { }
     
 
-    getUsers(): Observable<User[]> {
+    getUsers(): Observable<ResponseData> {
         return this.http.get<any>('http://localhost:3000/users');
     }
 
@@ -17,12 +18,26 @@ export class UserService {
         return this.http.delete<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/usuario/' + user.id)
     }
 
-    updateUser(user: User): Observable<User> {
-        return this.http.put<User>(
-            'https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/usuario/' + user.id,
+    updateUser(user: User): any {
+        var result : any = null;
+
+        if (user.password){
+            result = this.http.post<HttpResponse<any>>('http://localhost:3000/users/update/password',
             {
                 "username": user.username,
-            })
+                "password": user.password,
+            },{observe: 'response'})
+        }
+
+        if (result == null || result.status == 200){
+            return this.http.post<HttpResponse<any>>('http://localhost:3000/users/update/roles',
+            {
+                "username": user.username,
+                "roleCodes": user.roles.map(element => element.name)
+            },{observe: 'response'})
+
+        }
+        
     }
 
     newUser(user: User): any {
@@ -30,7 +45,7 @@ export class UserService {
             {
                 "username": user.username,
                 "password": user.password,
-                "roleCodes": ["USUARIO"]
+                "roleCodes": user.roles.map(element => element.name)
             },{observe: 'response'})
 
     }

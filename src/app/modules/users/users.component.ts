@@ -5,6 +5,9 @@ import { User } from 'src/app/demo/interfaces/user';
 import { UserService } from 'src/app/demo/service/userService';
 import { Observer } from 'rxjs';
 import { Table } from 'primeng/table';
+import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
+import { Role } from 'src/app/demo/interfaces/role';
+import { RolesService } from 'src/app/demo/service/rolesService';
 
 
 @Component({
@@ -30,6 +33,8 @@ export class UsersComponent implements OnInit {
 
     cols: any[];
 
+    actualRoles: Role[];
+
 
     rowsPerPageOptions = [5, 10, 20];
 
@@ -37,7 +42,8 @@ export class UsersComponent implements OnInit {
 
     constructor(private messageService: MessageService,
                 private breadcrumbService: BreadcrumbService,
-                private userService: UserService) {
+                private userService: UserService,
+                private roleService:RolesService) {
 
         this.breadcrumbService.setItems([
             {label: 'Users'}
@@ -47,8 +53,8 @@ export class UsersComponent implements OnInit {
   
     ngOnInit() {
         const getUsersObserver: Observer<any> = {
-            next: (usersArray: any) => {   
-                this.users = usersArray.map(user => {
+            next: (responseData: ResponseData) : void => {   
+                this.users = responseData.data.map(user => {
                     return {
                         id: user.id, 
                         username: user.username,
@@ -73,8 +79,30 @@ export class UsersComponent implements OnInit {
             { field: 'roles', header: 'Roles' },
         ];
 
+
+
+        const getRolesObserver: Observer<any> = {
+            next: (rolesArray: any) => {   
+                this.actualRoles = rolesArray.map(role => {
+                    return {id: role.id, 
+                            name: role.code, 
+                            description: role.description 
+                    }})
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                return 0;
+            }
+        };
+    
+        this.roleService.getRoles().subscribe(getRolesObserver);
     }
 
+
+    
     openNew() {
         this.submitted = false;
         this.user = {};

@@ -25,6 +25,7 @@ import { UserService } from '../demo/service/userService';
 import { LoginGuard } from './auth/checkRolesGuard';
 import { createAccountComponent } from './createAccount/createAccount.component';
 import { AuthenticationService } from '../demo/service/authenticationService';
+import { MultiSelectModule } from 'primeng/multiselect';
 @NgModule({
     imports: [
         CommonModule,
@@ -43,7 +44,8 @@ import { AuthenticationService } from '../demo/service/authenticationService';
         FormsModule,
         RadioButtonModule,
         InputNumberModule,
-        PanelModule
+        PanelModule,
+        MultiSelectModule
     ],
   declarations: [
     AuthComponent,
