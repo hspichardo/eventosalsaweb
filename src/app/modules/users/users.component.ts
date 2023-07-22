@@ -51,27 +51,28 @@ export class UsersComponent implements OnInit {
 
     }
   
-    ngOnInit() {
-        const getUsersObserver: Observer<any> = {
-            next: (responseData: ResponseData) : void => {   
-                this.users = responseData.data.map(user => {
-                    return {
-                        id: user.id, 
-                        username: user.username,
-                        roles: user.roles
-                        }
-                    })
-            },
-            error: (error: any) => {
-                console.error(error);
-                return 1;
-            },
-            complete: () => {
-                return 0;
-            }
-        };
+    getUsersObserver: Observer<any> = {
+        next: (responseData: ResponseData) : void => {   
+            this.users = responseData.data.map(user => {
+                return {
+                    id: user.id, 
+                    username: user.username,
+                    roles: user.roles
+                    }
+                })
+        },
+        error: (error: any) => {
+            console.error(error);
+            return 1;
+        },
+        complete: () => {
+            return 0;
+        }
+    };
 
-        this.userService.getUsers().subscribe(getUsersObserver);
+    ngOnInit() {
+
+        this.userService.getUsers().subscribe(this.getUsersObserver);
         
         
         this.cols = [
@@ -84,10 +85,12 @@ export class UsersComponent implements OnInit {
         const getRolesObserver: Observer<any> = {
             next: (rolesArray: any) => {   
                 this.actualRoles = rolesArray.map(role => {
-                    return {id: role.id, 
-                            name: role.code, 
-                            description: role.description 
-                    }})
+                    return {
+                        id: role.id, 
+                        name: role.code, 
+                        description: role.description 
+                    }
+                })
             },
             error: (error: any) => {
                 console.error(error);
@@ -142,11 +145,16 @@ export class UsersComponent implements OnInit {
      */
     confirmDelete() {
         const deleteUserObserver: Observer<any> = {
-            next: (value: string) => {
-                // Update user array to refresh table
-                this.users = this.users.filter(val => val.id !== this.user.id);
-                // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Rol eliminado', life: 3000 });
+            next: (response: ResponseData) => {
+
+                if (response.code == 200 && response.data.affected > 0)
+                {
+                    // Update user array to refresh table
+                    this.users = this.users.filter(listedUser => listedUser.id !== this.user.id);
+                    // UI successful message
+                    console.log(response)
+                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Usuario eliminado', life: 3000 });
+                }
             },
             error: (error: any) => {
                 console.error(error);
@@ -171,8 +179,20 @@ export class UsersComponent implements OnInit {
         this.submitted = true;
 
         const saveUserObserver: Observer<any> = {
-            next: (user: any) => {
+            next: (response: any) => {
                 // Update user array to refresh table
+                
+                if (response.status == 201) //new user
+                {
+                    console.log("usuario creado exitosamente")
+                    // this.userService.getUsers().subscribe(this.getUsersObserver);
+                    
+                }
+                else if (response.status == 200) //user updated
+                {
+                    
+                }
+            
                 // const oldUserIndex = this.users.findIndex(r => r.id == user.id);
                 // const newUser: User = {id: user.id, username: user.username};
                 // if (oldUserIndex != -1)  {

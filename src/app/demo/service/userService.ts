@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
 import { Observable, Observer, elementAt } from 'rxjs';
@@ -14,8 +14,12 @@ export class UserService {
         return this.http.get<any>('http://localhost:3000/users');
     }
 
-    deleteUser(user: User): Observable<void>  {
-        return this.http.delete<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/usuario/' + user.id)
+    deleteUser(user: User): Observable<ResponseData>  {
+        const headers = new HttpHeaders({
+            'authorization': 'Bearer '+ localStorage.getItem('access_token'),
+          });
+
+        return this.http.delete<ResponseData>('http://localhost:3000/users/' + user.username, { headers: headers })
     }
 
     updateUser(user: User): any {
@@ -45,7 +49,7 @@ export class UserService {
             {
                 "username": user.username,
                 "password": user.password,
-                "roleCodes": user.roles.map(element => element.name)
+                "roleCodes": user.roles? user.roles.map(element => element.name): []
             },{observe: 'response'})
 
     }
