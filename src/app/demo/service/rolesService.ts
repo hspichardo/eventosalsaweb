@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Role } from '../interfaces/role';
 import { Observable, Observer } from 'rxjs';
+import { ResponseData } from '../interfaces/ResponseData';
 
 
 @Injectable()
@@ -10,20 +11,20 @@ export class RolesService {
     constructor(private http: HttpClient) { }
 
 
-    getRoles(): Observable<Role[]> {
+    getRoles(): Observable<ResponseData> {
         return this.http.get<any>('http://localhost:3000/roles');
     }
 
     deleteRole(role: Role): Observable<void>  {
-        return this.http.delete<any>('http://localhost:3000/roles' + role.name)
+        return this.http.delete<any>('http://localhost:3000/roles' + role.code)
     }
 
     updateRole(role: Role): Observable<Role> {
-        return this.http.put<Role>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/rol/' + role.id, {nombre:role.name, descripcion:role.description})
+        return this.http.put<Role>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/rol/' + role.id, {nombre:role.code, descripcion:role.description})
     }
 
     newRole(role: Role): Observable<Role> {
-        return this.http.post<Role>('http://localhost:3000/roles', {code:role.name, description:role.description})
+        return this.http.post<Role>('http://localhost:3000/roles', {code:role.code, description:role.description})
     }
 
 

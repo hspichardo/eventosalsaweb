@@ -61,7 +61,7 @@
                             <p-tableCheckbox [value]="role"></p-tableCheckbox>
                         </td>
                         <td style="width:35%; min-width:10rem;"><span class="p-column-title">Nombre</span>
-                            {{ role.name }}
+                            {{ role.code }}
                         </td>
                         <td style="width:35%; min-width:10rem;">
                             <span class="p-column-title">Descripcion</span>
@@ -83,9 +83,9 @@
         <p-dialog [(visible)]="roleDialog" [style]="{width: '450px'}" header="Detalles del Rol" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
-                    <label for="name">Nombre</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="role.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !role.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !role.name">Debe poner un nombre.</small>
+                    <label for="code">Nombre</label>
+                    <input type="text" pInputText id="code" [(ngModel)]="role.code" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !role.code}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !role.code">Debe poner un nombre.</small>
                 </div>
                 <div class="field">
                     <label for="description">Descripcion</label>
@@ -103,7 +103,7 @@
         <p-dialog [(visible)]="deleteRoleDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="role">Esta seguro que quiere eliminar al rol <b>{{role.name}}</b>?</span>
+                <span *ngIf="role">Esta seguro que quiere eliminar al rol <b>{{role.code}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteRoleDialog = false"></button>

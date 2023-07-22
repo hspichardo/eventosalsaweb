@@ -37,7 +37,7 @@ export class UserService {
             return this.http.post<HttpResponse<any>>('http://localhost:3000/users/update/roles',
             {
                 "username": user.username,
-                "roleCodes": user.roles.map(element => element.name)
+                "roleCodes": user.roles.map(element => element.code)
             },{observe: 'response'})
 
         }
@@ -49,7 +49,7 @@ export class UserService {
             {
                 "username": user.username,
                 "password": user.password,
-                "roleCodes": user.roles? user.roles.map(element => element.name): []
+                "roleCodes": user.roles? user.roles.map(element => element.code): []
             },{observe: 'response'})
 
     }

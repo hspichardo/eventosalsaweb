@@ -6,6 +6,7 @@ import { RolesService } from 'src/app/demo/service/rolesService';
 import { Observer } from 'rxjs';
 import { Table } from 'primeng/table';
 import { Console } from 'console';
+import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
 
 
 @Component({
@@ -50,12 +51,8 @@ export class RolesComponent implements OnInit {
 
 
         const getRolesObserver: Observer<any> = {
-            next: (rolesArray: any) => {   
-                this.roles = rolesArray.map(role => {
-                    return {id: role.id, 
-                            name: role.code, 
-                            description: role.description 
-                    }})
+            next: (response: ResponseData) => {  
+                this.roles = response.data
             },
             error: (error: any) => {
                 console.error(error);
@@ -70,7 +67,7 @@ export class RolesComponent implements OnInit {
         
         
         this.cols = [
-            { field: 'name', header: 'Nombre' },
+            { field: 'code', header: 'Código' },
             { field: 'description', header: 'Descripción' },
             { field: 'actions', header: 'Acciones' },
         ];
@@ -151,7 +148,7 @@ export class RolesComponent implements OnInit {
             next: (role: any) => {
                 // Update role array to refresh table
                 const oldRoleIndex = this.roles.findIndex(r => r.id == role.id);
-                const newRole: Role = {id: role.id, name: role.code, description: role.description };
+                const newRole: Role = {id: role.id, code: role.code, description: role.description };
                 if (oldRoleIndex != -1)  {
                     this.roles[oldRoleIndex] = newRole
                 }
@@ -173,7 +170,7 @@ export class RolesComponent implements OnInit {
             }
         };
 
-        if (this.role.name?.trim()) {
+        if (this.role.code?.trim()) {
             if (this.role.id) {
                 // this.roleService.updateRole(this.role).subscribe(saveRoleObserver)
             }

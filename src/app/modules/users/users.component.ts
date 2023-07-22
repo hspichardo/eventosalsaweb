@@ -83,14 +83,8 @@ export class UsersComponent implements OnInit {
 
 
         const getRolesObserver: Observer<any> = {
-            next: (rolesArray: any) => {   
-                this.actualRoles = rolesArray.map(role => {
-                    return {
-                        id: role.id, 
-                        name: role.code, 
-                        description: role.description 
-                    }
-                })
+            next: (response: ResponseData) => {  
+                this.actualRoles = response.data
             },
             error: (error: any) => {
                 console.error(error);

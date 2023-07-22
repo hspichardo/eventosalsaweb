@@ -101,7 +101,7 @@
                 <div class="field">
                     <label for="password">Roles</label>
                     <br>
-                    <p-multiSelect style="z-index:5; position:absolute; min-width: 200px; max-width: 410px" [options]="actualRoles" [(ngModel)]="user.roles" optionLabel="name" display="chip"></p-multiSelect>
+                    <p-multiSelect style="z-index:5; position:absolute; min-width: 200px; max-width: 410px" [options]="actualRoles" [(ngModel)]="user.roles" optionLabel="code" display="chip"></p-multiSelect>
                 </div>
 
 
@@ -116,7 +116,7 @@
         <p-dialog [(visible)]="deleteUserDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="user">Esta seguro que quiere eliminar al usuario <b>{{user.name}}</b>?</span>
+                <span *ngIf="user">Esta seguro que quiere eliminar al usuario <b>{{user.username}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteUserDialog = false"></button>
