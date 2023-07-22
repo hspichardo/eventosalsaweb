@@ -91,17 +91,17 @@
             <ng-template pTemplate="content">
                 <div class="field">
                     <label for="username">Nombre</label>
-                    <input type="text" pInputText id="username" [(ngModel)]="user.username" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.username}"/>
+                    <input type="text" pInputText id="username" [(ngModel)]="user.username" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !user.username}" [disabled]="updateUserDialogFlag"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !user.username">Debe poner un nombre.</small>
                 </div>
                 <div class="field">
                     <label for="password">Contraseña</label>
-                    <input id="password" pInputText type="password" [(ngModel)]="user.password" required  />
+                    <input id="password" pInputText type="password" [(ngModel)]="user.password" required [placeholder]="updateUserDialogFlag ? 'Sin modificar' : ''" />
                 </div>
                 <div class="field">
                     <label for="password">Roles</label>
                     <br>
-                    <p-multiSelect style="z-index:5; position:absolute; min-width: 200px; max-width: 410px" [options]="actualRoles" [(ngModel)]="user.roles" optionLabel="code" display="chip"></p-multiSelect>
+                    <p-multiSelect style="z-index:5; position:absolute; min-width: 200px; max-width: 410px" [options]="updateUserDialogFlag?selectedRoles:actualRoles" [(ngModel)]="user.roles" optionLabel="code" optionValue="" display="chip"></p-multiSelect>
                 </div>
 
 

@@ -8,6 +8,7 @@ import { Table } from 'primeng/table';
 import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
 import { Role } from 'src/app/demo/interfaces/role';
 import { RolesService } from 'src/app/demo/service/rolesService';
+import { timeStamp } from 'console';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class UsersComponent implements OnInit {
 
     deleteUserDialog: boolean = false;
 
+    updateUserDialogFlag: boolean = false;
+
     users: User[];
 
     user: User;
@@ -34,6 +37,7 @@ export class UsersComponent implements OnInit {
     cols: any[];
 
     actualRoles: Role[];
+    selectedRoles: Role[];
 
 
     rowsPerPageOptions = [5, 10, 20];
@@ -52,7 +56,8 @@ export class UsersComponent implements OnInit {
     }
   
     getUsersObserver: Observer<any> = {
-        next: (responseData: ResponseData) : void => {   
+        next: (responseData: ResponseData) : void => { 
+            console.log(responseData)  
             this.users = responseData.data.map(user => {
                 return {
                     id: user.id, 
@@ -114,6 +119,11 @@ export class UsersComponent implements OnInit {
     editUser(user: User) {
         this.user = { ...user };
         this.userDialog = true;
+        const selectedRolesIds = this.user.roles.map(role => role.id );
+        const selectedRolesComplement =  this.actualRoles.filter((role:Role) => ! selectedRolesIds.includes( role.id ));
+        // this logic is necessary because multiSelect component compare memory directions when using objects, so you must have exactly the same reference
+        this.selectedRoles =  [...this.user.roles, ...selectedRolesComplement]
+        this.updateUserDialogFlag = true;
     }
 
 
@@ -146,7 +156,6 @@ export class UsersComponent implements OnInit {
                     // Update user array to refresh table
                     this.users = this.users.filter(listedUser => listedUser.id !== this.user.id);
                     // UI successful message
-                    console.log(response)
                     this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Usuario eliminado', life: 3000 });
                 }
             },
@@ -175,28 +184,25 @@ export class UsersComponent implements OnInit {
         const saveUserObserver: Observer<any> = {
             next: (response: any) => {
                 // Update user array to refresh table
-                
+                console.log(response)
+
                 if (response.status == 201) //new user
                 {
-                    console.log("usuario creado exitosamente")
-                    // this.userService.getUsers().subscribe(this.getUsersObserver);
-                    
+                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Usuario creado', life: 3000 });
+                    this.userService.getUser(this.user.username).subscribe((response:ResponseData)=>{
+                        let newUser = response.data
+                        newUser.password = ""
+
+                        this.users.push(newUser)
+                    })
                 }
-                else if (response.status == 200) //user updated
+                else if (response.code == 200) //user updated
                 {
-                    
+                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Usuario actualizado', life: 3000 });
+                    let oldUserIndex = this.users.findIndex(user => user.id === this.user.id)
+                    this.users.splice(oldUserIndex, 1, this.user);
+
                 }
-            
-                // const oldUserIndex = this.users.findIndex(r => r.id == user.id);
-                // const newUser: User = {id: user.id, username: user.username};
-                // if (oldUserIndex != -1)  {
-                //     this.users[oldUserIndex] = newUser
-                // }
-                // else {
-                //     this.users = [...this.users, newUser]
-                // }
-                // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'accion completada', life: 3000 });
             },
             error: (error: any) => {
                 console.error(error);
@@ -206,6 +212,7 @@ export class UsersComponent implements OnInit {
                 // Hide user dialog
                 this.userDialog = false;
                 this.user = {};
+                this.updateUserDialogFlag = false;
                 return 0;
             }
         };
