@@ -33,6 +33,7 @@ import {BlocksComponent} from './blocks/blocks/blocks.component';
 import { RolesComponent } from './modules/roles/roles.component';
 import { UsersComponent } from './modules/users/users.component';
 import { LoginGuard } from './modules/auth/checkRolesGuard';
+import { EventEntityComponent } from './modules/eventEntities/eventEntity.component';
 
 @NgModule({
     imports: [
@@ -43,6 +44,7 @@ import { LoginGuard } from './modules/auth/checkRolesGuard';
                     {path: '', component: DashboardDemoComponent, canActivate:[LoginGuard]},
                     {path: 'roles', component: RolesComponent},
                     {path: 'users', component: UsersComponent},
+                    {path: 'eventos', component: EventEntityComponent},
                     {path: 'uikit/formlayout', component: FormLayoutDemoComponent},
                     {path: 'uikit/input', component: InputDemoComponent},
                     {path: 'uikit/floatlabel', component: FloatLabelDemoComponent},
@@ -82,7 +84,7 @@ import { LoginGuard } from './modules/auth/checkRolesGuard';
 export class AppRoutingModule implements OnInit {
 
     constructor() {
-        console.log("constructyor verificacion")
+        console.log("constructor verificacion")
      }
 
     ngOnInit(){

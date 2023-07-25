@@ -22,7 +22,9 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Roles', icon: 'pi pi-fw pi-briefcase', routerLink: ['/roles'],
-
+            },
+            {
+                label: 'Eventos', icon: 'pi pi-fw pi-briefcase', routerLink: ['/eventos'],
             }
         ];
     }

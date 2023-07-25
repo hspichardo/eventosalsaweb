@@ -26,6 +26,7 @@ import { LoginGuard } from './auth/checkRolesGuard';
 import { createAccountComponent } from './createAccount/createAccount.component';
 import { AuthenticationService } from '../demo/service/authenticationService';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { EventEntityComponent } from './eventEntities/eventEntity.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -51,6 +52,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     AuthComponent,
     LoginComponent,
     RolesComponent,
+    EventEntityComponent,
     UsersComponent,
     createAccountComponent
   ],

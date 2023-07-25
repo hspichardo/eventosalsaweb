@@ -10,6 +10,7 @@ import { UsersComponent } from '../users/users.component';
 import { LoginGuard } from '../auth/checkRolesGuard';
 import { createAccountComponent } from '../createAccount/createAccount.component';
 import { CheckLoginGuard } from '../auth/checkLoginGuard';
+import { EventEntityComponent } from '../eventEntities/eventEntity.component';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { CheckLoginGuard } from '../auth/checkLoginGuard';
                 children: [
                     {path: '', component: UsersComponent, canActivate:[CheckLoginGuard]},
                     {path: 'roles', component: RolesComponent, canActivate:[CheckLoginGuard]},
+                    {path: 'eventos', component: EventEntityComponent, canActivate:[CheckLoginGuard]},
                 ]
             },
             {path: 'createAccount', component: createAccountComponent},
