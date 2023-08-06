@@ -11,6 +11,8 @@ import { LoginGuard } from '../auth/checkRolesGuard';
 import { createAccountComponent } from '../createAccount/createAccount.component';
 import { CheckLoginGuard } from '../auth/checkLoginGuard';
 import { EventEntityComponent } from '../eventEntities/eventEntity.component';
+import { BenefitComponent } from '../benefits/benefits.component';
+import { AccreditationComponent } from '../accreditations/accreditations.component';
 
 @NgModule({
     imports: [
@@ -21,6 +23,8 @@ import { EventEntityComponent } from '../eventEntities/eventEntity.component';
                     {path: '', component: UsersComponent, canActivate:[CheckLoginGuard]},
                     {path: 'roles', component: RolesComponent, canActivate:[CheckLoginGuard]},
                     {path: 'eventos', component: EventEntityComponent, canActivate:[CheckLoginGuard]},
+                    {path: 'beneficios', component: BenefitComponent, canActivate:[CheckLoginGuard]},
+                    {path: 'acreditaciones', component: AccreditationComponent, canActivate:[CheckLoginGuard]},
                 ]
             },
             {path: 'createAccount', component: createAccountComponent},

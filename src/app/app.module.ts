@@ -146,6 +146,8 @@ import { ModulesModule } from './modules/modules.module';
 import { RolesService } from './demo/service/rolesService';
 import { CheckRolesService } from './modules/auth/checkRolesService';
 import { EventEntitiesService } from './demo/service/EventEntityService';
+import { BenefitService } from './demo/service/benefitService';
+import { AccreditationService } from './demo/service/accreditationService';
 
 @NgModule({
     imports: [
@@ -283,7 +285,7 @@ import { EventEntitiesService } from './demo/service/EventEntityService';
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CountryService, CustomerService, EventService, IconService, NodeService,
         PhotoService, ProductService, BreadcrumbService, MenuService, RolesService, CheckRolesService, 
-        EventEntitiesService
+        EventEntitiesService, BenefitService, AccreditationService
     ],
     bootstrap: [AppComponent]
 })

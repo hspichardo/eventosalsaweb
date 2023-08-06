@@ -27,6 +27,8 @@ import { createAccountComponent } from './createAccount/createAccount.component'
 import { AuthenticationService } from '../demo/service/authenticationService';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { EventEntityComponent } from './eventEntities/eventEntity.component';
+import { BenefitComponent } from './benefits/benefits.component';
+import { AccreditationComponent } from './accreditations/accreditations.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -53,6 +55,8 @@ import { EventEntityComponent } from './eventEntities/eventEntity.component';
     LoginComponent,
     RolesComponent,
     EventEntityComponent,
+    BenefitComponent,
+    AccreditationComponent,
     UsersComponent,
     createAccountComponent
   ],
