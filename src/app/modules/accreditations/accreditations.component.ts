@@ -6,11 +6,13 @@ import { Table } from 'primeng/table';
 import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
 import { AccreditationService } from 'src/app/demo/service/accreditationService';
 import { Accreditation } from 'src/app/demo/interfaces/accreditation';
+import { EventEntity } from 'src/app/demo/interfaces/eventEntity';
+import { EventEntitiesService } from 'src/app/demo/service/EventEntityService';
 
 
 @Component({
     templateUrl: './accreditations.component.html',
-    providers: [MessageService, ConfirmationService],
+    providers: [MessageService, ConfirmationService, EventEntitiesService],
     styleUrls: ['./accreditations.component.scss']
 })
 export class AccreditationComponent implements OnInit {
@@ -31,6 +33,10 @@ export class AccreditationComponent implements OnInit {
 
     cols: any[];
 
+    eventEntities: EventEntity[];
+    
+    selectedeventEntity: EventEntity;
+
 
     rowsPerPageOptions = [5, 10, 20];
 
@@ -38,7 +44,8 @@ export class AccreditationComponent implements OnInit {
 
     constructor(private messageService: MessageService,
                 private breadcrumbService: BreadcrumbService,
-                private accreditationService: AccreditationService) {
+                private accreditationService: AccreditationService,
+                private eventEntityService: EventEntitiesService) {
 
         this.breadcrumbService.setItems([
             {label: 'Eventos'}
@@ -62,7 +69,22 @@ export class AccreditationComponent implements OnInit {
             }
         };
 
-        this.accreditationService.getAccreditations().subscribe(getEntitiesObserver);
+        const getEventEntitiesObserver: Observer<any> = {
+            next: (response: ResponseData) => {  
+                this.eventEntities = response.data
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                return 0;
+            }
+        };
+
+        this.eventEntityService.getEventEntities().subscribe(getEventEntitiesObserver);
+        // this.accreditationService.getAccreditations().subscribe(getEntitiesObserver);
+        this.accreditations = new Array<Accreditation>();
         
         
         this.cols = [
@@ -78,6 +100,19 @@ export class AccreditationComponent implements OnInit {
         this.accreditation = {};
         this.entityDialog = true;
     }
+
+    private getEntitiesObserver: Observer<any> = {
+        next: (response: ResponseData) => {  
+            this.accreditations = response.data
+        },
+        error: (error: any) => {
+            console.error(error);
+            return 1;
+        },
+        complete: () => {
+            return 0;
+        }
+    };
 
     deleteSelectedEntities() {
         this.deleteEntitiesDialog = true;
@@ -182,5 +217,11 @@ export class AccreditationComponent implements OnInit {
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    
+    updateAcredatitionTable(event) {
+        let eventSelected: EventEntity = event.value;
+        this.accreditationService.getAccreditationsByEventId(eventSelected).subscribe(this.getEntitiesObserver);
     }
 }

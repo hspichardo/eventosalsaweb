@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
 import { Accreditation } from '../interfaces/accreditation';
+import { EventEntity } from '../interfaces/eventEntity';
 
 
 @Injectable()
@@ -17,6 +18,10 @@ export class AccreditationService {
 
     getAccreditation(event: Accreditation): Observable<ResponseData> {
         return this.http.get<ResponseData>('http://localhost:3000/accreditations/'+ event.id);
+    }
+
+    getAccreditationsByEventId(event: EventEntity): Observable<ResponseData> {
+        return this.http.get<ResponseData>('http://localhost:3000/accreditations');
     }
 
     deleteAccreditation(event: Accreditation): Observable<ResponseData>  {
