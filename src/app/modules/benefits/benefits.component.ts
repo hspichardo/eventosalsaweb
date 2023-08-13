@@ -18,6 +18,7 @@ export class BenefitComponent implements OnInit {
     entityDialog: boolean;
 
     deleteEntitiesDialog: boolean = false;
+    deleteEntityDialog: boolean = false;
 
     deleteEventDialog: boolean = false;
 
@@ -41,7 +42,7 @@ export class BenefitComponent implements OnInit {
                 private benefitService: BenefitService) {
 
         this.breadcrumbService.setItems([
-            {label: 'Eventos'}
+            {label: 'Beneficios'}
         ]);
 
     }
@@ -68,6 +69,7 @@ export class BenefitComponent implements OnInit {
         this.cols = [
             { field: 'id', header: 'Id' },
             { field: 'description', header: 'Descripción' },
+            { field: 'quantity', header: 'Cantidad' },
             { field: 'actions', header: 'Acciones' },
         ];
 
@@ -75,7 +77,7 @@ export class BenefitComponent implements OnInit {
 
     openNew() {
         this.submitted = false;
-        this.benefit = {};
+        this.benefit = {quantity:0};
         this.entityDialog = true;
     }
 
@@ -84,15 +86,17 @@ export class BenefitComponent implements OnInit {
     }
 
 
-    editEntity(event: Benefit) {
-        this.benefit = { ...event };
+    editEntity(entity: Benefit) {
+        this.benefit = { ...entity };
+        this.benefit.accreditation = null;
+        this.benefit.registration_form = [];
         this.entityDialog = true;
     }
 
 
-    deleteEntity(event: Benefit) {
-        this.deleteEntitiesDialog = true;
-        this.benefit = { ...event };
+    deleteEntity(entity: Benefit) {
+        this.deleteEntityDialog = true;
+        this.benefit = { ...entity };
     }
 
     confirmDeleteSelected() {
@@ -124,7 +128,7 @@ export class BenefitComponent implements OnInit {
             },
             complete: () => {
                 // Hide entity dialog
-                this.deleteEntitiesDialog = false;
+                this.deleteEntityDialog = false;
                 return 0;
             }
         };
@@ -144,34 +148,38 @@ export class BenefitComponent implements OnInit {
         this.submitted = true;
 
         const saveEntityObserver: Observer<any> = {
-            next: (event: any) => {
-                // Update event array to refresh table
-                const oldBenefitIndex = this.benefits.findIndex(r => r.id == event.id);
-                const newBenefit: Benefit = event;
+            next: (response: ResponseData) => {
+                // Update benefit array to refresh table
+                const newBenefit: Benefit = response.data;
+                console.log(newBenefit)
+                const oldBenefitIndex = this.benefits.findIndex(r => r.id == newBenefit.id);
                 if (oldBenefitIndex != -1)  {
                     this.benefits[oldBenefitIndex] = newBenefit
+                    console.log(oldBenefitIndex)
                 }
                 else {
                     this.benefits = [...this.benefits, newBenefit]
                 }
                 // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'accion completada', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'acción completada', life: 3000 });
             },
             error: (error: any) => {
                 console.error(error);
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
                 return 1;
             },
             complete: () => {
                 // Hide new entity dialog
                 this.entityDialog = false;
-                this.benefit = {};
+                this.benefit = {quantity:0};
                 return 0;
             }
         };
 
         if (this.benefit.description?.trim()) {
+            this.submitted = false;
             if (this.benefit.id) {
-                // this.benefitService.updateEntity(this.benefit).subscribe(saveEntityObserver)
+                this.benefitService.updateBenefit(this.benefit).subscribe(saveEntityObserver)
             }
             else {
                 this.benefitService.newBenefit(this.benefit).subscribe(saveEntityObserver)

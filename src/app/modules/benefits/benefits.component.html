@@ -55,23 +55,27 @@
                     </tr>
                 </ng-template>
 
-                <ng-template pTemplate="body" let-benefits>
+                <ng-template pTemplate="body" let-benefit>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="benefits"></p-tableCheckbox>
+                            <p-tableCheckbox [value]="benefit"></p-tableCheckbox>
                         </td>
                         <td style="width:35%; min-width:10rem;"><span class="p-column-title">id</span>
-                            {{ benefits.id }}
+                            {{ benefit.id }}
                         </td>
                         <td style="width:35%; min-width:10rem;">
-                            <span class="p-column-title">Descripcion</span>
-                            {{ benefits.description }}
+                            <span class="p-column-title">Descripción</span>
+                            {{ benefit.description }}
+                        </td>
+                        <td style="width:35%; min-width:10rem;">
+                            <span class="p-column-title">Cantidad</span>
+                            {{ benefit.quantity }}
                         </td>
 
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editRole(benefits)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteRole(benefits)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEntity(benefit)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEntity(benefit)"></button>
                             </div>
                         </td>
                     </tr>
@@ -80,30 +84,30 @@
         </div>
 
 
-        <p-dialog [(visible)]="entityDialog" [style]="{width: '450px'}" header="Detalles del Rol" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="entityDialog" [style]="{width: '450px'}" header="Detalles del Beneficio" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
-                    <label for="code">Nombre</label>
-                    <input type="text" pInputText id="code" [(ngModel)]="benefits.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !benefits.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !benefits.name">Debe poner un nombre.</small>
+                    <label for="quantity">Cantidad</label>
+                    <input type="number" pInputText id="quantity" [(ngModel)]="benefit.quantity" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !benefit.quantity}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !benefit.quantity">Debe poner una cantidad</small>
                 </div>
                 <div class="field">
-                    <label for="description">Descripcion</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="benefits.description" required rows="3" cols="20"></textarea>
+                    <label for="description">Descripción</label>
+                    <textarea id="description" pInputTextarea [(ngModel)]="benefit.description" required rows="3" cols="20"></textarea>
                 </div>
 
             </ng-template>
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveRole()"></button>
+                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveEntity()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteEntitiesDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteEntityDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="benefits">Esta seguro que quiere eliminar al beneficio <b>{{benefits.name}}</b>?</span>
+                <span *ngIf="benefit">Esta seguro que quiere eliminar al beneficio <b>{{benefit.description}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEntitiesDialog = false"></button>

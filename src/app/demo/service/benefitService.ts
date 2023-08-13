@@ -24,7 +24,7 @@ export class BenefitService {
     }
 
     updateBenefit(benefit: Benefit): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/benefits/update/', benefit)
+        return this.http.put<ResponseData>('http://localhost:3000/benefits', benefit)
     }
 
     newBenefit(benefit: Benefit): Observable<ResponseData> {
@@ -34,7 +34,7 @@ export class BenefitService {
 
     deleteBenefits(benefits: Benefit[]): number{
         const deleteObserver : Observer<any> = {
-            next: (value: string) => {
+            next: (value: any) => {
                 return 0;
             },
             error: (error: any) => {
@@ -47,7 +47,7 @@ export class BenefitService {
         }
 
         for (let i = 0; i < benefits.length; i++) {
-            this.http.delete<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/rol/' + benefits[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('http://localhost:3000/benefits/' + benefits[i].id).subscribe(deleteObserver)
         }
         return 0;
     }

@@ -6,4 +6,5 @@ export interface Benefit {
     description?: string;
     quantity?: number;
     accreditation?: Accreditation;
+    registration_form?: Object[];
 }
