@@ -24,7 +24,7 @@ export class EventEntitiesService {
     }
 
     updateEventEntity(event: EventEntity): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/events/update/', event)
+        return this.http.put<ResponseData>('http://localhost:3000/events', event)
     }
 
     newEventEntity(event: EventEntity): Observable<ResponseData> {
@@ -47,8 +47,9 @@ export class EventEntitiesService {
         }
 
         for (let i = 0; i < events.length; i++) {
-            this.http.delete<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/rol/' + events[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('http://localhost:3000/events/'+ events[i].id).subscribe(deleteObserver)
         }
+        //TODO: list non deleted entity and report
         return 0;
     }
 

@@ -55,23 +55,23 @@
                     </tr>
                 </ng-template>
 
-                <ng-template pTemplate="body" let-eventEntities>
+                <ng-template pTemplate="body" let-eventEntity>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="eventEntities"></p-tableCheckbox>
+                            <p-tableCheckbox [value]="eventEntity"></p-tableCheckbox>
                         </td>
                         <td style="width:35%; min-width:10rem;"><span class="p-column-title">Nombre</span>
-                            {{ eventEntities.name }}
+                            {{ eventEntity.name }}
                         </td>
                         <td style="width:35%; min-width:10rem;">
                             <span class="p-column-title">Descripcion</span>
-                            {{ eventEntities.description }}
+                            {{ eventEntity.description }}
                         </td>
 
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editRole(eventEntities)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteRole(eventEntities)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEntity(eventEntity)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEntity(eventEntity)"></button>
                             </div>
                         </td>
                     </tr>
@@ -80,33 +80,33 @@
         </div>
 
 
-        <p-dialog [(visible)]="entityDialog" [style]="{width: '450px'}" header="Detalles del Rol" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="entityDialog" [style]="{width: '450px'}" header="Detalles del evento" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
-                    <label for="code">Nombre</label>
-                    <input type="text" pInputText id="code" [(ngModel)]="eventEntities.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !eventEntities.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !eventEntities.name">Debe poner un nombre.</small>
+                    <label for="name">Nombre</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="eventEntity.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !eventEntity.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !eventEntity.name">Debe poner un nombre.</small>
                 </div>
                 <div class="field">
-                    <label for="description">Descripcion</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="eventEntities.description" required rows="3" cols="20"></textarea>
+                    <label for="description">Descripción</label>
+                    <textarea id="description" pInputTextarea [(ngModel)]="eventEntity.description" required rows="3" cols="20"></textarea>
                 </div>
 
             </ng-template>
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveRole()"></button>
+                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveEntity()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteEntitiesDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteEntityDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="eventEntities">Esta seguro que quiere eliminar al evento <b>{{eventEntities.name}}</b>?</span>
+                <span *ngIf="eventEntity">Esta seguro que quiere eliminar al evento <b>{{eventEntity.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEntitiesDialog = false"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEntityDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>

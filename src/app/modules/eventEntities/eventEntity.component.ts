@@ -19,6 +19,8 @@ export class EventEntityComponent implements OnInit {
 
     deleteEntitiesDialog: boolean = false;
 
+    deleteEntityDialog: boolean = false;
+    
     deleteEventDialog: boolean = false;
 
     eventEntities: EventEntity[];
@@ -91,7 +93,7 @@ export class EventEntityComponent implements OnInit {
 
 
     deleteEntity(event: EventEntity) {
-        this.deleteEntitiesDialog = true;
+        this.deleteEntityDialog = true;
         this.eventEntity = { ...event };
     }
 
@@ -116,7 +118,7 @@ export class EventEntityComponent implements OnInit {
                 // Update event array to refresh table
                 this.eventEntities = this.eventEntities.filter(val => val.id !== this.eventEntity.id);
                 // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Rol eliminado', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Evento eliminado', life: 3000 });
             },
             error: (error: any) => {
                 console.error(error);
@@ -124,7 +126,7 @@ export class EventEntityComponent implements OnInit {
             },
             complete: () => {
                 // Hide entity dialog
-                this.deleteEntitiesDialog = false;
+                this.deleteEntityDialog = false;
                 return 0;
             }
         };
@@ -144,10 +146,10 @@ export class EventEntityComponent implements OnInit {
         this.submitted = true;
 
         const saveEntityObserver: Observer<any> = {
-            next: (event: any) => {
+            next: (response: ResponseData) => {
                 // Update event array to refresh table
-                const oldEventEntityIndex = this.eventEntities.findIndex(r => r.id == event.id);
-                const newEventEntity: EventEntity = event;
+                const newEventEntity: EventEntity = response.data;
+                const oldEventEntityIndex = this.eventEntities.findIndex(r => r.id == newEventEntity.id);
                 if (oldEventEntityIndex != -1)  {
                     this.eventEntities[oldEventEntityIndex] = newEventEntity
                 }
@@ -159,6 +161,7 @@ export class EventEntityComponent implements OnInit {
             },
             error: (error: any) => {
                 console.error(error);
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
                 return 1;
             },
             complete: () => {
@@ -171,7 +174,7 @@ export class EventEntityComponent implements OnInit {
 
         if (this.eventEntity.name?.trim()) {
             if (this.eventEntity.id) {
-                // this.eventEntityService.updateEntity(this.eventEntity).subscribe(saveEntityObserver)
+                this.eventEntityService.updateEventEntity(this.eventEntity).subscribe(saveEntityObserver)
             }
             else {
                 this.eventEntityService.newEventEntity(this.eventEntity).subscribe(saveEntityObserver)
