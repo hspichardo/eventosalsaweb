@@ -16,24 +16,35 @@ export class AccreditationService {
         return this.http.get<ResponseData>('http://localhost:3000/accreditations');
     }
 
-    getAccreditation(event: Accreditation): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/accreditations/'+ event.id);
+    getAccreditation(acreditation: Accreditation): Observable<ResponseData> {
+        return this.http.get<ResponseData>('http://localhost:3000/accreditations/'+ acreditation.id);
     }
 
     getAccreditationsByEventId(event: EventEntity): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/accreditations');
+        return this.http.get<ResponseData>('http://localhost:3000/accreditations/by_event/'+event.id);
     }
 
-    deleteAccreditation(event: Accreditation): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/accreditations/' + event.id)
+    deleteAccreditation(acreditation: Accreditation): Observable<ResponseData>  {
+        return this.http.delete<ResponseData>('http://localhost:3000/accreditations/' + acreditation.id);
     }
 
-    updateAccreditation(event: Accreditation): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/accreditations/update/', event)
+    updateAccreditation(acreditation: Accreditation): Observable<ResponseData> {
+        let body: Object = {...acreditation};
+        delete body['event'];
+        if( body['benefits'] ){
+            body['benefits'] = body['benefits'].map(benefit => benefit.id);
+        }
+        else {
+            delete body['benefits'];
+        }
+        return this.http.put<ResponseData>('http://localhost:3000/accreditations/', body)
     }
 
-    newAccreditation(event: Accreditation): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/accreditations', event)
+    newAccreditation(acreditation: Accreditation): Observable<ResponseData> {
+        let body: Object = {...acreditation};
+        body['event'] = body['event'].id;
+        body['benefits'] = body['benefits'].map(benefit => benefit.id);
+        return this.http.post<ResponseData>('http://localhost:3000/accreditations', body)
     }
 
 
@@ -52,7 +63,7 @@ export class AccreditationService {
         }
 
         for (let i = 0; i < accreditations.length; i++) {
-            this.http.delete<any>('https://6492e75a428c3d2035d0df8b.mockapi.io/mockapi/rol/' + accreditations[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('http://localhost:3000/accreditations/' + accreditations[i].id).subscribe(deleteObserver)
         }
         return 0;
     }

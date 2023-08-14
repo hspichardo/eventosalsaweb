@@ -1,16 +1,17 @@
 <div class="grid">
     <div class="col-12">
         <div class="card px-6 py-6">
-            <h4> Escoga un evento para agragarle acreditaciones </h4>
+            <h4 *ngIf="!selectedEventEntity">Escoga un evento</h4>
+            <h4 *ngIf="selectedEventEntity">Mostrando acreditaciones del evento :</h4>
             <p-dropdown 
                 [options]="eventEntities" 
-                [(ngModel)]="selectedeventEntity" 
+                [(ngModel)]="selectedEventEntity" 
                 placeholder="Seleccione un evento"
                 optionLabel= "name" 
                 [virtualScroll]="true" 
                 [virtualScrollItemSize]="38" 
                 [filter]="true" filterBy="name"
-                (onChange)="updateAcredatitionTable($event)"/>
+                (onChange)="updateAcreditationTable()"/>
 
         </div>
 
@@ -19,7 +20,7 @@
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()" [disabled]="!selectedEventEntity" ></button>
                         <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedEntities()" [disabled]="!selectedEntities || !selectedEntities.length"></button>
                     </div>
                 </ng-template>
@@ -69,23 +70,26 @@
                     </tr>
                 </ng-template>
 
-                <ng-template pTemplate="body" let-accreditations>
+                <ng-template pTemplate="body" let-accreditation>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="accreditations"></p-tableCheckbox>
-                        </td>
-                        <td style="width:35%; min-width:10rem;"><span class="p-column-title">id</span>
-                            {{ accreditations.id }}
+                            <p-tableCheckbox [value]="accreditation"></p-tableCheckbox>
                         </td>
                         <td style="width:35%; min-width:10rem;">
-                            <span class="p-column-title">Descripcion</span>
-                            {{ accreditations.description }}
+                            <span class="p-column-title">Descripción</span>
+                            {{ accreditation.description }}
+                        </td>
+                        <td style="width:35%; min-width:10rem;"><span class="p-column-title">Costo</span>
+                            $ {{ accreditation.cost }}
+                        </td>
+                        <td style="width:35%; min-width:10rem;"><span class="p-column-title">Numero de beneficios</span>
+                            {{ accreditation.benefits? accreditation.benefits.length : 0 }}
                         </td>
 
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editRole(accreditations)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteRole(accreditations)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEntity(accreditation)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEntity(accreditation)"></button>
                             </div>
                         </td>
                     </tr>
@@ -94,30 +98,42 @@
         </div>
 
 
-        <p-dialog [(visible)]="entityDialog" [style]="{width: '450px'}" header="Detalles del Rol" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="entityDialog" [style]="{width: '450px'}" header="Detalles de la acreditación" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
-                    <label for="code">Nombre</label>
-                    <input type="text" pInputText id="code" [(ngModel)]="accreditations.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !accreditations.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !accreditations.name">Debe poner un nombre.</small>
+                    <label for="cost">Costo</label>
+                    <input type="number" pInputText id="cost"  [(ngModel)]="accreditation.cost" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !accreditation.cost}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !accreditation.cost">Debe poner un costo</small>
                 </div>
                 <div class="field">
-                    <label for="description">Descripcion</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="accreditations.description" required rows="3" cols="20"></textarea>
+                    <label for="description">Descripción</label>
+                    <textarea id="description" pInputTextarea [(ngModel)]="accreditation.description" required rows="3" cols="20"></textarea>
+                </div>
+                <div class="field">
+                    <label for="password">Roles</label>
+                    <br>
+                    <p-multiSelect  
+                        style="z-index:5; position:absolute; min-width: 200px; width: 90%" 
+                        [options]="updateAccreditationDialogFlag? selectedBenefits : allBenefits" 
+                        [(ngModel)]="accreditation.benefits" 
+                        optionLabel="description" 
+                        optionValue="" 
+                        display="chip">
+                    </p-multiSelect>
                 </div>
 
             </ng-template>
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveRole()"></button>
+                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveEntity()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteEntitiesDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteEntityDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="accreditations">Esta seguro que quiere eliminar la acreditacion <b>{{accreditations.name}}</b>?</span>
+                <span *ngIf="accreditation">Esta seguro que quiere eliminar la acreditación <b>{{accreditation.description}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEntitiesDialog = false"></button>
