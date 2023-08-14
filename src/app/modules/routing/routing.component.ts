@@ -13,6 +13,7 @@ import { CheckLoginGuard } from '../auth/checkLoginGuard';
 import { EventEntityComponent } from '../eventEntities/eventEntity.component';
 import { BenefitComponent } from '../benefits/benefits.component';
 import { AccreditationComponent } from '../accreditations/accreditations.component';
+import { ClientComponent } from '../client/client.component';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { AccreditationComponent } from '../accreditations/accreditations.compone
                     {path: 'eventos', component: EventEntityComponent, canActivate:[CheckLoginGuard]},
                     {path: 'beneficios', component: BenefitComponent, canActivate:[CheckLoginGuard]},
                     {path: 'acreditaciones', component: AccreditationComponent, canActivate:[CheckLoginGuard]},
+                    {path: 'clientes', component: ClientComponent, canActivate:[CheckLoginGuard]},
                 ]
             },
             {path: 'createAccount', component: createAccountComponent},

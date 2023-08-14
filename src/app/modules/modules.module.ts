@@ -29,6 +29,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { EventEntityComponent } from './eventEntities/eventEntity.component';
 import { BenefitComponent } from './benefits/benefits.component';
 import { AccreditationComponent } from './accreditations/accreditations.component';
+import { ClientComponent } from './client/client.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -58,7 +59,8 @@ import { AccreditationComponent } from './accreditations/accreditations.componen
     BenefitComponent,
     AccreditationComponent,
     UsersComponent,
-    createAccountComponent
+    createAccountComponent,
+    ClientComponent
   ],
   exports:[
   ],

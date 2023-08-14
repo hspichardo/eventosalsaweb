@@ -1,0 +1,126 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedEntities()" [disabled]="!selectedEntities || !selectedEntities.length"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt 
+                [value]="clients" 
+                [columns]="cols" 
+                responsiveLayout="scroll" 
+                [rows]="10" 
+                [globalFilterFields]="['name','country.name','representative.name','status']" 
+                [rows]="10" 
+                [paginator]="true" 
+                [rowsPerPageOptions]="[10,20,30]" 
+                [showCurrentPageReport]="true" 
+                currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas" 
+                [(selection)]="selectedEntities" 
+                selectionMode="multiple" 
+                [rowHover]="true" 
+                dataKey="id">
+                
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Clientes</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th *ngFor="let col of columns" pSortableColumn={{col.field}}>
+                            {{ col.header }}
+                            <p-sortIcon field={{col.field}}></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-client>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="client"></p-tableCheckbox>
+                        </td>
+                        <td style="width:35%; min-width:10rem;"><span class="p-column-title">Nombres</span>
+                            {{ client.names }}
+                        </td>
+                        <td style="width:35%; min-width:10rem;">
+                            <span class="p-column-title">Identificación</span>
+                            {{ client.identification }}
+                        </td>
+
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEntity(client)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEntity(client)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+
+        <p-dialog [(visible)]="entityDialog" [style]="{width: '450px'}" header="Detalles del cliente" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="names">Nombres</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="client.names" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.names}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !client.names">Debe poner un nombre.</small>
+                </div>
+                <div class="field">
+                    <label for="identification">Identificación</label>
+                    <input id="identification" pInputText [(ngModel)]="client.identification" required rows="3" cols="20"/>
+                </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveEntity()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteEntityDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="client">Esta seguro que quiere eliminar al cliente <b>{{client.names}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEntityDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteEntitiesDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Seguro que desea eliminarlos clientes seleccionados?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEntitiesDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+
+    </div>
+</div>
