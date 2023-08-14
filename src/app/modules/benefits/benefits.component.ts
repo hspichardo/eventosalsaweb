@@ -67,7 +67,6 @@ export class BenefitComponent implements OnInit {
         
         
         this.cols = [
-            { field: 'id', header: 'Id' },
             { field: 'description', header: 'Descripción' },
             { field: 'quantity', header: 'Cantidad' },
             { field: 'actions', header: 'Acciones' },
@@ -120,7 +119,7 @@ export class BenefitComponent implements OnInit {
                 // Update event array to refresh table
                 this.benefits = this.benefits.filter(val => val.id !== this.benefit.id);
                 // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Rol eliminado', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Beneficio eliminado', life: 3000 });
             },
             error: (error: any) => {
                 console.error(error);
