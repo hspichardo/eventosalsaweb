@@ -15,6 +15,7 @@ import { EventEntityComponent } from '../eventEntities/eventEntity.component';
 import { BenefitComponent } from '../benefits/benefits.component';
 import { AccreditationComponent } from '../accreditations/accreditations.component';
 import { ClientComponent } from '../client/client.component';
+import { FormComponent } from '../form/form.component';
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { ClientComponent } from '../client/client.component';
                     {path: 'clientes', component: ClientComponent, canActivate:[CheckLoginGuard]},
                 ]
             },
+            {path: 'form/:key', component: FormComponent},
             {path: 'createAccount', component: createAccountComponent},
             {path: 'error', component: AppErrorComponent},
             {path: 'access', component: AppAccessdeniedComponent},

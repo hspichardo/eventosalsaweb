@@ -34,6 +34,7 @@ import { RolesComponent } from './modules/roles/roles.component';
 import { UsersComponent } from './modules/users/users.component';
 import { LoginGuard } from './modules/auth/checkRolesGuard';
 import { EventEntityComponent } from './modules/eventEntities/eventEntity.component';
+import { FormComponent } from './modules/form/form.component';
 
 @NgModule({
     imports: [
@@ -76,6 +77,7 @@ import { EventEntityComponent } from './modules/eventEntities/eventEntity.compon
             {path: 'access', component: AppAccessdeniedComponent},
             {path: 'notfound', component: AppNotfoundComponent},
             {path: 'login', component: AppLoginComponent},
+            {path: 'form', component: AppErrorComponent},
             {path: '**', redirectTo: '/notfound'},
         ], {scrollPositionRestoration: 'enabled'})
     ],
@@ -84,10 +86,8 @@ import { EventEntityComponent } from './modules/eventEntities/eventEntity.compon
 export class AppRoutingModule implements OnInit {
 
     constructor() {
-        console.log("constructor verificacion")
      }
 
     ngOnInit(){
-        console.log("verificacion")
     }
 }

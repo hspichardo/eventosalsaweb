@@ -1,0 +1,21 @@
+.form-body {
+    height:100%;
+    width: 40%;
+    margin:0 auto;
+    padding:25vh 0%;
+}
+
+.card-item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-footer{
+    display: flex;
+    justify-content: end;
+}
+
+.empty-warning{
+    color: red;
+}

@@ -150,6 +150,7 @@ import { EventEntitiesService } from './demo/service/EventEntityService';
 import { BenefitService } from './demo/service/benefitService';
 import { AccreditationService } from './demo/service/accreditationService';
 import { ClientsService } from './demo/service/clientService';
+import { FormComponent } from './modules/form/form.component';
 
 @NgModule({
     imports: [
@@ -281,7 +282,8 @@ import { ClientsService } from './demo/service/clientService';
         AppErrorComponent,
         AppAccessdeniedComponent,
         BlockViewer,
-        BlocksComponent
+        BlocksComponent,
+        FormComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
