@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { ClientAccreditation } from '../interfaces/clientAccreditation';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
+import { Client } from '../interfaces/client';
 
 @Injectable()
 export class clientAccreditationService {
@@ -12,23 +13,30 @@ export class clientAccreditationService {
 
 
     getClientAccreditations(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/clientAccreditations');
+        return this.http.get<ResponseData>('http://localhost:3000/client_accreditation');
     }
 
     getClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/clientAccreditations/'+ clientAccreditation.id);
+        return this.http.get<ResponseData>('http://localhost:3000/client_accreditation/'+ clientAccreditation.id);
+    }
+
+    getClientAccreditationByClient(client: Client): Observable<ResponseData> {
+        return this.http.get<ResponseData>('http://localhost:3000/client_accreditation/client/'+ client.id);
     }
 
     deleteClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/clientAccreditations/' + clientAccreditation.id)
+        return this.http.delete<ResponseData>('http://localhost:3000/client_accreditation/' + clientAccreditation.id)
     }
 
     updateClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/clientAccreditations', clientAccreditation)
+        return this.http.put<ResponseData>('http://localhost:3000/client_accreditation', clientAccreditation)
     }
 
     newClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/clientAccreditations', clientAccreditation)
+        const body : any = {...clientAccreditation};
+        body["accreditation"] = body["accreditation"].id;
+        body["client"] = body["client"].id;
+        return this.http.post<ResponseData>('http://localhost:3000/client_accreditation', body)
     }
 
 

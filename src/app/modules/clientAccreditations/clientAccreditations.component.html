@@ -1,11 +1,26 @@
 <div class="grid">
     <div class="col-12">
         <div class="card px-6 py-6">
+            <h4 *ngIf="!selectedClientEntity">Escoga un cliente</h4>
+            <h4 *ngIf="selectedClientEntity">Mostrando acreditaciones del cliente:</h4>
+            <p-dropdown 
+                [options]="clientEntities" 
+                [(ngModel)]="selectedClientEntity" 
+                placeholder="Seleccione un cliente"
+                optionLabel= "names" 
+                [virtualScroll]="true" 
+                [virtualScrollItemSize]="38" 
+                [filter]="true" filterBy="names"
+                (onChange)="updateClientAcreditationTable($event)"/>
+
+        </div>
+
+        <div class="card px-6 py-6">
             <p-toast></p-toast>
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="Agregar acreditación" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()" [disabled]="!selectedClientEntity" ></button>
                         <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedClientAccreditations()" [disabled]="!selectedClientAccreditations || !selectedClientAccreditations.length"></button>
                     </div>
                 </ng-template>
@@ -34,7 +49,7 @@
                 
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Acreditación relacionada</h5>
+                        <h5 class="m-0">Acreditaciones contratadas</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
@@ -60,12 +75,20 @@
                         <td>
                             <p-tableCheckbox [value]="clientAccreditation"></p-tableCheckbox>
                         </td>
-                        <td style="width:35%; min-width:10rem;"><span class="p-column-title">Nombre</span>
-                            {{ clientAccreditation.name }}
+                        <td style="width:35%; min-width:10rem;"><span class="p-column-title">Id</span>
+                            {{ clientAccreditation.id }}
                         </td>
                         <td style="width:35%; min-width:10rem;">
-                            <span class="p-column-title">Descripción</span>
-                            {{ clientAccreditation.description }}
+                            <span class="p-column-title">Cantidad</span>
+                            {{ clientAccreditation.quantity }}
+                        </td>
+                        <td style="width:35%; min-width:10rem;">
+                            <span class="p-column-title">Cliente</span>
+                            {{ clientAccreditation.client || "NAN" }}
+                        </td>
+                        <td style="width:35%; min-width:10rem;">
+                            <span class="p-column-title">Acreditación</span>
+                            {{ clientAccreditation.accreditation || "NAN" }}
                         </td>
 
                         <td>
@@ -80,16 +103,28 @@
         </div>
 
 
-        <p-dialog [(visible)]="clientAccreditationDialog" [style]="{width: '450px'}" header="Detalles del Acreditación relacionada" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="clientAccreditationDialog" [style]="{width: '450px'}" header="Detalles de la contratación" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
-                    <label for="name">Nombre</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="clientAccreditation.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !clientAccreditation.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !clientAccreditation.name">Debe poner un nombre.</small>
+                    <label for="accreditation">Acreditación</label>
+                    <br>
+                    <p-dropdown 
+                        id="accreditation" 
+                        style="z-index:5; position:absolute; min-width: 200px; width: 90%"
+                        [options]="accreditationEntities"
+                        [(ngModel)]="clientAccreditation.accreditation"
+                        optionLabel="description"
+                        placeholder="Escoga una acreditación"
+                        (onChange)="updateSelectedAcreditation($event)">
+                    </p-dropdown>
                 </div>
+                <br>
+                <br>
+
                 <div class="field">
-                    <label for="description">Descripción</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="clientAccreditation.description" required rows="3" cols="20"></textarea>
+                    <label for="quantity">Cantidad</label>
+                    <input type="number" pInputText id="quantity" [(ngModel)]="clientAccreditation.quantity" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !clientAccreditation.quantity}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !clientAccreditation.quantity">Debe poner una cantidad</small>
                 </div>
 
             </ng-template>
@@ -103,7 +138,7 @@
         <p-dialog [(visible)]="deleteClientAccreditationDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="clientAccreditation">Esta seguro que quiere eliminar al Acreditación relacionada <b>{{clientAccreditation.quantity}}</b>?</span>
+                <span *ngIf="clientAccreditation">Esta seguro que quiere eliminar al Acreditaciones contratadas <b>{{clientAccreditation.quantity}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteClientAccreditationDialog = false"></button>
@@ -114,7 +149,7 @@
         <p-dialog [(visible)]="deleteClientAccreditationsDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Seguro que desea eliminarlos Acreditación relacionada seleccionados?</span>
+                <span>Seguro que desea eliminarlos Acreditaciones contratadas seleccionados?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteClientAccreditationsDialog = false"></button>

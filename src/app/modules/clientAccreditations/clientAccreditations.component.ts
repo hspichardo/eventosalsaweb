@@ -6,6 +6,10 @@ import { Table } from 'primeng/table';
 import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
 import { clientAccreditationService } from 'src/app/demo/service/clientAccreditationService';
 import { ClientAccreditation } from 'src/app/demo/interfaces/clientAccreditation';
+import { Client } from 'src/app/demo/interfaces/client';
+import { ClientsService } from 'src/app/demo/service/clientService';
+import { Accreditation } from 'src/app/demo/interfaces/accreditation';
+import { AccreditationService } from 'src/app/demo/service/accreditationService';
 
 
 @Component({
@@ -20,12 +24,20 @@ export class ClientAccreditationComponent implements OnInit {
     deleteClientAccreditationsDialog: boolean = false;
 
     deleteClientAccreditationDialog: boolean = false;
+
+    accreditationEntities: Accreditation[];
     
     clientAccreditations: ClientAccreditation[];
 
     clientAccreditation: ClientAccreditation;
 
     selectedClientAccreditations: ClientAccreditation[];
+
+    selectedClientEntity: Client;
+
+    clientEntities: Client[];
+
+    selectedAccreditationEntity: Accreditation;
 
     submitted: boolean;
 
@@ -38,7 +50,9 @@ export class ClientAccreditationComponent implements OnInit {
 
     constructor(private messageService: MessageService,
                 private breadcrumbService: BreadcrumbService,
-                private ClientAccreditationService: clientAccreditationService) {
+                private ClientAccreditationService: clientAccreditationService,
+                private clientsService: ClientsService,
+                private accreditationService: AccreditationService) {
 
         this.breadcrumbService.setItems([
             {label: 'Acreditación relacionada'}
@@ -46,12 +60,27 @@ export class ClientAccreditationComponent implements OnInit {
 
     }
   
+    getClientAccreditationsObserver: Observer<any> = {
+        next: (response: ResponseData) => { 
+            console.log(response) 
+            this.clientAccreditations = response.data
+        },
+        error: (error: any) => {
+            console.error(error);
+            return 1;
+        },
+        complete: () => {
+            return 0;
+        }
+    };
+
     ngOnInit() {
+        this.clientAccreditation = {};
+        this.accreditationEntities = [];
 
-
-        const getClientAccreditationsObserver: Observer<any> = {
+        const getClientsObserver: Observer<any> = {
             next: (response: ResponseData) => {  
-                this.clientAccreditations = response.data
+                this.clientEntities = response.data
             },
             error: (error: any) => {
                 console.error(error);
@@ -62,7 +91,23 @@ export class ClientAccreditationComponent implements OnInit {
             }
         };
 
-        this.ClientAccreditationService.getClientAccreditations().subscribe(getClientAccreditationsObserver);
+        const getAccreditationsObserver: Observer<any> = {
+            next: (response: ResponseData) => {  
+                this.accreditationEntities = response.data
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                return 0;
+            }
+        };
+
+        // this.ClientAccreditationService.getClientAccreditations().subscribe(getClientAccreditationsObserver);
+        this.clientsService.getClients().subscribe(getClientsObserver);
+        this.accreditationService.getAccreditations().subscribe(getAccreditationsObserver);
+
         
         
         this.cols = [
@@ -77,7 +122,7 @@ export class ClientAccreditationComponent implements OnInit {
 
     openNew() {
         this.submitted = false;
-        this.clientAccreditation = {};
+        this.clientAccreditation.quantity = 0;
         this.clientAccreditationDialog = true;
     }
 
@@ -147,6 +192,7 @@ export class ClientAccreditationComponent implements OnInit {
 
         const saveClientAccreditationObserver: Observer<any> = {
             next: (response: ResponseData) => {
+                console.log(response)
                 // Update ClientAccreditations array to refresh table
                 const newClientAccreditation: ClientAccreditation = response.data;
                 const oldClientAccreditationIndex = this.clientAccreditations.findIndex(r => r.id == newClientAccreditation.id);
@@ -185,5 +231,17 @@ export class ClientAccreditationComponent implements OnInit {
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    //[(ngModel)] directive not working 
+    updateClientAcreditationTable(event) {
+        this.clientAccreditation.client = event.value
+        this.ClientAccreditationService.getClientAccreditations().subscribe(this.getClientAccreditationsObserver);
+        // this.ClientAccreditationService.getClientAccreditationByClient(this.clientAccreditation.client).subscribe(this.getClientAccreditationsObserver);
+    }
+
+    //[(ngModel)] directive not working 
+    updateSelectedAcreditation(event) {
+        this.clientAccreditation.accreditation = event.value
     }
 }
