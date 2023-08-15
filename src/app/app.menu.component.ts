@@ -30,7 +30,11 @@ export class AppMenuComponent implements OnInit {
                 label: 'Beneficios', icon: 'pi pi-fw pi-briefcase', routerLink: ['/beneficios'],
             },
             {
-                label: 'Acreditaciones', icon: 'pi pi-fw pi-briefcase', routerLink: ['/acreditaciones'],
+                label: 'Acreditaciones', icon: 'pi pi-fw pi-briefcase',
+                items: [
+                    {label: 'ver acreditaciones', icon: 'pi pi-fw pi-id-card', routerLink: ['/acreditaciones']},
+                    {label: 'agregar cliente', icon: 'pi pi-fw pi-id-card', routerLink: ['/acreditacion_cliente']}
+                ]
             },
             {
                 label: 'Clientes', icon: 'pi pi-fw pi-briefcase', routerLink: ['/clientes'],

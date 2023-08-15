@@ -7,6 +7,7 @@ import {AppAccessdeniedComponent} from '../../pages/app.accessdenied.component';
 import { LoginComponent } from '../login/login.component';
 import { RolesComponent } from '../roles/roles.component';
 import { UsersComponent } from '../users/users.component';
+import { ClientAccreditationComponent } from '../clientAccreditations/clientAccreditations.component';
 import { LoginGuard } from '../auth/checkRolesGuard';
 import { createAccountComponent } from '../createAccount/createAccount.component';
 import { CheckLoginGuard } from '../auth/checkLoginGuard';
@@ -22,6 +23,7 @@ import { ClientComponent } from '../client/client.component';
                 path: '', component: AppMainComponent,
                 children: [
                     {path: '', component: UsersComponent, canActivate:[CheckLoginGuard]},
+					{path: 'acreditacion_cliente', component: ClientAccreditationComponent, canActivate:[CheckLoginGuard]},
                     {path: 'roles', component: RolesComponent, canActivate:[CheckLoginGuard]},
                     {path: 'eventos', component: EventEntityComponent, canActivate:[CheckLoginGuard]},
                     {path: 'beneficios', component: BenefitComponent, canActivate:[CheckLoginGuard]},

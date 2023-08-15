@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from './auth/auth.component';
+import { ClientAccreditationComponent } from './clientAccreditations/clientAccreditations.component';
 import { AppRoutingModule } from './routing/routing.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { LoginComponent } from './login/login.component';
@@ -52,6 +53,7 @@ import { ClientComponent } from './client/client.component';
         MultiSelectModule
     ],
   declarations: [
+		ClientAccreditationComponent,
     AuthComponent,
     LoginComponent,
     RolesComponent,
