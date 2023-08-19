@@ -5,6 +5,7 @@
     
     <div class="createAccount-topbar">
         <img class="logo" src="assets/demo/images/login/logo2.png" alt="bussiness logo"/>
+        <p-messages class="topbar-messages" [value]="msgs"></p-messages>
     </div>
     <div class="createAccount-image">
         <div class="createAccount-panel">
@@ -12,12 +13,23 @@
 
             <div class="p-col-12">
                 <div class="input-wrapper">
-                    <input [(ngModel)]="newUser.username" type="text" autocomplete="off" placeholder="Nombre de usuario" pInputText class="p-inputtext p-component p-element">
+                    <input
+                        [(ngModel)]="newUser.username"
+                        type="text" autocomplete="off"
+                        placeholder="Nombre de usuario"
+                        pInputText class="p-inputtext p-component p-element"
+                        (keyup.enter)="saveNewUser()">
                 </div>
             </div>
             <div class="p-col-12">
                 <div class="input-wrapper">
-                    <input [(ngModel)]="newUser.password" type="password" autocomplete="off" placeholder="Contraseña" pInputText class="p-inputtext p-component p-element">
+                    <input
+                        [(ngModel)]="newUser.password"
+                        type="password"
+                        autocomplete="off"
+                        placeholder="Contraseña"
+                        pInputText class="p-inputtext p-component p-element"
+                        (keyup.enter)="saveNewUser()">
                 </div>
             </div>
 
@@ -26,7 +38,7 @@
                     <span>Cancelar</span>
                 </a>
 
-                <button type="button" pButton class="p-element p-button p-component" (click)="saveNewUser()">
+                <button type="button" pButton class="p-element p-button p-component" (click)="saveNewUser()" [disabled]="!newUser.username || !newUser.password">
                     <span class="p-button-label" >Crear cuenta</span>
                 </button>
             </div>

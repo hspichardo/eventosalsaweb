@@ -5,25 +5,52 @@ import { User } from 'src/app/demo/interfaces/user';
 import { UserService } from 'src/app/demo/service/userService';
 import { AppRoutingModule } from '../routing/routing.component';
 import { Router } from '@angular/router';
+import { ConfirmationService, Message, MessageService } from 'primeng/api';
+import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
 
 @Component({
   selector: 'app-createAccount',
   templateUrl: './createAccount.component.html',
   styleUrls: ['./createAccount.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  providers: [MessageService, ConfirmationService]
+
 })
 export class createAccountComponent {
-  newUser : User
+  newUser : User;
+  msgs: Message[] = [];
+
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private messageService: MessageService){
+    this.newUser = {}
+  }
 
   saveNewUser() {
-    const newUserObserver: Observer<any> = {
-      next: (response: HttpResponse<any>) => {   
-        console.log(response.status)
+    const newUserObserver: Observer<any> =  {
+       next: async (response: HttpResponse<any>) => {   
+        console.log(response)
+        const responseData: ResponseData = response.body;
 
-        if (response.status == 201){
-          this.router.navigate(['login']);
+        if(responseData.status)
+        {
+          localStorage.setItem('access_token', response.body['access_token']);
+          
+          if (response.status == 201)
+          {
+            await this.messageService.add({ severity: 'success', summary: 'Éxito', detail: responseData.message, life: 3000 });
+            setTimeout(() => {
+              this.router.navigate(['login']);
+            }, 3500); 
+          }
+          return true;
+
         }
-        return true;
+        else
+        {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: responseData.message, life: 3000 });
+        }
+        return false;
       },
       error: (error: any) => {
           console.error(error);
@@ -34,12 +61,12 @@ export class createAccountComponent {
       }
     };
 
-    this.userService.newUser(this.newUser).subscribe(newUserObserver);
+    if( this.newUser.username && this.newUser.password)
+    {
+      this.userService.newUser(this.newUser).subscribe(newUserObserver);
+    }
   
   }
 
-  constructor(private userService: UserService, private router: Router){
-    this.newUser = {}
-  }
 }
 
