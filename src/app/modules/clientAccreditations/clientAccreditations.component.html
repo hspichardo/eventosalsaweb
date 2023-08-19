@@ -120,7 +120,7 @@
 
                 <div class="field">
                     <label for="quantity">Cantidad</label>
-                    <input type="number" pInputText id="quantity" [(ngModel)]="clientAccreditation.quantity"/>
+                    <input type="number" min="1" pInputText id="quantity" [(ngModel)]="clientAccreditation.quantity"/>
                 </div>
 
             </ng-template>
@@ -134,7 +134,7 @@
         <p-dialog [(visible)]="deleteClientAccreditationDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="clientAccreditation">Esta seguro que quiere eliminar al Acreditaciones contratadas <b>{{clientAccreditation.quantity}}</b>?</span>
+                <span *ngIf="clientAccreditation">Esta seguro que quiere eliminar al Acreditaciones contratadas <b>{{clientAccreditation.accreditation?.description}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteClientAccreditationDialog = false"></button>

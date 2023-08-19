@@ -130,7 +130,7 @@ export class ClientAccreditationComponent implements OnInit {
 
     openNew() {
         this.submitted = false;
-        this.clientAccreditation.quantity = 0;
+        this.clientAccreditation.quantity = 1;
         this.clientAccreditationDialog = true;
     }
 
@@ -231,7 +231,7 @@ export class ClientAccreditationComponent implements OnInit {
             complete: () => {
                 // Hide new clientAccreditation dialog
                 this.clientAccreditationDialog = false;
-                this.clientAccreditation = {};
+                this.clientAccreditation.accreditation = {};
                 return 0;
             }
         };
