@@ -62,8 +62,16 @@ export class ClientAccreditationComponent implements OnInit {
   
     getClientAccreditationsObserver: Observer<any> = {
         next: (response: ResponseData) => { 
-            console.log(response) 
-            this.clientAccreditations = response.data
+            if(response.status)
+            {
+                this.clientAccreditations.push( response.data)
+            }
+            else
+            {
+                console.log(response)
+                this.messageService.add({ severity: 'info', summary: 'Info', detail: "El usuario no posee acreditaciones", life: 3000 });
+                // this.messageService.add({ severity: 'error', summary: 'error', detail: response.message, life: 3000 });
+            }
         },
         error: (error: any) => {
             console.error(error);
@@ -76,6 +84,7 @@ export class ClientAccreditationComponent implements OnInit {
 
     ngOnInit() {
         this.clientAccreditation = {};
+        this.clientAccreditations = []
         this.accreditationEntities = [];
 
         const getClientsObserver: Observer<any> = {
@@ -112,9 +121,8 @@ export class ClientAccreditationComponent implements OnInit {
         
         this.cols = [
 			{ field: 'id', header: 'id' },
-			{ field: 'quantity', header: 'Cantidad' },
-			{ field: 'client', header: 'Cliente' },
 			{ field: 'accreditation', header: 'Acreditación' },
+			{ field: 'quantity', header: 'Cantidad' },
             { field: 'actions', header: 'Acciones' }
         ];
 
@@ -145,8 +153,9 @@ export class ClientAccreditationComponent implements OnInit {
     confirmDeleteSelected() {
         this.deleteClientAccreditationsDialog = false;
         this.clientAccreditations = this.clientAccreditations.filter(clientAccreditation => !this.selectedClientAccreditations.includes(clientAccreditation));
+
         if ( this.ClientAccreditationService.deleteClientAccreditations(this.selectedClientAccreditations) == 0 ){
-            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Acreditación relacionada eliminados', life: 3000 });
+            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Acreditaciones eliminadas', life: 3000 });
         }
         else{
             console.error("no se pudieron eliminar los Acreditación relacionada seleccionados")
@@ -172,6 +181,7 @@ export class ClientAccreditationComponent implements OnInit {
             complete: () => {
                 // Hide clientAccreditation dialog
                 this.deleteClientAccreditationDialog = false;
+                this.clientAccreditation.accreditation = {};
                 return 0;
             }
         };
@@ -192,18 +202,26 @@ export class ClientAccreditationComponent implements OnInit {
 
         const saveClientAccreditationObserver: Observer<any> = {
             next: (response: ResponseData) => {
-                console.log(response)
-                // Update ClientAccreditations array to refresh table
-                const newClientAccreditation: ClientAccreditation = response.data;
-                const oldClientAccreditationIndex = this.clientAccreditations.findIndex(r => r.id == newClientAccreditation.id);
-                if (oldClientAccreditationIndex != -1)  {
-                    this.clientAccreditations[oldClientAccreditationIndex] = newClientAccreditation
+
+                if(response.status)
+                {
+                    // Update ClientAccreditations array to refresh table
+                    const newClientAccreditation: ClientAccreditation = response.data;
+                    const oldClientAccreditationIndex = this.clientAccreditations.findIndex(r => r.id == newClientAccreditation.id);
+                    if (oldClientAccreditationIndex != -1)  {
+                        this.clientAccreditations[oldClientAccreditationIndex] = newClientAccreditation
+                    }
+                    else {
+                        this.clientAccreditations = [...this.clientAccreditations, newClientAccreditation]
+                    }
+                    // UI successful message
+                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'accion completada', life: 3000 });
                 }
-                else {
-                    this.clientAccreditations = [...this.clientAccreditations, newClientAccreditation]
+                else
+                {
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
                 }
-                // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'accion completada', life: 3000 });
+
             },
             error: (error: any) => {
                 console.error(error);
@@ -218,13 +236,18 @@ export class ClientAccreditationComponent implements OnInit {
             }
         };
 
-        if (this.clientAccreditation.quantity) {
-            if (this.clientAccreditation.id) {
-                this.ClientAccreditationService.updateClientAccreditation(this.clientAccreditation).subscribe(saveClientAccreditationObserver)
-            }
-            else {
-                this.ClientAccreditationService.newClientAccreditation(this.clientAccreditation).subscribe(saveClientAccreditationObserver)
-            }
+        console.log(this.clientAccreditation)
+        if(this.clientAccreditation.accreditation)
+        {
+            
+            this.ClientAccreditationService.newClientAccreditation(this.clientAccreditation).subscribe(saveClientAccreditationObserver)
+
+            // if (this.clientAccreditation.id) {
+            //     this.ClientAccreditationService.updateClientAccreditation(this.clientAccreditation).subscribe(saveClientAccreditationObserver)
+            // }
+            // else {
+            //     this.ClientAccreditationService.newClientAccreditation(this.clientAccreditation).subscribe(saveClientAccreditationObserver)
+            // }
         }
 
     }
@@ -235,9 +258,9 @@ export class ClientAccreditationComponent implements OnInit {
 
     //[(ngModel)] directive not working 
     updateClientAcreditationTable(event) {
+        console.log(event.value)
         this.clientAccreditation.client = event.value
-        this.ClientAccreditationService.getClientAccreditations().subscribe(this.getClientAccreditationsObserver);
-        // this.ClientAccreditationService.getClientAccreditationByClient(this.clientAccreditation.client).subscribe(this.getClientAccreditationsObserver);
+        this.ClientAccreditationService.getClientAccreditationByClient(this.clientAccreditation.client).subscribe(this.getClientAccreditationsObserver);
     }
 
     //[(ngModel)] directive not working 

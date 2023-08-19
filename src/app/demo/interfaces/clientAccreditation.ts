@@ -6,5 +6,6 @@ export interface ClientAccreditation {
 	quantity?: number;
 	client?: Client;
 	accreditation?: Accreditation;
+	formsGenerated?: boolean;
 
 }

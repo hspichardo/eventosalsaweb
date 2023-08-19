@@ -55,7 +55,7 @@ export class clientAccreditationService {
         }
 
         for (let i = 0; i < clientAccreditations.length; i++) {
-            this.http.delete<ResponseData>('http://localhost:3000/clientAccreditations/'+ clientAccreditations[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('http://localhost:3000/client_accreditation/'+ clientAccreditations[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted clientAccreditation and report
         return 0;
