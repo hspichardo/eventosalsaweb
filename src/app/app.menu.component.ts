@@ -29,8 +29,8 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Beneficios', icon: 'pi pi-fw pi-briefcase',
                 items: [
-                    {label: 'ver beneficios', icon: 'pi pi-fw pi-briefcase', routerLink: ['/beneficios']},
-                    {label: 'Asignar a acreditación', icon: 'pi pi-fw pi-briefcase',  routerLink: ['/asignar_beneficios']}
+                    {label: 'Listar beneficios', icon: 'pi pi-fw pi-briefcase', routerLink: ['/beneficios']},
+                    {label: 'Asignar en acreditación', icon: 'pi pi-fw pi-briefcase',  routerLink: ['/asignar_beneficios']}
                 ]
             },
             {
