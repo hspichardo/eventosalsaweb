@@ -109,18 +109,6 @@
                     <label for="description">Descripción</label>
                     <textarea id="description" pInputTextarea [(ngModel)]="accreditation.description" required rows="3" cols="20"></textarea>
                 </div>
-                <div class="field">
-                    <label for="password">Roles</label>
-                    <br>
-                    <p-multiSelect  
-                        style="z-index:5; position:absolute; min-width: 200px; width: 90%" 
-                        [options]="updateAccreditationDialogFlag? selectedBenefits : allBenefits" 
-                        [(ngModel)]="accreditation.benefits" 
-                        optionLabel="description" 
-                        optionValue="" 
-                        display="chip">
-                    </p-multiSelect>
-                </div>
 
             </ng-template>
 

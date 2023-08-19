@@ -31,6 +31,7 @@ import { EventEntityComponent } from './eventEntities/eventEntity.component';
 import { BenefitComponent } from './benefits/benefits.component';
 import { AccreditationComponent } from './accreditations/accreditations.component';
 import { ClientComponent } from './client/client.component';
+import { AppendBenefitsComponent } from './benefits/appendBenefits/appendBenefits.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -62,7 +63,8 @@ import { ClientComponent } from './client/client.component';
     AccreditationComponent,
     UsersComponent,
     createAccountComponent,
-    ClientComponent
+    ClientComponent,
+    AppendBenefitsComponent
   ],
   exports:[
   ],

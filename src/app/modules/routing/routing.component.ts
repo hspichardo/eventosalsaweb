@@ -16,6 +16,7 @@ import { BenefitComponent } from '../benefits/benefits.component';
 import { AccreditationComponent } from '../accreditations/accreditations.component';
 import { ClientComponent } from '../client/client.component';
 import { FormComponent } from '../form/form.component';
+import { AppendBenefitsComponent } from '../benefits/appendBenefits/appendBenefits.component';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { FormComponent } from '../form/form.component';
                     {path: 'roles', component: RolesComponent, canActivate:[CheckLoginGuard]},
                     {path: 'eventos', component: EventEntityComponent, canActivate:[CheckLoginGuard]},
                     {path: 'beneficios', component: BenefitComponent, canActivate:[CheckLoginGuard]},
+					{path: 'asignar_beneficios', component: AppendBenefitsComponent, canActivate:[CheckLoginGuard]},
                     {path: 'acreditaciones', component: AccreditationComponent, canActivate:[CheckLoginGuard]},
                     {path: 'clientes', component: ClientComponent, canActivate:[CheckLoginGuard]},
                 ]

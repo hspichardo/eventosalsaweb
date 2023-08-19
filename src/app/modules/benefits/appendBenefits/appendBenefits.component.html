@@ -1,11 +1,22 @@
 <div class="grid">
     <div class="col-12">
         <div class="card px-6 py-6">
+            <h4 *ngIf="!selectedAccreditation">Escoga una acreditación</h4>
+            <h4 *ngIf="selectedAccreditation">Mostrando beneficios de la acreditación seleccionada:</h4>
+            <p-dropdown 
+                [options]="accreditations" 
+                [(ngModel)]="selectedAccreditation" 
+                placeholder="Seleccione una acreditación"
+                optionLabel= "description" 
+                (onChange)="updateBenefitsTable($event)"/>
+
+        </div>
+        <div class="card px-6 py-6">
             <p-toast></p-toast>
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="Agregar beneficio" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()" [disabled]="!selectedAccreditation"></button>
                         <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedEntities()" [disabled]="!selectedEntities || !selectedEntities.length"></button>
                     </div>
                 </ng-template>
@@ -71,7 +82,6 @@
 
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEntity(benefit)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEntity(benefit)"></button>
                             </div>
                         </td>
@@ -81,23 +91,65 @@
         </div>
 
 
-        <p-dialog [(visible)]="entityDialog" [style]="{width: '450px'}" header="Detalles del Beneficio" [modal]="true" class="p-fluid">
-            <ng-template pTemplate="content">
-                <div class="field">
-                    <label for="quantity">Cantidad</label>
-                    <input type="number" pInputText id="quantity" [(ngModel)]="benefit.quantity" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !benefit.quantity}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !benefit.quantity">Debe poner una cantidad</small>
-                </div>
-                <div class="field">
-                    <label for="description">Descripción</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="benefit.description" required rows="3" cols="20"></textarea>
-                </div>
+        <p-dialog [(visible)]="entityDialog" [style]="{width: '75%', display:'flex'}" header="Asignación de beneficio" [modal]="true" class="p-fluid">
 
+            <ng-template pTemplate="content">
+                <p-table #newBenefitTable 
+                [value]="benefits" 
+                [columns]="cols_newBenefit" 
+                responsiveLayout="scroll" 
+                [rows]="10" 
+                [globalFilterFields]="['name','country.name','representative.name','status']" 
+                [paginator]="true" 
+                [rowsPerPageOptions]="[10,20,30]" 
+                [showCurrentPageReport]="true" 
+                currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas" 
+                [(selection)]="selectedAccreditation.benefits" 
+                selectionMode="multiple" 
+                [rowHover]="true" 
+                dataKey="id">
+                
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(newBenefitTable, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th *ngFor="let col of columns" pSortableColumn={{col.field}}>
+                            {{ col.header }}
+                            <p-sortIcon field={{col.field}}></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-benefit>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="benefit"></p-tableCheckbox>
+                        </td>
+                        <td style="min-width:10rem;">
+                            <span class="p-column-title">Descripción</span>
+                            {{ benefit.description }}
+                        </td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+                
             </ng-template>
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveEntity()"></button>
+                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveEntity()" [disabled]="!selectedAccreditation.benefits"></button>
             </ng-template>
         </p-dialog>
 

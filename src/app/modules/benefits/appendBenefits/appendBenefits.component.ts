@@ -1,19 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {BreadcrumbService} from "../../app.breadcrumb.service";
+import {BreadcrumbService} from "../../../app.breadcrumb.service";
 import { Observer } from 'rxjs';
 import { Table } from 'primeng/table';
 import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
 import { Benefit } from 'src/app/demo/interfaces/benefit';
 import { BenefitService } from 'src/app/demo/service/benefitService';
+import { Accreditation } from 'src/app/demo/interfaces/accreditation';
+import { AccreditationService } from 'src/app/demo/service/accreditationService';
 
 
 @Component({
-    templateUrl: './benefits.component.html',
+    templateUrl: './appendBenefits.component.html',
     providers: [MessageService, ConfirmationService],
-    styleUrls: ['./benefits.component.scss']
+    styleUrls: ['./appendBenefits.component.scss']
 })
-export class BenefitComponent implements OnInit {
+export class AppendBenefitsComponent implements OnInit {
 
     entityDialog: boolean;
 
@@ -23,14 +25,22 @@ export class BenefitComponent implements OnInit {
     deleteEventDialog: boolean = false;
 
     benefits: Benefit[];
-
+    allBenefits: Benefit[];
+    newPossibleBenefits: Benefit[];
+    selectedNewBenefit: Benefit;
+    
     benefit: Benefit;
-
+    
     selectedEntities: Benefit[];
-
+    
     submitted: boolean;
-
+    
     cols: any[];
+    cols_newBenefit: any[];
+    
+    selectedAccreditation: Accreditation;
+
+    accreditations: Accreditation[];
 
 
     rowsPerPageOptions = [5, 10, 20];
@@ -39,7 +49,8 @@ export class BenefitComponent implements OnInit {
 
     constructor(private messageService: MessageService,
                 private breadcrumbService: BreadcrumbService,
-                private benefitService: BenefitService) {
+                private benefitService: BenefitService,
+                private accreditationService: AccreditationService) {
 
         this.breadcrumbService.setItems([
             {label: 'Beneficios'}
@@ -47,12 +58,24 @@ export class BenefitComponent implements OnInit {
 
     }
   
+    getBenefitsObserver: Observer<any> = {
+        next: (response: ResponseData) => {  
+            this.benefits = response.data
+        },
+        error: (error: any) => {
+            console.error(error);
+            return 1;
+        },
+        complete: () => {
+            return 0;
+        }
+    };
+
     ngOnInit() {
 
-
-        const getEntitiesObserver: Observer<any> = {
+        const getAccreditationsObserver: Observer<any> = {
             next: (response: ResponseData) => {  
-                this.benefits = response.data
+                this.accreditations = response.data
             },
             error: (error: any) => {
                 console.error(error);
@@ -63,6 +86,21 @@ export class BenefitComponent implements OnInit {
             }
         };
 
+        const getEntitiesObserver: Observer<any> = {
+            next: (response: ResponseData) => {  
+                this.allBenefits = response.data
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                return 0;
+            }
+        };
+
+        this.accreditationService.getAccreditations().subscribe(getAccreditationsObserver);
+        
         this.benefitService.getBenefits().subscribe(getEntitiesObserver);
         
         
@@ -70,6 +108,10 @@ export class BenefitComponent implements OnInit {
             { field: 'description', header: 'Descripción' },
             { field: 'quantity', header: 'Cupos asignables' },
             { field: 'actions', header: 'Acciones' },
+        ];
+
+        this.cols_newBenefit = [
+            { field: 'description', header: 'Beneficios asignables' }
         ];
 
     }
@@ -140,54 +182,54 @@ export class BenefitComponent implements OnInit {
         this.submitted = false;
     }
 
+    updateAccreditationObserver: Observer<any> = {
+        next: (response: ResponseData) => {
+            // Update benefit array to refresh table
+            const newBenefit: Benefit = response.data;
+            console.log(response)
+            // const oldBenefitIndex = this.benefits.findIndex(r => r.id == newBenefit.id);
+            // if (oldBenefitIndex != -1)  {
+            //     this.benefits[oldBenefitIndex] = newBenefit
+            //     console.log(oldBenefitIndex)
+            // }
+            // else {
+            //     this.benefits = [...this.benefits, newBenefit]
+            // }
+            // UI successful message
+            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'acción completada', life: 3000 });
+        },
+        error: (error: any) => {
+            console.error(error);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
+            return 1;
+        },
+        complete: () => {
+            // Hide new entity dialog
+            this.entityDialog = false;
+            return 0;
+        }
+    };
+
     /**
      * Use benefitService.updateEntity tu update/create a event
      */
     saveEntity() {
-        this.submitted = true;
-
-        const saveEntityObserver: Observer<any> = {
-            next: (response: ResponseData) => {
-                // Update benefit array to refresh table
-                const newBenefit: Benefit = response.data;
-                console.log(newBenefit)
-                const oldBenefitIndex = this.benefits.findIndex(r => r.id == newBenefit.id);
-                if (oldBenefitIndex != -1)  {
-                    this.benefits[oldBenefitIndex] = newBenefit
-                    console.log(oldBenefitIndex)
-                }
-                else {
-                    this.benefits = [...this.benefits, newBenefit]
-                }
-                // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'acción completada', life: 3000 });
-            },
-            error: (error: any) => {
-                console.error(error);
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
-                return 1;
-            },
-            complete: () => {
-                // Hide new entity dialog
-                this.entityDialog = false;
-                this.benefit = {quantity:0};
-                return 0;
-            }
-        };
-
-        if (this.benefit.description?.trim()) {
-            this.submitted = false;
-            if (this.benefit.id) {
-                this.benefitService.updateBenefit(this.benefit).subscribe(saveEntityObserver)
-            }
-            else {
-                this.benefitService.newBenefit(this.benefit).subscribe(saveEntityObserver)
-            }
-        }
-
+        this.accreditationService.updateAccreditation(this.selectedAccreditation).subscribe(this.updateAccreditationObserver)
     }
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
+
+    //[(ngModel)] directive not working 
+    updateBenefitsTable(event) {
+        // this.accreditation.client = event.value
+        this.benefitService.getBenefits().subscribe(this.getBenefitsObserver);
+    }
+
+    //[(ngModel)] directive not working 
+    updateSelectedAcreditation(event) {
+        // this.clientAccreditation.accreditation = event.value
+    }
+
 }
