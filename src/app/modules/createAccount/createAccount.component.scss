@@ -22,18 +22,18 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2872B4", endColorstr="#26BED0", gradientType="1");
     text-align: center;
     position: fixed;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
 }
-.createAccount-body .createAccount-topbar .logo {
-    height: 60px;
-    top: 20px;
-    position: relative;
-}
-.createAccount-body .createAccount-topbar .logo img {
-    height: 14px;
+
+.createAccount-body .createAccount-topbar img.logo  {
+    height: 75%;
     width: auto;
-    vertical-align: middle;
-    border: 0 none;
+    margin: auto 0;
 }
+
 .createAccount-body .createAccount-panel {
     padding: 70px 36px;
     position: relative;
@@ -45,7 +45,7 @@
     top: 30%;
 }
 .createAccount-body .createAccount-panel img {
-    height: 28px;
+    height: 30%;
     width: auto;
     margin-bottom: 54px;
 }

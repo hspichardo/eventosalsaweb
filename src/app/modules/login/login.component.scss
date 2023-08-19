@@ -22,17 +22,15 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2872B4", endColorstr="#26BED0", gradientType="1");
     text-align: center;
     position: fixed;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
-.login-body .login-topbar .logo {
-    height: 60px;
-    top: 20px;
-    position: relative;
-}
-.login-body .login-topbar .logo img {
-    height: 14px;
+
+.login-body .login-topbar img.logotopbar  {
+    height: 75%;
     width: auto;
-    vertical-align: middle;
-    border: 0 none;
+    margin: auto 0;
 }
 .login-body .login-panel {
     padding: 70px 36px;
@@ -45,7 +43,7 @@
     top: 30%;
 }
 .login-body .login-panel img {
-    height: 60px;
+    height: 30%;
     width: auto;
     margin-bottom: 54px;
 }
@@ -73,7 +71,7 @@
     width: 100%;
     background-color: #E2E2E2;
     display: inline-block;
-    margin: 25px 0;
+    margin: 10px 0;
 }
 .login-body .login-panel .subinfo {
     text-decoration: none;
