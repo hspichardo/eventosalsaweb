@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from './auth/auth.component';
+import { FormPersonComponent } from './formPersons/formPersons.component';
 import { ClientAccreditationComponent } from './clientAccreditations/clientAccreditations.component';
 import { AppRoutingModule } from './routing/routing.component';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -54,6 +55,7 @@ import { AppendBenefitsComponent } from './benefits/appendBenefits/appendBenefit
         MultiSelectModule
     ],
   declarations: [
+		FormPersonComponent,
 		ClientAccreditationComponent,
     AuthComponent,
     LoginComponent,

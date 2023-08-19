@@ -40,7 +40,8 @@ export class AppMenuComponent implements OnInit {
                 label: 'Clientes', icon: 'pi pi-fw pi-briefcase',
                 items: [
                     {label: 'ver clientes', icon: 'pi pi-fw pi-id-card', routerLink: ['/clientes']},
-                    {label: 'Asignar acreditación', icon: 'pi pi-fw pi-id-card', routerLink: ['/acreditacion_cliente']}
+                    {label: 'Asignar acreditación', icon: 'pi pi-fw pi-id-card', routerLink: ['/acreditacion_cliente']},
+                    {label: 'Formulario de personas', icon: 'pi pi-fw pi-id-card', routerLink: ['/formulario_personas']}
                 ]
             }
         ];
