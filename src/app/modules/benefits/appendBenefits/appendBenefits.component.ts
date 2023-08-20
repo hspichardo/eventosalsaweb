@@ -24,7 +24,7 @@ export class AppendBenefitsComponent implements OnInit {
 
     deleteEventDialog: boolean = false;
 
-    benefits: Benefit[];
+    listedBenefits: Benefit[];
     allBenefits: Benefit[];
     newPossibleBenefits: Benefit[];
     selectedNewBenefit: Benefit;
@@ -53,14 +53,22 @@ export class AppendBenefitsComponent implements OnInit {
                 private accreditationService: AccreditationService) {
 
         this.breadcrumbService.setItems([
-            {label: 'Beneficios'}
+            {label: 'Asignar beneficios'}
         ]);
 
     }
   
     getBenefitsObserver: Observer<any> = {
         next: (response: ResponseData) => {  
-            this.benefits = response.data
+            if (response.status)
+            {
+                this.selectedAccreditation.benefits = response.data.benefits;
+                this.listedBenefits = response.data.benefits;
+            }
+            else
+            {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
+            }
         },
         error: (error: any) => {
             console.error(error);
@@ -72,6 +80,9 @@ export class AppendBenefitsComponent implements OnInit {
     };
 
     ngOnInit() {
+
+        this.selectedAccreditation = {benefits:[]}
+        this.listedBenefits = [];
 
         const getAccreditationsObserver: Observer<any> = {
             next: (response: ResponseData) => {  
@@ -141,40 +152,28 @@ export class AppendBenefitsComponent implements OnInit {
     }
 
     confirmDeleteSelected() {
+
+        // removing benefit
+        const benefitsFiltered = this.listedBenefits.filter(benefit => !this.selectedEntities.includes(benefit));
+        this.selectedAccreditation.benefits =  benefitsFiltered;
+
+        this.saveEntity()
         this.deleteEntitiesDialog = false;
-        this.benefits = this.benefits.filter(event => !this.selectedEntities.includes(event));
-        if ( this.benefitService.deleteBenefits(this.selectedEntities) == 0 ){
-            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Eventos eliminados', life: 3000 });
-        }
-        else{
-            console.error("no se pudieron eliminar los eventos seleccionados")
-        }
-        this.selectedEntities = [];
     }
 
     /**
      * Use benefitService to delete this.event assign on deletBenefit method
      */
     confirmDelete() {
-        const deleteEntityObserver: Observer<any> = {
-            next: (value: string) => {
-                // Update event array to refresh table
-                this.benefits = this.benefits.filter(val => val.id !== this.benefit.id);
-                // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Beneficio eliminado', life: 3000 });
-            },
-            error: (error: any) => {
-                console.error(error);
-                return 1;
-            },
-            complete: () => {
-                // Hide entity dialog
-                this.deleteEntityDialog = false;
-                return 0;
-            }
-        };
+        
+        // removing benefit
+        const benefitsFiltered = this.selectedAccreditation.benefits.filter( (benefit) => benefit.id != this.benefit.id)
+        this.selectedAccreditation.benefits =  benefitsFiltered;
 
-        this.benefitService.deleteBenefit(this.benefit).subscribe(deleteEntityObserver)
+        this.saveEntity()
+
+        this.deleteEntityDialog = false;
+
     }
 
     hideDialog() {
@@ -184,19 +183,18 @@ export class AppendBenefitsComponent implements OnInit {
 
     updateAccreditationObserver: Observer<any> = {
         next: (response: ResponseData) => {
-            // Update benefit array to refresh table
-            const newBenefit: Benefit = response.data;
-            console.log(response)
-            // const oldBenefitIndex = this.benefits.findIndex(r => r.id == newBenefit.id);
-            // if (oldBenefitIndex != -1)  {
-            //     this.benefits[oldBenefitIndex] = newBenefit
-            //     console.log(oldBenefitIndex)
-            // }
-            // else {
-            //     this.benefits = [...this.benefits, newBenefit]
-            // }
-            // UI successful message
-            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'acción completada', life: 3000 });
+            if (response.code == 200)
+            {
+                // Update benefit array to refresh table
+                this.selectedAccreditation.benefits = response.data.benefits;
+                this.listedBenefits = response.data.benefits;
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: "Acreditación actualizada", life: 3000 });
+            }
+            else
+            {
+                console.error(response.message);
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
+            }
         },
         error: (error: any) => {
             console.error(error);
@@ -223,8 +221,8 @@ export class AppendBenefitsComponent implements OnInit {
 
     //[(ngModel)] directive not working 
     updateBenefitsTable(event) {
-        // this.accreditation.client = event.value
-        this.benefitService.getBenefits().subscribe(this.getBenefitsObserver);
+        this.selectedAccreditation = event.value;
+        this.accreditationService.getAccreditation(this.selectedAccreditation).subscribe(this.getBenefitsObserver);
     }
 
     //[(ngModel)] directive not working 
