@@ -33,6 +33,7 @@ import { BenefitComponent } from './benefits/benefits.component';
 import { AccreditationComponent } from './accreditations/accreditations.component';
 import { ClientComponent } from './client/client.component';
 import { AppendBenefitsComponent } from './benefits/appendBenefits/appendBenefits.component';
+import { TooltipModule } from 'primeng/tooltip';
 @NgModule({
     imports: [
         CommonModule,
@@ -52,7 +53,8 @@ import { AppendBenefitsComponent } from './benefits/appendBenefits/appendBenefit
         RadioButtonModule,
         InputNumberModule,
         PanelModule,
-        MultiSelectModule
+        MultiSelectModule,
+        TooltipModule
     ],
   declarations: [
 		FormPersonComponent,

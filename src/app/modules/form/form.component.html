@@ -1,8 +1,7 @@
 <div class="exception-body">
-    <div class="exception-topbar">
-        <a href="#"  class="logo">
-            <img src="assets/layout/images/ecuador-logo.png" alt="ecuador-layout"/>
-        </a>
+    <div class="exception-topbar form-topbar">
+        <img class="logotopbar" src="assets/demo/images/login/logo2.png" alt="ecuador-layout"/>
+        <p-messages class="topbar-messages" [value]="msgs"></p-messages>
     </div>
 
     <div class="form-body">
@@ -18,26 +17,124 @@
         <div class="grid">
             <div class="col-12">
                 <div class="card card-item">
-                    <label htmlFor="name">Nombre Completo</label>
-                    <input pInputText id="name" [(ngModel)]="name" />
-                    <small class="empty-warning" *ngIf="false">Debe poner un nombre</small>
-                </div>
-            </div>
-    
-        </div>
-    
-        <div class="grid">
-            <div class="col-12">
-                <div class="card card-item">
                     <label htmlFor="identification">Identificación</label>
-                    <input pInputText id="identification" [(ngModel)]="identification" />
+                    <input pInputText id="identification" [(ngModel)]="person.identification" />
                     <small class="empty-warning" *ngIf="false">Debe poner una identificación</small>
                 </div>
             </div>
         </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="names">Nombres</label>
+                    <input pInputText id="names" [(ngModel)]="person.names" />
+                    <small class="empty-warning" *ngIf="false">Debe poner sus nombres</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="surnames">Apellidos</label>
+                    <input pInputText id="surnames" [(ngModel)]="person.surnames" />
+                    <small class="empty-warning" *ngIf="false">Debe poner sus apellidos</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="province">Provincia</label>
+                    <p-dropdown 
+                        id="province"
+                        [options]="provinces" 
+                        [(ngModel)]="person.province"
+                        [showClear]="true"
+                        placeholder="Escoga una provincia">
+                    </p-dropdown>
+                    <small class="empty-warning" *ngIf="false">Debe poner sus apellidos</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="canton">Cantón</label>
+                    <p-dropdown 
+                        id="canton"
+                        [options]="cantons" 
+                        [(ngModel)]="person.canton"
+                        [showClear]="true"
+                        placeholder="Escoga un cantón">
+                    </p-dropdown>
+                    <small class="empty-warning" *ngIf="false">Debe escoger un cantón</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="position">Indicar posisión que ocupa</label>
+                    <p-dropdown 
+                        id="position"
+                        [options]="charges" 
+                        [(ngModel)]="person.position"
+                        [showClear]="true"
+                        [editable]="true" 
+                        placeholder="llene con un cargo">
+                    </p-dropdown>
+                    <small class="empty-warning" *ngIf="false">Debe llenar con un cargo</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="institution">Institucion o empresa a la que pertenece</label>
+                    <input pInputText id="institution" [(ngModel)]="person.institution" />
+                    <small class="empty-warning" *ngIf="false">Debe poner indicar alguna entidad</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="phone_number">Número de Whatsapp</label>
+                    <input pInputText id="phone_number" [(ngModel)]="person.phone_number" />
+                    <small class="empty-warning" *ngIf="false">Debe poner un número celular</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="email">Correo electrónico</label>
+                    <input pInputText id="email" [(ngModel)]="person.email" />
+                    <small class="empty-warning" *ngIf="false">Debe poner un correo electrónico</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="ticket_given_means">Recibió la entrada a travéz de: </label>
+                    <p-dropdown 
+                        id="ticket_given_means"
+                        [options]="ticket_given_means_options" 
+                        [(ngModel)]="person.ticket_given_means"
+                        [showClear]="true"
+                        [editable]="true" 
+                        placeholder="Indique como recibió su entrada">
+                    </p-dropdown>
+                    <small class="empty-warning" *ngIf="false">Debe indicar algún método</small>
+                </div>
+            </div>
+        </div>
+    
+
 
         <div class="form-footer">
-            <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-text"></button>
+            <button pButton pRipple label="Enviar respuesta" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
         </div>
     </div>
     

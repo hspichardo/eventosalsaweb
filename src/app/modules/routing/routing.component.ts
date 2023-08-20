@@ -18,6 +18,7 @@ import { AccreditationComponent } from '../accreditations/accreditations.compone
 import { ClientComponent } from '../client/client.component';
 import { FormComponent } from '../form/form.component';
 import { AppendBenefitsComponent } from '../benefits/appendBenefits/appendBenefits.component';
+import { SuccessRegisterComponent } from '../successRegister/successRegister.component';
 
 @NgModule({
     imports: [
@@ -41,6 +42,7 @@ import { AppendBenefitsComponent } from '../benefits/appendBenefits/appendBenefi
             {path: 'error', component: AppErrorComponent},
             {path: 'access', component: AppAccessdeniedComponent},
             {path: 'notfound', component: AppNotfoundComponent},
+            {path: 'registro_exitoso', component: SuccessRegisterComponent},
             {path: 'login', component: LoginComponent},
             {path: '**', redirectTo: '/notfound'},
         ], {scrollPositionRestoration: 'enabled'})

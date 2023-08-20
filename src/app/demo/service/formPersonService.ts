@@ -11,28 +11,9 @@ export class formPersonService {
     constructor(private http: HttpClient) { }
 
     
-    getResponseObservable: Observable<ResponseData> = new Observable<ResponseData>(subscriber => {
-        const getResponse : ResponseData = {
-            data: [
-                {
-                    id: 1, counter: 5, key: "string"
-                },
-                {
-                    id: 2, counter: 2, key: "string2"
-                },
-            ],
-            message: "string",
-            code: 200,
-            status: true
-        }
-
-        subscriber.next(getResponse);
-        subscriber.complete();
-      });
 
     getFormPersons(): Observable<ResponseData> {
-        return this.getResponseObservable;
-        // return this.http.get<ResponseData>('http://localhost:3000/registration_form');
+        return this.http.get<ResponseData>('http://localhost:3000/registration_form');
     }
 
     getFormPerson(formPerson: FormPerson): Observable<ResponseData> {

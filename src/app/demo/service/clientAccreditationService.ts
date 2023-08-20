@@ -11,6 +11,9 @@ export class clientAccreditationService {
 
     constructor(private http: HttpClient) { }
 
+    generateFormsByClient(client: Client): Observable<ResponseData> {
+        return this.http.post<ResponseData>('http://localhost:3000/client_accreditation/registration_form', {id:client.id})
+    }
 
     getClientAccreditations(): Observable<ResponseData> {
         return this.http.get<ResponseData>('http://localhost:3000/client_accreditation');

@@ -8,6 +8,8 @@ import { formPersonService } from 'src/app/demo/service/formPersonService';
 import { FormPerson } from 'src/app/demo/interfaces/formPerson';
 import { Client } from 'src/app/demo/interfaces/client';
 import { ClientsService } from 'src/app/demo/service/clientService';
+import { clientAccreditationService } from 'src/app/demo/service/clientAccreditationService';
+import { ClientAccreditation } from 'src/app/demo/interfaces/clientAccreditation';
 
 
 @Component({
@@ -29,6 +31,8 @@ export class FormPersonComponent implements OnInit {
 
     selectedFormPersons: FormPerson[];
 
+    clientAccreditations: ClientAccreditation[];
+
     submitted: boolean;
 
     cols: any[];
@@ -45,7 +49,9 @@ export class FormPersonComponent implements OnInit {
     constructor(private messageService: MessageService,
                 private breadcrumbService: BreadcrumbService,
                 private FormPersonService: formPersonService,
-                private clientsService:ClientsService) {
+                private clientsService:ClientsService,
+                private ClientAccreditationService: clientAccreditationService,
+                ) {
 
         this.breadcrumbService.setItems([
             {label: 'Formulario de Personas'}
@@ -53,22 +59,12 @@ export class FormPersonComponent implements OnInit {
 
     }
     
-    getFormPersonsObserver: Observer<any> = {
-        next: (response: ResponseData) => {  
-            console.log(response)
-            this.formPersons = response.data
-        },
-        error: (error: any) => {
-            console.error(error);
-            return 1;
-        },
-        complete: () => {
-            return 0;
-        }
-    };
 
     ngOnInit() {
 
+        this.clientAccreditations = [
+            {formsGenerated:true}
+        ];
 
 
         const getClientsObserver: Observer<any> = {
@@ -91,10 +87,8 @@ export class FormPersonComponent implements OnInit {
         
         
         this.cols = [
-			{ field: 'id', header: 'Id' },
-			{ field: 'person', header: 'Persona' },
-			{ field: 'counter', header: 'Contador' },
 			{ field: 'benefit', header: 'Beneficio' },
+			{ field: 'counter', header: 'Cupos disponibles' },
             { field: 'actions', header: 'Acciones' }
         ];
 
@@ -212,9 +206,107 @@ export class FormPersonComponent implements OnInit {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
+
+    getClientFormsObserver: Observer<any> = {
+        next: (response: ResponseData) => { 
+            console.log(response)
+            if(response.status)
+            {
+                this.formPersons = response.data;
+            }
+            else
+            {
+                this.messageService.add({ severity: 'info', summary: 'Info', detail: "El usuario no posee acreditaciones", life: 3000 });
+                // this.messageService.add({ severity: 'error', summary: 'error', detail: response.message, life: 3000 });
+            }
+        },
+        error: (error: any) => {
+            console.error(error);
+            return 1;
+        },
+        complete: () => {
+            return 0;
+        }
+    };
+
+    getClientAccreditationsObserver: Observer<any> = {
+        next: (response: ResponseData) => { 
+
+            if(response.status)
+            {
+                this.clientAccreditations = []
+                this.clientAccreditations.push( response.data)
+
+                if (this.clientAccreditations[0].formsGenerated)
+                {
+                    this.FormPersonService.getFormPersons().subscribe(this.getClientFormsObserver)
+                }
+            }
+            else
+            {
+                this.formPersons = [];
+                this.clientAccreditations = [
+                    {formsGenerated:true}
+                ];
+                this.messageService.add({ severity: 'info', summary: 'Info', detail: "El usuario no posee acreditaciones", life: 3000 });
+                // this.messageService.add({ severity: 'error', summary: 'error', detail: response.message, life: 3000 });
+            }
+        },
+        error: (error: any) => {
+            console.error(error);
+            return 1;
+        },
+        complete: () => {
+            return 0;
+        }
+    };
+
     updateFormTable(event) {
-        // this.formPerson.client = event.value
-        this.FormPersonService.getFormPersons().subscribe(this.getFormPersonsObserver);
-        // this.ClientAccreditationService.getClientAccreditationByClient(this.clientAccreditation.client).subscribe(this.getClientAccreditationsObserver);
+        this.selectedClientEntity = event.value
+        this.ClientAccreditationService.getClientAccreditationByClient(this.selectedClientEntity).subscribe(this.getClientAccreditationsObserver);
     }
+
+    generateForms() {
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: "Se están generando los formularios", life: 3000 });
+
+        const generateFormsObserver: Observer<any> = {
+            next: (response: ResponseData) => { 
+                if(response.status)
+                {
+                    this.formPersons = response.data;
+                    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: "Formularios creados exitosamente", life: 3000 });
+                }
+                else
+                {
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
+                }
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                return 0;
+            }
+        };
+        
+        this.ClientAccreditationService.generateFormsByClient(this.selectedClientEntity).subscribe(generateFormsObserver);
+    }
+
+    copyFormLink(formPerson) {
+        console.log(formPerson)
+        this.copyTextOnClipboard('http://localhost:4200/#/form/' + formPerson.key)
+    }
+
+    copyTextOnClipboard = async (text: string): Promise<void> => {
+        try {
+            await navigator.clipboard.writeText(text);
+            this.messageService.add({ severity: 'info', summary: 'Info', detail: "Link copiado en el portapapeles", life: 3000 });
+        } 
+        catch (error) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: "No se puedo copiar el link", life: 3000 });
+        }
+      }
+      
+
 }

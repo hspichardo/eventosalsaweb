@@ -20,6 +20,7 @@
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
+                        <button pButton pRipple label="Generar formularios" icon="pi pi-plus" class="p-button-success mr-2" (click)="generateForms()" *ngIf="clientAccreditations? !clientAccreditations[0].formsGenerated : selectedClientEntity" ></button>
                         <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedFormPersons()" [disabled]="!selectedFormPersons || !selectedFormPersons.length" ></button>
                     </div>
                 </ng-template>
@@ -74,31 +75,20 @@
                         <td>
                             <p-tableCheckbox [value]="formPerson"></p-tableCheckbox>
                         </td>
-                        <td style="width:18%; min-width:10rem;">
-                            <span class="p-column-title">Id</span>
-                            {{ formPerson.id }}
+                        
+                        <td style="width:48%; min-width:10rem;">
+                            <span class="p-column-title">Beneficio</span>
+                            {{ formPerson.benefit? formPerson.benefit.description : ''}}
                         </td>
-                        <td style="width:18%; min-width:10rem;">
-                            <span class="p-column-title">Persona</span>
-                            {{ formPerson.person }}
-                        </td>
-                        <td style="width:18%; min-width:10rem;">
+                        <td style="width:48%; min-width:10rem; text-align:center">
                             <span class="p-column-title">Contador</span>
                             {{ formPerson.counter }}
-                        </td>
-                        <td style="width:18%; min-width:10rem;">
-                            <span class="p-column-title">Beneficio</span>
-                            {{ formPerson.benefit }}
-                        </td>
-                        <td style="width:18%; min-width:10rem;">
-                            <span class="p-column-title">Acciones</span>
-                            {{ formPerson.actions }}
                         </td>
 
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-link" class="p-button-rounded p-button-success form-options" (click)="editFormPerson(formPerson)">Obtener link</button>
-                                <button pButton pRipple icon="pi pi-book" class="p-button-rounded p-button-warning form-options" (click)="deleteFormPerson(formPerson)">Ver datos</button>
+                                <button pButton pRipple icon="pi pi-link" class="p-button-rounded p-button-success form-options" (click)="copyFormLink(formPerson)" pTooltip="Obtener link"></button>
+                                <button pButton pRipple icon="pi pi-qrcode" class="p-button-rounded p-button-info form-options" (click)="editFormPerson(formPerson)" pTooltip="Obtener QR's"></button>
                             </div>
                         </td>
                     </tr>
@@ -141,7 +131,7 @@
         <p-dialog [(visible)]="deleteFormPersonsDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Seguro que desea eliminarlos Formulario de Personas seleccionados?</span>
+                <span>Seguro que desea eliminar los Formulario de Personas seleccionados?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteFormPersonsDialog = false"></button>

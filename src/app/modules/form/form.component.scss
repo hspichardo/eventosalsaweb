@@ -19,3 +19,22 @@
 .empty-warning{
     color: red;
 }
+
+.form-topbar{
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.topbar-messages{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.form-topbar img.logotopbar  {
+    height: 75%;
+    width: auto;
+    margin: auto 0;
+}
+
