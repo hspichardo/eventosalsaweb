@@ -34,6 +34,8 @@ import { AccreditationComponent } from './accreditations/accreditations.componen
 import { ClientComponent } from './client/client.component';
 import { AppendBenefitsComponent } from './benefits/appendBenefits/appendBenefits.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { TicketsService } from '../demo/service/ticketService';
+import { PersonService } from '../demo/service/personService';
 @NgModule({
     imports: [
         CommonModule,
@@ -72,6 +74,6 @@ import { TooltipModule } from 'primeng/tooltip';
   ],
   exports:[
   ],
-  providers:[UserService, AuthenticationService]
+  providers:[UserService, TicketsService, PersonService, AuthenticationService]
 })
 export class ModulesModule { }

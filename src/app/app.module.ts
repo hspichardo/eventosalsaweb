@@ -133,7 +133,6 @@ import {BlocksComponent} from './blocks/blocks/blocks.component';
 // Demo services
 import {CountryService} from './demo/service/countryservice';
 import {CustomerService} from './demo/service/customerservice';
-import {EventService} from './demo/service/eventservice';
 import {IconService} from './demo/service/iconservice';
 import {NodeService} from './demo/service/nodeservice';
 import {PhotoService} from './demo/service/photoservice';
@@ -142,7 +141,7 @@ import {ProductService} from './demo/service/productservice';
 // Application services
 import {BreadcrumbService} from './app.breadcrumb.service';
 import {MenuService} from './app.menu.service';
-import { formPersonService } from './demo/service/formPersonService';
+import { FormPersonService } from './demo/service/formPersonService';
 import { clientAccreditationService } from './demo/service/clientAccreditationService';
 import { ModulesModule } from './modules/modules.module';
 import { RolesService } from './demo/service/rolesService';
@@ -288,9 +287,9 @@ import { FormComponent } from './modules/form/form.component';
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-		formPersonService,
+		FormPersonService,
 		clientAccreditationService,
-        CountryService, CustomerService, EventService, IconService, NodeService,
+        CountryService, CustomerService, IconService, NodeService,
         PhotoService, ProductService, BreadcrumbService, MenuService, RolesService, CheckRolesService, 
         EventEntitiesService, BenefitService, AccreditationService, ClientsService
     ],

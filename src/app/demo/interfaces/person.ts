@@ -1,4 +1,5 @@
 import { FormPerson } from "./formPerson";
+import { Ticket } from "./ticket";
 
 export interface Person {
     id?: string;
@@ -13,5 +14,5 @@ export interface Person {
     email?: string;
     ticket_given_means?: string;
     registration_form?: FormPerson;
-    ticket?: string;
+    ticket?: Ticket;
 }

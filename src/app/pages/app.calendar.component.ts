@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {EventService} from '../demo/service/eventservice';
 import {BreadcrumbService} from '../app.breadcrumb.service';
 // @fullcalendar plugins
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -48,7 +47,7 @@ export class AppCalendarComponent implements OnInit {
 
     clickedEvent = null;
 
-    constructor(private eventService: EventService, private breadcrumbService: BreadcrumbService) {
+    constructor(private breadcrumbService: BreadcrumbService) {
         this.breadcrumbService.setItems([
             {label: 'Pages'},
             {label: 'Calendar'}
@@ -56,10 +55,6 @@ export class AppCalendarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.eventService.getEvents().then(events => {
-            this.events = events;
-            this.options = {...this.options, ...{events: events}};
-        });
 
         this.options = {
             plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],

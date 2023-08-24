@@ -4,12 +4,14 @@ import {BreadcrumbService} from "../../app.breadcrumb.service";
 import { Observer } from 'rxjs';
 import { Table } from 'primeng/table';
 import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
-import { formPersonService } from 'src/app/demo/service/formPersonService';
+import { FormPersonService } from 'src/app/demo/service/formPersonService';
 import { FormPerson } from 'src/app/demo/interfaces/formPerson';
 import { Client } from 'src/app/demo/interfaces/client';
 import { ClientsService } from 'src/app/demo/service/clientService';
 import { clientAccreditationService } from 'src/app/demo/service/clientAccreditationService';
 import { ClientAccreditation } from 'src/app/demo/interfaces/clientAccreditation';
+import { Person } from 'src/app/demo/interfaces/person';
+import { TicketsService } from 'src/app/demo/service/ticketService';
 
 
 @Component({
@@ -19,15 +21,23 @@ import { ClientAccreditation } from 'src/app/demo/interfaces/clientAccreditation
 })
 export class FormPersonComponent implements OnInit {
 
-    formPersonDialog: boolean;
+    peopleDialog: boolean = false;
+    QRDialog: boolean = false;
 
     deleteFormPersonsDialog: boolean = false;
-
     deleteFormPersonDialog: boolean = false;
-    
+    deleteRegisteredPersonDialog: boolean = false;
+
+    deletepeopleDialog: boolean = false;
+
     formPersons: FormPerson[];
 
     formPerson: FormPerson;
+    
+    selectedformPerson: FormPerson;
+
+    selectedRegisteredPerson : Person;
+    selectedRegisteredPeople : Person[];
 
     selectedFormPersons: FormPerson[];
 
@@ -41,16 +51,18 @@ export class FormPersonComponent implements OnInit {
 
     clientEntities: Client[];
 
-
     rowsPerPageOptions = [5, 10, 20];
+
+    cols_registeredPeople = [];
 
     
 
     constructor(private messageService: MessageService,
                 private breadcrumbService: BreadcrumbService,
-                private FormPersonService: formPersonService,
+                private FormPersonService: FormPersonService,
                 private clientsService:ClientsService,
                 private ClientAccreditationService: clientAccreditationService,
+                private ticketsService: TicketsService,
                 ) {
 
         this.breadcrumbService.setItems([
@@ -62,6 +74,15 @@ export class FormPersonComponent implements OnInit {
 
     ngOnInit() {
 
+        this.selectedRegisteredPerson = {names:'', ticket:{invitation_qr:'', contact_qr:''}}
+
+        this.cols_registeredPeople = [
+            { field: 'description', header: 'Identificación' },
+            { field: 'description', header: 'Nombres' },
+            { field: 'qr', header: 'Acciones' }
+        ];
+
+        
         this.clientAccreditations = [
             {formsGenerated:true}
         ];
@@ -97,7 +118,13 @@ export class FormPersonComponent implements OnInit {
     openNew() {
         this.submitted = false;
         this.formPerson = {};
-        this.formPersonDialog = true;
+        this.peopleDialog = true;
+    }
+
+    openRegisteredPeople(formPerson: FormPerson) {
+        this.selectedformPerson = formPerson;
+        this.peopleDialog = true;
+        this.updateRegisteredPeopleTable(formPerson);
     }
 
     deleteSelectedFormPersons() {
@@ -107,14 +134,45 @@ export class FormPersonComponent implements OnInit {
 
     editFormPerson(formPerson: FormPerson) {
         this.formPerson = { ...formPerson };
-        this.formPersonDialog = true;
+        this.peopleDialog = true;
     }
 
 
     deleteFormPerson(formPerson: FormPerson) {
-        this.deleteFormPersonDialog = true;
+        this.deletepeopleDialog = true;
         this.formPerson = { ...formPerson };
     }
+
+    deleteRegisteredPerson(person: Person) {
+        this.selectedRegisteredPerson = person;
+        this.deleteRegisteredPersonDialog = true;
+    }
+
+    /**
+     * Use FormPersonService to delete this.formPerson assign on deletFormPerson method
+     */
+    confirmDeletePerson() {
+        const deleteFormPersonObserver: Observer<any> = {
+            next: (value: string) => {
+                // Update formPerson array to refresh table
+                this.formPersons = this.formPersons.filter(val => val.id !== this.formPerson.id);
+                // UI successful message
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Entidad eliminado', life: 3000 });
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                // Hide formPerson dialog
+                this.deletepeopleDialog = false;
+                return 0;
+            }
+        };
+
+        // this.person.deleteFormPerson(this.formPerson).subscribe(deleteFormPersonObserver)
+    }
+
 
     confirmDeleteSelected() {
         this.deleteFormPersonsDialog = false;
@@ -145,7 +203,7 @@ export class FormPersonComponent implements OnInit {
             },
             complete: () => {
                 // Hide formPerson dialog
-                this.deleteFormPersonDialog = false;
+                this.deletepeopleDialog = false;
                 return 0;
             }
         };
@@ -154,7 +212,7 @@ export class FormPersonComponent implements OnInit {
     }
 
     hideDialog() {
-        this.formPersonDialog = false;
+        this.peopleDialog = false;
         this.submitted = false;
     }
 
@@ -185,7 +243,7 @@ export class FormPersonComponent implements OnInit {
             },
             complete: () => {
                 // Hide new formPerson dialog
-                this.formPersonDialog = false;
+                this.peopleDialog = false;
                 this.formPerson = {};
                 return 0;
             }
@@ -206,6 +264,11 @@ export class FormPersonComponent implements OnInit {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
+    generateModKey(formPerson : FormPerson)
+    {
+        formPerson.mod_key = formPerson.key.replace('/','_slashslash_');
+        return formPerson;
+    }
 
     getClientFormsObserver: Observer<any> = {
         next: (response: ResponseData) => { 
@@ -213,6 +276,8 @@ export class FormPersonComponent implements OnInit {
             if(response.status)
             {
                 this.formPersons = response.data;
+                this.formPersons.map((f) => this.generateModKey(f))
+                this.formPersons.forEach((f) => f.people = [])
             }
             else
             {
@@ -261,8 +326,39 @@ export class FormPersonComponent implements OnInit {
         }
     };
 
+    getFormPersonObserver: Observer<any> = {
+        next: (response: ResponseData) => { 
+
+            if(response.status)
+            {
+                const mod_key = this.selectedformPerson.mod_key;
+                this.selectedformPerson = response.data;
+                this.selectedformPerson.people = response.data.persons || []; // correction persons to people
+                delete this.selectedformPerson['persons'] ; // correction persons to people
+                this.selectedformPerson.mod_key = mod_key;
+            }
+            else
+            {
+                this.messageService.add({ severity: 'info', summary: 'Info', detail: response.message, life: 3000 });
+            }
+        },
+        error: (error: any) => {
+            console.error(error);
+            return 1;
+        },
+        complete: () => {
+            return 0;
+        }
+    };
+
+
+    updateRegisteredPeopleTable(formPerson: FormPerson) {
+        this.FormPersonService.getFormPerson(formPerson).subscribe(this.getFormPersonObserver)
+    }
+
     updateFormTable(event) {
         this.selectedClientEntity = event.value
+        console.log(this.selectedClientEntity   )
         this.ClientAccreditationService.getClientAccreditationByClient(this.selectedClientEntity).subscribe(this.getClientAccreditationsObserver);
     }
 
@@ -294,8 +390,7 @@ export class FormPersonComponent implements OnInit {
     }
 
     copyFormLink(formPerson) {
-        console.log(formPerson)
-        this.copyTextOnClipboard('http://localhost:4200/#/form/' + formPerson.key)
+        this.copyTextOnClipboard('http://localhost:4200/#/form/' + formPerson.mod_key)
     }
 
     copyTextOnClipboard = async (text: string): Promise<void> => {
@@ -308,5 +403,33 @@ export class FormPersonComponent implements OnInit {
         }
       }
       
+    showQRCodes(person: Person)
+    {
+        this.QRDialog = true;
+        this.selectedRegisteredPerson = person;
 
+
+        const getTicketObserver: Observer<any> = {
+            next: (response: ResponseData) => { 
+                if(response.status)
+                {
+                    this.selectedRegisteredPerson.ticket = response.data;
+                }
+                else
+                {
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
+                }
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                return 0;
+            }
+        };
+
+        this.ticketsService.getTicketByPersonId(this.selectedRegisteredPerson).subscribe(getTicketObserver)
+
+    }
 }

@@ -18,8 +18,8 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="identification">Identificación</label>
-                    <input pInputText id="identification" [(ngModel)]="person.identification" />
-                    <small class="empty-warning" *ngIf="false">Debe poner una identificación</small>
+                    <input pInputText required id="identification" [(ngModel)]="person.identification" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.identification}"/>
+                    <small class="empty-warning" *ngIf="submitted && !person.identification">Debe poner una identificación</small>
                 </div>
             </div>
         </div>
@@ -27,8 +27,8 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="names">Nombres</label>
-                    <input pInputText id="names" [(ngModel)]="person.names" />
-                    <small class="empty-warning" *ngIf="false">Debe poner sus nombres</small>
+                    <input pInputText required id="names" [(ngModel)]="person.names" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.names}" />
+                    <small class="empty-warning"  *ngIf="submitted && !person.names">Debe poner sus nombres</small>
                 </div>
             </div>
         </div>
@@ -36,8 +36,8 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="surnames">Apellidos</label>
-                    <input pInputText id="surnames" [(ngModel)]="person.surnames" />
-                    <small class="empty-warning" *ngIf="false">Debe poner sus apellidos</small>
+                    <input pInputText required id="surnames" [(ngModel)]="person.surnames" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.surnames}" />
+                    <small class="empty-warning"  *ngIf="submitted && !person.surnames">Debe poner sus apellidos</small>
                 </div>
             </div>
         </div>
@@ -46,13 +46,15 @@
                 <div class="card card-item">
                     <label htmlFor="province">Provincia</label>
                     <p-dropdown 
+                        required
                         id="province"
                         [options]="provinces" 
                         [(ngModel)]="person.province"
                         [showClear]="true"
-                        placeholder="Escoga una provincia">
+                        placeholder="Escoga una provincia"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.province}">
                     </p-dropdown>
-                    <small class="empty-warning" *ngIf="false">Debe poner sus apellidos</small>
+                    <small class="empty-warning"  *ngIf="submitted && !person.province">Debe escoger una provincia</small>
                 </div>
             </div>
         </div>
@@ -61,13 +63,15 @@
                 <div class="card card-item">
                     <label htmlFor="canton">Cantón</label>
                     <p-dropdown 
+                        required
                         id="canton"
                         [options]="cantons" 
                         [(ngModel)]="person.canton"
                         [showClear]="true"
-                        placeholder="Escoga un cantón">
+                        placeholder="Escoga un cantón"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.canton}">
                     </p-dropdown>
-                    <small class="empty-warning" *ngIf="false">Debe escoger un cantón</small>
+                    <small class="empty-warning"  *ngIf="submitted && !person.canton">Debe escoger un cantón</small>
                 </div>
             </div>
         </div>
@@ -76,14 +80,16 @@
                 <div class="card card-item">
                     <label htmlFor="position">Indicar posisión que ocupa</label>
                     <p-dropdown 
+                        required
                         id="position"
                         [options]="charges" 
                         [(ngModel)]="person.position"
                         [showClear]="true"
                         [editable]="true" 
-                        placeholder="llene con un cargo">
+                        placeholder="llene con un cargo"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.position}">
                     </p-dropdown>
-                    <small class="empty-warning" *ngIf="false">Debe llenar con un cargo</small>
+                    <small class="empty-warning"  *ngIf="submitted && !person.position">Debe llenar con un cargo</small>
                 </div>
             </div>
         </div>
@@ -91,8 +97,8 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="institution">Institucion o empresa a la que pertenece</label>
-                    <input pInputText id="institution" [(ngModel)]="person.institution" />
-                    <small class="empty-warning" *ngIf="false">Debe poner indicar alguna entidad</small>
+                    <input pInputText required id="institution" [(ngModel)]="person.institution" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.institution}"/>
+                    <small class="empty-warning"  *ngIf="submitted && !person.institution">Debe poner indicar alguna entidad</small>
                 </div>
             </div>
         </div>
@@ -100,8 +106,8 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="phone_number">Número de Whatsapp</label>
-                    <input pInputText id="phone_number" [(ngModel)]="person.phone_number" />
-                    <small class="empty-warning" *ngIf="false">Debe poner un número celular</small>
+                    <input pInputText required id="phone_number" [(ngModel)]="person.phone_number" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.phone_number}" />
+                    <small class="empty-warning"  *ngIf="submitted && !person.phone_number">Debe poner un número celular</small>
                 </div>
             </div>
         </div>
@@ -109,8 +115,8 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="email">Correo electrónico</label>
-                    <input pInputText id="email" [(ngModel)]="person.email" />
-                    <small class="empty-warning" *ngIf="false">Debe poner un correo electrónico</small>
+                    <input pInputText required id="email" [(ngModel)]="person.email" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.email}"/>
+                    <small class="empty-warning"  *ngIf="submitted && !person.email">Debe poner un correo electrónico</small>
                 </div>
             </div>
         </div>
@@ -119,14 +125,16 @@
                 <div class="card card-item">
                     <label htmlFor="ticket_given_means">Recibió la entrada a travéz de: </label>
                     <p-dropdown 
+                        required
                         id="ticket_given_means"
                         [options]="ticket_given_means_options" 
                         [(ngModel)]="person.ticket_given_means"
                         [showClear]="true"
                         [editable]="true" 
-                        placeholder="Indique como recibió su entrada">
+                        placeholder="Indique como recibió su entrada"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.ticket_given_means}">
                     </p-dropdown>
-                    <small class="empty-warning" *ngIf="false">Debe indicar algún método</small>
+                    <small class="empty-warning"  *ngIf="submitted && !person.ticket_given_means">Debe indicar algún método</small>
                 </div>
             </div>
         </div>

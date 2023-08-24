@@ -1,12 +1,12 @@
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormPerson } from '../interfaces/formPerson';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
 
 @Injectable()
-export class formPersonService {
+export class FormPersonService {
 
     constructor(private http: HttpClient) { }
 
@@ -18,6 +18,10 @@ export class formPersonService {
 
     getFormPerson(formPerson: FormPerson): Observable<ResponseData> {
         return this.http.get<ResponseData>('http://localhost:3000/registration_form/'+ formPerson.id);
+    }
+
+    getFormPersonBykey(key: string): Observable<ResponseData> {
+        return this.http.post<ResponseData>('http://localhost:3000/registration_form/bykey', { key });
     }
 
     deleteFormPerson(formPerson: FormPerson): Observable<ResponseData>  {

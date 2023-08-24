@@ -86,9 +86,9 @@
                         </td>
 
                         <td>
-                            <div class="flex">
+                            <div class="flex justify-content-around">
                                 <button pButton pRipple icon="pi pi-link" class="p-button-rounded p-button-success form-options" (click)="copyFormLink(formPerson)" pTooltip="Obtener link"></button>
-                                <button pButton pRipple icon="pi pi-qrcode" class="p-button-rounded p-button-info form-options" (click)="editFormPerson(formPerson)" pTooltip="Obtener QR's"></button>
+                                <button pButton pRipple icon="pi pi-list" class="p-button-rounded p-button-warning mr-2" (click)="openRegisteredPeople(formPerson)" pTooltip="Ver personas registradas"></button>
                             </div>
                         </td>
                     </tr>
@@ -97,25 +97,7 @@
         </div>
 
 
-        <p-dialog [(visible)]="formPersonDialog" [style]="{width: '450px'}" header="Detalles del Formulario de Personas" [modal]="true" class="p-fluid">
-            <ng-template pTemplate="content">
-                <div class="field">
-                    <label for="name">Nombre</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="formPerson.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !formPerson.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !formPerson.name">Debe poner un nombre.</small>
-                </div>
-                <div class="field">
-                    <label for="description">Descripción</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="formPerson.description" required rows="3" cols="20"></textarea>
-                </div>
 
-            </ng-template>
-
-            <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveFormPerson()"></button>
-            </ng-template>
-        </p-dialog>
 
         <p-dialog [(visible)]="deleteFormPersonDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
@@ -124,6 +106,17 @@
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteFormPersonDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteRegisteredPersonDialog" header="Confirmación" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span >Esta seguro que quiere eliminar el registro de la persona:  <b>{{selectedRegisteredPerson.names}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteRegisteredPersonDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
@@ -138,6 +131,97 @@
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>
+
+        <p-dialog [(visible)]="peopleDialog" [style]="{width: '75%', display:'flex'}" header="Personas registradas" [modal]="true" class="p-fluid">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedEntities()" [disabled]="!selectedRegisteredPeople || !selectedRegisteredPeople.length"></button>
+                    </div>
+                </ng-template>
+
+            </p-toolbar>
+            <ng-template pTemplate="content">
+                <p-table #registeredPeopleTable 
+                [value]="selectedformPerson.people" 
+                [columns]="cols_registeredPeople" 
+                responsiveLayout="scroll" 
+                [rows]="10" 
+                [globalFilterFields]="['name','country.name','representative.name','status']" 
+                [paginator]="true" 
+                [rowsPerPageOptions]="[10,20,30]" 
+                [showCurrentPageReport]="true" 
+                currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas" 
+                [(selection)]="selectedRegisteredPeople"
+                selectionMode="multiple" 
+                [rowHover]="true" 
+                dataKey="id">
+                
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(registeredPeopleTable, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th *ngFor="let col of columns" pSortableColumn={{col.field}}>
+                            {{ col.header }}
+                            <p-sortIcon field={{col.field}}></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-person>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="person"></p-tableCheckbox>
+                        </td>
+                        <td style="min-width:10rem;">
+                            <span class="p-column-title">Identificación</span>
+                            {{ person.identification }}
+                        </td>
+                        <td style="min-width:10rem;">
+                            <span class="p-column-title">Nombres</span>
+                            {{ person.names }}
+                        </td>
+
+                        <td>
+                            <div class="flex justify-content-center">
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteRegisteredPerson(person)" pTooltip="Eliminar registro"></button>
+                                <button pButton pRipple icon="pi pi-qrcode" class="p-button-rounded p-button-info" (click)="showQRCodes(person)" pTooltip="Ver QR's"></button>
+                            </div>
+                        </td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+                
+            </ng-template>
+
+        </p-dialog>
+
+        <p-dialog [(visible)]="QRDialog" header="Información de registro" [modal]="true" [style]="{width:'80%'}">
+            <div class="flex align-items-center justify-content-center">
+                <div class="flex align-items-center flex-column">
+                    <h3><b> Invitación </b></h3>
+                    <img [src]="selectedRegisteredPerson.ticket.invitation_qr?selectedRegisteredPerson.ticket.invitation_qr:''" alt="Código QR para la invitación ">
+                </div>
+                <div class="flex align-items-center flex-column">
+                    <h3><b> Contacto </b></h3>
+                    <img [src]="selectedRegisteredPerson.ticket.contact_qr?selectedRegisteredPerson.ticket.contact_qr:''" alt="Código QR de contacto">
+                </div>
+
+            </div>
+        </p-dialog>
+
 
     </div>
 </div>

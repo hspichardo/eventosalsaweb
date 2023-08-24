@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../service/eventservice';
 import { SelectItem, MenuItem } from 'primeng/api';
 import {Product} from '../domain/product';
 import {ProductService} from '../service/productservice';
@@ -47,7 +46,7 @@ export class DashboardDemoComponent implements OnInit {
 
     fullcalendarOptions: any;
 
-    constructor(private productService: ProductService, private eventService: EventService, private breadcrumbService: BreadcrumbService) {
+    constructor(private productService: ProductService, private breadcrumbService: BreadcrumbService) {
         this.breadcrumbService.setItems([
             { label: 'Dashboard', routerLink: [''] }
         ]);
@@ -55,10 +54,6 @@ export class DashboardDemoComponent implements OnInit {
 
     ngOnInit() {
         this.productService.getProducts().then(data => this.products = data);
-        this.eventService.getEvents().then(events => {
-            this.events = events;
-            this.fullcalendarOptions = {...this.fullcalendarOptions, ...{events: events}};
-        });
 
         this.cities = [];
         this.cities.push({ label: 'Select City', value: null });
