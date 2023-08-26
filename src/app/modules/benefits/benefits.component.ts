@@ -76,7 +76,7 @@ export class BenefitComponent implements OnInit {
 
     openNew() {
         this.submitted = false;
-        this.benefit = {quantity:0};
+        this.benefit = {quantity:1, generate_certificate:false};
         this.entityDialog = true;
     }
 
@@ -150,7 +150,6 @@ export class BenefitComponent implements OnInit {
             next: (response: ResponseData) => {
                 // Update benefit array to refresh table
                 const newBenefit: Benefit = response.data;
-                console.log(newBenefit)
                 const oldBenefitIndex = this.benefits.findIndex(r => r.id == newBenefit.id);
                 if (oldBenefitIndex != -1)  {
                     this.benefits[oldBenefitIndex] = newBenefit
@@ -175,15 +174,16 @@ export class BenefitComponent implements OnInit {
             }
         };
 
-        if (this.benefit.description?.trim()) {
-            this.submitted = false;
-            if (this.benefit.id) {
-                this.benefitService.updateBenefit(this.benefit).subscribe(saveEntityObserver)
-            }
-            else {
-                this.benefitService.newBenefit(this.benefit).subscribe(saveEntityObserver)
-            }
-        }
+        console.log(this.benefit)
+        // if (this.benefit.description?.trim()) {
+        //     this.submitted = false;
+        //     if (this.benefit.id) {
+        //         this.benefitService.updateBenefit(this.benefit).subscribe(saveEntityObserver)
+        //     }
+        //     else {
+        //         this.benefitService.newBenefit(this.benefit).subscribe(saveEntityObserver)
+        //     }
+        // }
 
     }
 

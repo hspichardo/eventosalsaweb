@@ -92,7 +92,7 @@ export class FormComponent implements OnInit {
                     this.router.navigate(['/registro_exitoso']);
                 }
                 else{
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo realizar su registro', life: 3000 });
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
                 }
             },
             error: (error: any) => {

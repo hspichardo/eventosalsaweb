@@ -83,14 +83,18 @@
 
         <p-dialog [(visible)]="entityDialog" [style]="{width: '450px'}" header="Detalles del Beneficio" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
+                <div class="field flex justify-content-between" [style]="{padding: '0px 30% 0px 0px'}">
+                    <label for="quantity">Genera certificados?</label>
+                    <input type="checkbox" [(ngModel)]="benefit.generate_certificate"/>
+                </div>
                 <div class="field">
                     <label for="quantity">Cantidad</label>
-                    <input type="number" pInputText id="quantity" [(ngModel)]="benefit.quantity" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !benefit.quantity}"/>
+                    <input type="number" pInputText id="quantity" [(ngModel)]="benefit.quantity" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !benefit.quantity}"  [min]="1"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !benefit.quantity">Debe poner una cantidad</small>
                 </div>
                 <div class="field">
                     <label for="description">Descripción</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="benefit.description" required rows="3" cols="20"></textarea>
+                    <textarea id="description" pInputTextarea [(ngModel)]="benefit.description" required rows="10" cols="20"  [style]="{'resize': 'vertical'}"></textarea>
                 </div>
 
             </ng-template>

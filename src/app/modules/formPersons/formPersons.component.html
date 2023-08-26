@@ -58,7 +58,7 @@
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th *ngFor="let col of columns" pSortableColumn={{col.field}} style="width:18%;">
+                        <th *ngFor="let col of columns" pSortableColumn={{col.field}} style="width:18%; text-align:center">
                             {{ col.header }}
                             <p-sortIcon field={{col.field}}></p-sortIcon>
                         </th>

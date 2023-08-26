@@ -7,4 +7,5 @@ export interface Benefit {
     quantity?: number;
     accreditation?: Accreditation;
     registration_form?: Object[];
+    generate_certificate?: boolean;
 }
