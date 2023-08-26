@@ -69,6 +69,7 @@ export class BenefitComponent implements OnInit {
         this.cols = [
             { field: 'description', header: 'Descripción' },
             { field: 'quantity', header: 'Cupos asignables' },
+            { field: 'certificado', header: 'Certificado' },
             { field: 'actions', header: 'Acciones' },
         ];
 
@@ -174,16 +175,15 @@ export class BenefitComponent implements OnInit {
             }
         };
 
-        console.log(this.benefit)
-        // if (this.benefit.description?.trim()) {
-        //     this.submitted = false;
-        //     if (this.benefit.id) {
-        //         this.benefitService.updateBenefit(this.benefit).subscribe(saveEntityObserver)
-        //     }
-        //     else {
-        //         this.benefitService.newBenefit(this.benefit).subscribe(saveEntityObserver)
-        //     }
-        // }
+        if (this.benefit.description?.trim()) {
+            this.submitted = false;
+            if (this.benefit.id) {
+                this.benefitService.updateBenefit(this.benefit).subscribe(saveEntityObserver)
+            }
+            else {
+                this.benefitService.newBenefit(this.benefit).subscribe(saveEntityObserver)
+            }
+        }
 
     }
 

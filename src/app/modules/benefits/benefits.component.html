@@ -68,6 +68,10 @@
                             <span class="p-column-title">Cupos asignables</span>
                             {{ benefit.quantity }}
                         </td>
+                        <td style="width:10%; min-width:10rem;text-align:center">
+                            <span class="p-column-title">Cupos asignables</span>
+                            {{ benefit.generate_certificate? 'Si':'No' }}
+                        </td>
 
                         <td>
                             <div class="flex">
