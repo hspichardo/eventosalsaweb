@@ -95,14 +95,14 @@
 
 
 
-        <p-dialog [(visible)]="deleteFormPersonDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deletePeopleDialog" header="Confirmación" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="formPerson">Esta seguro que quiere eliminar al Formulario de Personas <b>{{formPerson.counter}}</b>?</span>
+                <span *ngIf="selectedRegisteredPeople" >Seguro que desea eliminar los registros de las {{selectedRegisteredPeople.length}} personas seleccionados?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteFormPersonDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDelete()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deletePeopleDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>
 
@@ -117,22 +117,12 @@
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteFormPersonsDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Seguro que desea eliminar los Formulario de Personas seleccionados?</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteFormPersonsDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDeleteSelected()"></button>
-            </ng-template>
-        </p-dialog>
 
         <p-dialog [(visible)]="peopleDialog" [style]="{width: '75%', display:'flex'}" header="Personas registradas" [modal]="true" class="p-fluid">
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedEntities()" [disabled]="!selectedRegisteredPeople || !selectedRegisteredPeople.length"></button>
+                        <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deletePeople()" [disabled]="!selectedRegisteredPeople || !selectedRegisteredPeople.length"></button>
                     </div>
                 </ng-template>
 
@@ -208,11 +198,11 @@
             <div class="flex align-items-center justify-content-center">
                 <div class="flex align-items-center flex-column">
                     <h3><b> Invitación </b></h3>
-                    <img [src]="selectedRegisteredPerson.ticket.invitation_qr?selectedRegisteredPerson.ticket.invitation_qr:''" alt="Código QR para la invitación ">
+                    <img *ngIf="selectedRegisteredPerson.ticket != undefined" [src]="selectedRegisteredPerson.ticket.invitation_qr" alt="Código QR para la invitación">
                 </div>
                 <div class="flex align-items-center flex-column">
                     <h3><b> Contacto </b></h3>
-                    <img [src]="selectedRegisteredPerson.ticket.contact_qr?selectedRegisteredPerson.ticket.contact_qr:''" alt="Código QR de contacto">
+                    <img *ngIf="selectedRegisteredPerson.ticket != undefined" [src]="selectedRegisteredPerson.ticket.contact_qr" alt="Código QR de contacto">
                 </div>
 
             </div>

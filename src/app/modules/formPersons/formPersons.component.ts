@@ -12,6 +12,7 @@ import { clientAccreditationService } from 'src/app/demo/service/clientAccredita
 import { ClientAccreditation } from 'src/app/demo/interfaces/clientAccreditation';
 import { Person } from 'src/app/demo/interfaces/person';
 import { TicketsService } from 'src/app/demo/service/ticketService';
+import { PersonService } from 'src/app/demo/service/personService';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class FormPersonComponent implements OnInit {
     deleteFormPersonDialog: boolean = false;
     deleteRegisteredPersonDialog: boolean = false;
 
-    deletepeopleDialog: boolean = false;
+    deletePeopleDialog: boolean = false;
 
     formPersons: FormPerson[];
 
@@ -63,6 +64,7 @@ export class FormPersonComponent implements OnInit {
                 private clientsService:ClientsService,
                 private ClientAccreditationService: clientAccreditationService,
                 private ticketsService: TicketsService,
+                private personService: PersonService
                 ) {
 
         this.breadcrumbService.setItems([
@@ -74,7 +76,7 @@ export class FormPersonComponent implements OnInit {
 
     ngOnInit() {
 
-        this.selectedRegisteredPerson = {names:'', ticket:{invitation_qr:'', contact_qr:''}}
+        this.selectedRegisteredPerson = {names:''}
 
         this.cols_registeredPeople = [
             { field: 'description', header: 'Identificación' },
@@ -138,12 +140,13 @@ export class FormPersonComponent implements OnInit {
     }
 
 
-    deleteFormPerson(formPerson: FormPerson) {
-        this.deletepeopleDialog = true;
-        this.formPerson = { ...formPerson };
+    deletePeople(formPerson: FormPerson) {
+        this.deletePeopleDialog = true;
     }
 
     deleteRegisteredPerson(person: Person) {
+        console.log(person)
+        console.log(this.selectedRegisteredPerson)
         this.selectedRegisteredPerson = person;
         this.deleteRegisteredPersonDialog = true;
     }
@@ -157,7 +160,7 @@ export class FormPersonComponent implements OnInit {
                 // Update formPerson array to refresh table
                 this.formPersons = this.formPersons.filter(val => val.id !== this.formPerson.id);
                 // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Entidad eliminado', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Persona eliminada', life: 3000 });
             },
             error: (error: any) => {
                 console.error(error);
@@ -165,50 +168,51 @@ export class FormPersonComponent implements OnInit {
             },
             complete: () => {
                 // Hide formPerson dialog
-                this.deletepeopleDialog = false;
+                this.deletePeopleDialog = false;
                 return 0;
             }
         };
 
-        // this.person.deleteFormPerson(this.formPerson).subscribe(deleteFormPersonObserver)
+        this.personService.deletePerson(this.selectedRegisteredPerson).subscribe(deleteFormPersonObserver)
     }
 
 
     confirmDeleteSelected() {
-        this.deleteFormPersonsDialog = false;
-        this.formPersons = this.formPersons.filter(formPerson => !this.selectedFormPersons.includes(formPerson));
-        if ( this.FormPersonService.deleteFormPersons(this.selectedFormPersons) == 0 ){
-            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Formulario de Personas eliminados', life: 3000 });
+        this.deletePeopleDialog = false;
+        this.selectedformPerson.people = this.selectedformPerson.people.filter(person => !this.selectedRegisteredPeople.includes(person)) as [];
+        console.log(this.selectedformPerson.people)
+        if ( this.personService.deletePeople(this.selectedRegisteredPeople) == 0 ){
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Personas eliminadas', life: 3000 });
         }
         else{
-            console.error("no se pudieron eliminar los Formulario de Personas seleccionados")
+            console.error("no se pudieron eliminar los registros de Personas seleccionados")
         }
-        this.selectedFormPersons = [];
+        this.selectedRegisteredPeople = [];
     }
 
     /**
      * Use FormPersonService to delete this.formPerson assign on deletFormPerson method
      */
     confirmDelete() {
-        const deleteFormPersonObserver: Observer<any> = {
+        const deletePersonObserver: Observer<any> = {
             next: (value: string) => {
                 // Update formPerson array to refresh table
-                this.formPersons = this.formPersons.filter(val => val.id !== this.formPerson.id);
+                this.selectedformPerson.people = this.selectedformPerson.people.filter(val => val['id'] !== this.selectedRegisteredPerson.id) as [];
+
                 // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Entidad eliminado', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'registro eliminado', life: 3000 });
             },
             error: (error: any) => {
                 console.error(error);
                 return 1;
             },
             complete: () => {
-                // Hide formPerson dialog
-                this.deletepeopleDialog = false;
+                this.deleteRegisteredPersonDialog = false;
                 return 0;
             }
         };
 
-        this.FormPersonService.deleteFormPerson(this.formPerson).subscribe(deleteFormPersonObserver)
+        this.personService.deletePerson(this.selectedRegisteredPerson).subscribe(deletePersonObserver)
     }
 
     hideDialog() {
