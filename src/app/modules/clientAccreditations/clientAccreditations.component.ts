@@ -120,7 +120,6 @@ export class ClientAccreditationComponent implements OnInit {
         
         
         this.cols = [
-			{ field: 'id', header: 'id' },
 			{ field: 'accreditation', header: 'Acreditación' },
 			{ field: 'quantity', header: 'Cantidad' },
             { field: 'actions', header: 'Acciones' }

@@ -36,7 +36,7 @@
                 [columns]="cols" 
                 responsiveLayout="scroll" 
                 [rows]="10" 
-                [globalFilterFields]="['name','country.name','representative.name','status']" 
+                [globalFilterFields]="['accreditation.description', 'quantity']" 
                 [rows]="10" 
                 [paginator]="true" 
                 [rowsPerPageOptions]="[10,20,30]" 
@@ -75,14 +75,11 @@
                         <td>
                             <p-tableCheckbox [value]="clientAccreditation"></p-tableCheckbox>
                         </td>
-                        <td style="width:35%; min-width:10rem;"><span class="p-column-title">Id</span>
-                            {{ clientAccreditation.id }}
-                        </td>
-                        <td style="width:35%; min-width:10rem;">
+                        <td style="width:50%; min-width:10rem;">
                             <span class="p-column-title">Acreditación</span>
                             {{ clientAccreditation.accreditation.description || "NAN" }}
                         </td>
-                        <td style="width:35%; min-width:10rem;">
+                        <td style="width:50%; min-width:10rem;">
                             <span class="p-column-title">Cantidad</span>
                             {{ clientAccreditation.quantity }}
                         </td>
