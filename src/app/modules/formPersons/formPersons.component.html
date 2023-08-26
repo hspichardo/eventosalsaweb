@@ -20,15 +20,11 @@
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="Generar formularios" icon="pi pi-plus" class="p-button-success mr-2" (click)="generateForms()" *ngIf="clientAccreditations? !clientAccreditations[0].formsGenerated : selectedClientEntity" ></button>
-                        <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedFormPersons()" [disabled]="!selectedFormPersons || !selectedFormPersons.length" ></button>
+                        <button pButton pRipple label="Generar formularios" icon="pi pi-plus" class="p-button-success action-button" (click)="generateForms()" *ngIf="clientAccreditations? !clientAccreditations[0].formsGenerated : selectedClientEntity" ></button>
+                        <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger action-button" (click)="deleteSelectedFormPersons()" [disabled]="!selectedFormPersons || !selectedFormPersons.length" ></button>
                     </div>
                 </ng-template>
 
-                <ng-template pTemplate="right">
-                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
-                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
-                </ng-template>
             </p-toolbar>
 
             <p-table #dt 
@@ -87,8 +83,8 @@
 
                         <td>
                             <div class="flex justify-content-around">
-                                <button pButton pRipple icon="pi pi-link" class="p-button-rounded p-button-success form-options" (click)="copyFormLink(formPerson)" pTooltip="Obtener link"></button>
-                                <button pButton pRipple icon="pi pi-list" class="p-button-rounded p-button-warning mr-2" (click)="openRegisteredPeople(formPerson)" pTooltip="Ver personas registradas"></button>
+                                <button pButton pRipple icon="pi pi-link" class="p-button-rounded p-button-success form-options action-button" (click)="copyFormLink(formPerson)" pTooltip="Obtener link"></button>
+                                <button pButton pRipple icon="pi pi-list" class="p-button-rounded p-button-warning action-button" (click)="openRegisteredPeople(formPerson)" pTooltip="Ver personas registradas"></button>
                             </div>
                         </td>
                     </tr>
@@ -195,8 +191,8 @@
 
                         <td>
                             <div class="flex justify-content-center">
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteRegisteredPerson(person)" pTooltip="Eliminar registro"></button>
-                                <button pButton pRipple icon="pi pi-qrcode" class="p-button-rounded p-button-info" (click)="showQRCodes(person)" pTooltip="Ver QR's"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning action-button" (click)="deleteRegisteredPerson(person)" pTooltip="Eliminar registro"></button>
+                                <button pButton pRipple icon="pi pi-qrcode" class="p-button-rounded p-button-info action-button" (click)="showQRCodes(person)" pTooltip="Ver QR's"></button>
                             </div>
                         </td>
 
