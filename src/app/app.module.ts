@@ -141,6 +141,7 @@ import {ProductService} from './demo/service/productservice';
 // Application services
 import {BreadcrumbService} from './app.breadcrumb.service';
 import {MenuService} from './app.menu.service';
+import { certificateService } from './demo/service/certificateService';
 import { FormPersonService } from './demo/service/formPersonService';
 import { clientAccreditationService } from './demo/service/clientAccreditationService';
 import { ModulesModule } from './modules/modules.module';
@@ -287,6 +288,7 @@ import { FormComponent } from './modules/form/form.component';
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
+		certificateService,
 		FormPersonService,
 		clientAccreditationService,
         CountryService, CustomerService, IconService, NodeService,

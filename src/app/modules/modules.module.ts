@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from './auth/auth.component';
+import { CertificateComponent } from './certificates/certificates.component';
 import { FormPersonComponent } from './formPersons/formPersons.component';
 import { ClientAccreditationComponent } from './clientAccreditations/clientAccreditations.component';
 import { AppRoutingModule } from './routing/routing.component';
@@ -59,6 +60,7 @@ import { PersonService } from '../demo/service/personService';
         TooltipModule
     ],
   declarations: [
+		CertificateComponent,
 		FormPersonComponent,
 		ClientAccreditationComponent,
     AuthComponent,

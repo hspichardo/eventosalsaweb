@@ -7,6 +7,7 @@ import {AppAccessdeniedComponent} from '../../pages/app.accessdenied.component';
 import { LoginComponent } from '../login/login.component';
 import { RolesComponent } from '../roles/roles.component';
 import { UsersComponent } from '../users/users.component';
+import { CertificateComponent } from '../certificates/certificates.component';
 import { FormPersonComponent } from '../formPersons/formPersons.component';
 import { ClientAccreditationComponent } from '../clientAccreditations/clientAccreditations.component';
 import { LoginGuard } from '../auth/checkRolesGuard';
@@ -27,6 +28,7 @@ import { SuccessRegisterComponent } from '../successRegister/successRegister.com
                 path: '', component: AppMainComponent,
                 children: [
                     {path: '', component: UsersComponent, canActivate:[CheckLoginGuard]},
+					{path: 'certificados', component: CertificateComponent, canActivate:[CheckLoginGuard]},
 					{path: 'formulario_personas', component: FormPersonComponent, canActivate:[CheckLoginGuard]},
 					{path: 'acreditacion_cliente', component: ClientAccreditationComponent, canActivate:[CheckLoginGuard]},
                     {path: 'roles', component: RolesComponent, canActivate:[CheckLoginGuard]},
