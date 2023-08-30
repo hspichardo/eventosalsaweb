@@ -147,17 +147,26 @@ export class ClientComponent implements OnInit {
 
         const saveEntityObserver: Observer<any> = {
             next: (response: ResponseData) => {
-                // Update event array to refresh table
-                const newClient: Client = response.data;
-                const oldClientIndex = this.clients.findIndex(r => r.id == newClient.id);
-                if (oldClientIndex != -1)  {
-                    this.clients[oldClientIndex] = newClient
+                if (response.status)
+                {
+                    // Update event array to refresh table
+                    const newClient: Client = response.data;
+                    const oldClientIndex = this.clients.findIndex(r => r.id == newClient.id);
+                    if (oldClientIndex != -1)  {
+                        this.clients[oldClientIndex] = newClient
+                    }
+                    else {
+                        this.clients = [...this.clients, newClient]
+                    }
+                    // UI successful message
+                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'accion completada', life: 3000 });
                 }
-                else {
-                    this.clients = [...this.clients, newClient]
+                else
+                {
+                    console.log(response);
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message , life: 3000 });
                 }
-                // UI successful message
-                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'accion completada', life: 3000 });
+                
             },
             error: (error: any) => {
                 console.error(error);
