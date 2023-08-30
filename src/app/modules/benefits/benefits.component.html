@@ -93,7 +93,7 @@
                 </div>
                 <div class="field">
                     <label for="quantity">Cantidad</label>
-                    <input type="number" pInputText id="quantity" [(ngModel)]="benefit.quantity" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !benefit.quantity}"  [min]="1"/>
+                    <input type="number" pInputText id="quantity" [(ngModel)]="benefit.quantity" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !benefit.quantity}"  [min]="0"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !benefit.quantity">Debe poner una cantidad</small>
                 </div>
                 <div class="field">

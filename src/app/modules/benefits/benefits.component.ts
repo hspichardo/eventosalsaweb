@@ -77,7 +77,7 @@ export class BenefitComponent implements OnInit {
 
     openNew() {
         this.submitted = false;
-        this.benefit = {quantity:1, generate_certificate:false};
+        this.benefit = {quantity:0, generate_certificate:false};
         this.entityDialog = true;
     }
 
@@ -175,7 +175,7 @@ export class BenefitComponent implements OnInit {
             }
         };
 
-        if (this.benefit.description?.trim()) {
+        if (this.benefit.description?.trim() && this.benefit.quantity >= 0) {
             this.submitted = false;
             if (this.benefit.id) {
                 this.benefitService.updateBenefit(this.benefit).subscribe(saveEntityObserver)
