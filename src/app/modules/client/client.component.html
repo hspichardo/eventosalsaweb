@@ -91,6 +91,11 @@
                     <label for="identification">Identificación</label>
                     <input id="identification" pInputText [(ngModel)]="client.identification" required rows="3" cols="20"/>
                 </div>
+                <div class="field">
+                    <label for="email">Correo</label>
+                    <input type="text" pInputText id="email" [(ngModel)]="client.email" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.email}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !client.email">Debe poner un correo</small>
+                </div>
 
             </ng-template>
 
