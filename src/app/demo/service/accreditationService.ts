@@ -43,7 +43,7 @@ export class AccreditationService {
     newAccreditation(acreditation: Accreditation): Observable<ResponseData> {
         let body: Object = {...acreditation};
         body['event'] = body['event'].id;
-        body['benefits'] = body['benefits'].map(benefit => benefit.id);
+        body['benefits'] = body['benefits']? body['benefits'].map(benefit => benefit.id):[];
         return this.http.post<ResponseData>('http://localhost:3000/accreditations', body)
     }
 
