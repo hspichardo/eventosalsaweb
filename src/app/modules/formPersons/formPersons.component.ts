@@ -34,7 +34,7 @@ export class FormPersonComponent implements OnInit {
     formPersons: FormPerson[];
 
     formPerson: FormPerson;
-    
+
     selectedformPerson: FormPerson;
 
     selectedRegisteredPerson : Person;
@@ -56,7 +56,7 @@ export class FormPersonComponent implements OnInit {
 
     cols_registeredPeople = [];
 
-    
+
 
     constructor(private messageService: MessageService,
                 private breadcrumbService: BreadcrumbService,
@@ -72,7 +72,7 @@ export class FormPersonComponent implements OnInit {
         ]);
 
     }
-    
+
 
     ngOnInit() {
 
@@ -84,14 +84,14 @@ export class FormPersonComponent implements OnInit {
             { field: 'qr', header: 'Acciones' }
         ];
 
-        
+
         this.clientAccreditations = [
             {formsGenerated:true}
         ];
 
 
         const getClientsObserver: Observer<any> = {
-            next: (response: ResponseData) => {  
+            next: (response: ResponseData) => {
                 this.clientEntities = response.data
             },
             error: (error: any) => {
@@ -107,8 +107,8 @@ export class FormPersonComponent implements OnInit {
         this.clientsService.getClients().subscribe(getClientsObserver);
 
 
-        
-        
+
+
         this.cols = [
 			{ field: 'benefit', header: 'Beneficio' },
 			{ field: 'counter', header: 'Cupos disponibles' },
@@ -275,7 +275,7 @@ export class FormPersonComponent implements OnInit {
     }
 
     getClientFormsObserver: Observer<any> = {
-        next: (response: ResponseData) => { 
+        next: (response: ResponseData) => {
             console.log(response)
             if(response.status)
             {
@@ -299,7 +299,7 @@ export class FormPersonComponent implements OnInit {
     };
 
     getClientAccreditationsObserver: Observer<any> = {
-        next: (response: ResponseData) => { 
+        next: (response: ResponseData) => {
 
             if(response.status)
             {
@@ -308,7 +308,7 @@ export class FormPersonComponent implements OnInit {
 
                 if (this.clientAccreditations[0].formsGenerated)
                 {
-                    this.FormPersonService.getFormPersons().subscribe(this.getClientFormsObserver)
+                    this.FormPersonService.getFormPersonsByClientId(this.selectedClientEntity).subscribe(this.getClientFormsObserver)
                 }
             }
             else
@@ -331,7 +331,7 @@ export class FormPersonComponent implements OnInit {
     };
 
     getFormPersonObserver: Observer<any> = {
-        next: (response: ResponseData) => { 
+        next: (response: ResponseData) => {
 
             if(response.status)
             {
@@ -370,7 +370,7 @@ export class FormPersonComponent implements OnInit {
         this.messageService.add({ severity: 'info', summary: 'Info', detail: "Se están generando los formularios", life: 3000 });
 
         const generateFormsObserver: Observer<any> = {
-            next: (response: ResponseData) => { 
+            next: (response: ResponseData) => {
                 if(response.status)
                 {
                     this.formPersons = response.data;
@@ -389,7 +389,7 @@ export class FormPersonComponent implements OnInit {
                 return 0;
             }
         };
-        
+
         this.ClientAccreditationService.generateFormsByClient(this.selectedClientEntity).subscribe(generateFormsObserver);
     }
 
@@ -401,12 +401,12 @@ export class FormPersonComponent implements OnInit {
         try {
             await navigator.clipboard.writeText(text);
             this.messageService.add({ severity: 'info', summary: 'Info', detail: "Link copiado en el portapapeles", life: 3000 });
-        } 
+        }
         catch (error) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: "No se puedo copiar el link", life: 3000 });
         }
       }
-      
+
     showQRCodes(person: Person)
     {
         this.QRDialog = true;
@@ -414,7 +414,7 @@ export class FormPersonComponent implements OnInit {
 
 
         const getTicketObserver: Observer<any> = {
-            next: (response: ResponseData) => { 
+            next: (response: ResponseData) => {
                 if(response.status)
                 {
                     this.selectedRegisteredPerson.ticket = response.data;

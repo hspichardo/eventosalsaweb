@@ -3,13 +3,13 @@
         <div class="card px-6 py-6">
             <h4 *ngIf="!selectedClientEntity">Escoga un cliente</h4>
             <h4 *ngIf="selectedClientEntity">Mostrando formularios generados para el cliente:</h4>
-            <p-dropdown 
-                [options]="clientEntities" 
-                [(ngModel)]="selectedClientEntity" 
+            <p-dropdown
+                [options]="clientEntities"
+                [(ngModel)]="selectedClientEntity"
                 placeholder="Seleccione un cliente"
-                optionLabel= "names" 
-                [virtualScroll]="true" 
-                [virtualScrollItemSize]="38" 
+                optionLabel= "names"
+                [virtualScroll]="true"
+                [virtualScrollItemSize]="38"
                 [filter]="true"
                 filterBy="names"
                 (onChange)="updateFormTable($event)"/>
@@ -27,22 +27,22 @@
 
             </p-toolbar>
 
-            <p-table #dt 
-                [value]="formPersons" 
-                [columns]="cols" 
-                responsiveLayout="scroll" 
-                [rows]="10" 
-                [globalFilterFields]="['benefit.description','counter']" 
-                [rows]="10" 
-                [paginator]="true" 
-                [rowsPerPageOptions]="[10,20,30]" 
-                [showCurrentPageReport]="true" 
-                currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas" 
-                [(selection)]="selectedFormPersons" 
-                selectionMode="multiple" 
-                [rowHover]="true" 
+            <p-table #dt
+                [value]="formPersons"
+                [columns]="cols"
+                responsiveLayout="scroll"
+                [rows]="10"
+                [globalFilterFields]="['benefit.description','counter']"
+                [rows]="10"
+                [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
+                [(selection)]="selectedFormPersons"
+                selectionMode="multiple"
+                [rowHover]="true"
                 dataKey="id">
-                
+
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Formulario de Personas</h5>
@@ -68,15 +68,15 @@
 
                 <ng-template pTemplate="body" let-formPerson>
                     <tr>
-                        <td>
+                        <td class="text-center" >
                             <p-tableCheckbox [value]="formPerson"></p-tableCheckbox>
                         </td>
-                        
-                        <td style="width:48%; min-width:10rem;">
+
+                        <td class="text-center"  style="width:48%; min-width:10rem;">
                             <span class="p-column-title">Beneficio</span>
                             {{ formPerson.benefit? formPerson.benefit.description : ''}}
                         </td>
-                        <td style="width:48%; min-width:10rem; text-align:center">
+                        <td class="text-center"  style="width:48%; min-width:10rem; text-align:center">
                             <span class="p-column-title">Contador</span>
                             {{ formPerson.counter }}
                         </td>
@@ -91,9 +91,6 @@
                 </ng-template>
             </p-table>
         </div>
-
-
-
 
         <p-dialog [(visible)]="deletePeopleDialog" header="Confirmación" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
@@ -128,21 +125,21 @@
 
             </p-toolbar>
             <ng-template pTemplate="content">
-                <p-table #registeredPeopleTable 
-                [value]="selectedformPerson.people" 
-                [columns]="cols_registeredPeople" 
-                responsiveLayout="scroll" 
-                [rows]="10" 
-                [globalFilterFields]="['names','identification']" 
-                [paginator]="true" 
-                [rowsPerPageOptions]="[10,20,30]" 
-                [showCurrentPageReport]="true" 
-                currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas" 
+                <p-table #registeredPeopleTable
+                [value]="selectedformPerson.people"
+                [columns]="cols_registeredPeople"
+                responsiveLayout="scroll"
+                [rows]="10"
+                [globalFilterFields]="['names','identification']"
+                [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} entradas"
                 [(selection)]="selectedRegisteredPeople"
-                selectionMode="multiple" 
-                [rowHover]="true" 
+                selectionMode="multiple"
+                [rowHover]="true"
                 dataKey="id">
-                
+
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
@@ -189,7 +186,7 @@
                     </tr>
                 </ng-template>
             </p-table>
-                
+
             </ng-template>
 
         </p-dialog>

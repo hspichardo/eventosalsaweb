@@ -4,13 +4,14 @@ import { Injectable } from '@angular/core';
 import { FormPerson } from '../interfaces/formPerson';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
+import {Client} from "../interfaces/client";
 
 @Injectable()
 export class FormPersonService {
 
     constructor(private http: HttpClient) { }
 
-    
+
 
     getFormPersons(): Observable<ResponseData> {
         return this.http.get<ResponseData>('http://localhost:3000/registration_form');
@@ -59,4 +60,7 @@ export class FormPersonService {
     }
 
 
+    getFormPersonsByClientId(selectedClientEntity: Client): Observable<ResponseData> {
+        return this.http.get<ResponseData>('http://localhost:3000/client_accreditation/client/registration_forms/' + selectedClientEntity.id);
+    }
 }
