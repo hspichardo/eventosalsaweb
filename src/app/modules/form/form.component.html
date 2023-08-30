@@ -4,7 +4,7 @@
         <p-messages class="topbar-messages" [value]="msgs"></p-messages>
     </div>
 
-    <div class="form-body">
+    <form (ngSubmit)="submitForm()" #myForm="ngForm" class="form-body">
         <div class="grid">
             <div class="col-12">
                 <div class="card">
@@ -18,7 +18,7 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="identification">Identificación</label>
-                    <input pInputText required id="identification" [(ngModel)]="person.identification" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.identification}"/>
+                    <input pInputText required id="identification" name="identification" [(ngModel)]="person.identification" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.identification}"/>
                     <small class="empty-warning" *ngIf="submitted && !person.identification">Debe poner una identificación</small>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="names">Nombres</label>
-                    <input pInputText required id="names" [(ngModel)]="person.names" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.names}" />
+                    <input pInputText required id="names" name="names" [(ngModel)]="person.names" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.names}" />
                     <small class="empty-warning"  *ngIf="submitted && !person.names">Debe poner sus nombres</small>
                 </div>
             </div>
@@ -36,7 +36,7 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="surnames">Apellidos</label>
-                    <input pInputText required id="surnames" [(ngModel)]="person.surnames" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.surnames}" />
+                    <input pInputText required id="surnames" name="surnames" [(ngModel)]="person.surnames" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.surnames}" />
                     <small class="empty-warning"  *ngIf="submitted && !person.surnames">Debe poner sus apellidos</small>
                 </div>
             </div>
@@ -48,6 +48,7 @@
                     <p-dropdown 
                         required
                         id="province"
+                        name="province"
                         [options]="provinces" 
                         [(ngModel)]="person.province"
                         [showClear]="true"
@@ -65,6 +66,7 @@
                     <p-dropdown 
                         required
                         id="canton"
+                        name="canton"
                         [options]="cantons" 
                         [(ngModel)]="person.canton"
                         [showClear]="true"
@@ -82,6 +84,7 @@
                     <p-dropdown 
                         required
                         id="position"
+                        name="position"
                         [options]="charges" 
                         [(ngModel)]="person.position"
                         [showClear]="true"
@@ -97,7 +100,7 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="institution">Institucion o empresa a la que pertenece</label>
-                    <input pInputText required id="institution" [(ngModel)]="person.institution" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.institution}"/>
+                    <input pInputText required id="institution" name="institution" [(ngModel)]="person.institution" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.institution}"/>
                     <small class="empty-warning"  *ngIf="submitted && !person.institution">Debe poner indicar alguna entidad</small>
                 </div>
             </div>
@@ -106,7 +109,7 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="phone_number">Número de Whatsapp</label>
-                    <input pInputText required id="phone_number" [(ngModel)]="person.phone_number" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.phone_number}" />
+                    <input pInputText required id="phone_number" name="phone_number" [(ngModel)]="person.phone_number" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.phone_number}" />
                     <small class="empty-warning"  *ngIf="submitted && !person.phone_number">Debe poner un número celular</small>
                 </div>
             </div>
@@ -115,7 +118,7 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="email">Correo electrónico</label>
-                    <input pInputText required id="email" [(ngModel)]="person.email" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.email}"/>
+                    <input pInputText required id="email" name="email" [(ngModel)]="person.email" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.email}"/>
                     <small class="empty-warning"  *ngIf="submitted && !person.email">Debe poner un correo electrónico</small>
                 </div>
             </div>
@@ -127,6 +130,7 @@
                     <p-dropdown 
                         required
                         id="ticket_given_means"
+                        name="ticket_given_means"
                         [options]="ticket_given_means_options" 
                         [(ngModel)]="person.ticket_given_means"
                         [showClear]="true"
@@ -142,9 +146,16 @@
 
 
         <div class="form-footer">
-            <button pButton pRipple label="Enviar respuesta" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+            <button 
+                pButton pRipple 
+                label="Enviar respuesta" 
+                icon="pi pi-check" 
+                class="p-button-text" 
+                [disabled]="sending" 
+                type="submit">
+            </button>
         </div>
-    </div>
+    </form>
     
 
 </div>

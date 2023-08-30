@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { error } from 'console';
 import {ConfirmationService, Message, MessageService} from 'primeng/api';
 import { Observer } from 'rxjs';
 import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
@@ -17,6 +19,7 @@ import { PersonService } from 'src/app/demo/service/personService';
 export class FormComponent implements OnInit {
   
     submitted: boolean = false;
+    sending: boolean = false;
     msgs: Message[] = [];
     provinces : Array<string>;
     cantons : Array<string>;
@@ -24,6 +27,7 @@ export class FormComponent implements OnInit {
     ticket_given_means_options : Array<string>;
     person : Person;
     formPerson: FormPerson;
+    @ViewChild('myForm', { static: true }) myForm: NgForm;
 
 
     constructor(
@@ -81,31 +85,41 @@ export class FormComponent implements OnInit {
     }
 
 
-    save(){
+    submitForm(){
         this.submitted = true;
 
-        const newPersonObserver: Observer<any> = {
-            next: (response: ResponseData) => {  
+        if (this.myForm.valid) 
+        {
+            this.sending = true;
+            const newPersonObserver: Observer<any> = {
+                next: (response: ResponseData) => {  
 
-                if (response.status)
-                {
-                    this.router.navigate(['/registro_exitoso']);
+                    if (response.status)
+                    {
+                        this.router.navigate(['/registro_exitoso']);
+                    }
+                    else{
+                        console.log(response)
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
+                    }
+                },
+                error: (error: any) => {
+                    console.error(error);
+                    return 1;
+                },
+                complete: () => {
+                    this.submitted = false;
+                    return 0;
                 }
-                else{
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
-                }
-            },
-            error: (error: any) => {
-                console.error(error);
-                return 1;
-            },
-            complete: () => {
-                return 0;
-            }
-        };
+            };
 
-        this.messageService.add({ severity: 'info', summary: 'Atención', detail: 'Espere mientras se envia su registro', life: 3000 });
-        this.personService.newPerson(this.person).subscribe(newPersonObserver)
+            this.messageService.add({ severity: 'info', summary: 'Atención', detail: 'Espere mientras se envia su registro', life: 3000 });
+            this.personService.newPerson(this.person).subscribe(newPersonObserver)
+        } 
+        else 
+        {
+            this.messageService.add({ severity: 'error', summary: 'Atención', detail: 'complete los campos requeridos', life: 3000 });
+        }
 
     }
 }
