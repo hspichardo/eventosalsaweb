@@ -63,7 +63,7 @@ export class ClientAccreditationComponent implements OnInit {
     getClientAccreditationsObserver: Observer<any> = {
         next: (response: ResponseData) => { 
             if(response.status)
-            {
+            {   this.clientAccreditations = []
                 this.clientAccreditations.push( response.data)
             }
             else
@@ -235,7 +235,6 @@ export class ClientAccreditationComponent implements OnInit {
             }
         };
 
-        console.log(this.clientAccreditation)
         if(this.clientAccreditation.accreditation)
         {
             
@@ -257,7 +256,6 @@ export class ClientAccreditationComponent implements OnInit {
 
     //[(ngModel)] directive not working 
     updateClientAcreditationTable(event) {
-        console.log(event.value)
         this.clientAccreditation.client = event.value
         this.ClientAccreditationService.getClientAccreditationByClient(this.clientAccreditation.client).subscribe(this.getClientAccreditationsObserver);
     }

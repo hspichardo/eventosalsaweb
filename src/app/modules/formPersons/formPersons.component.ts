@@ -81,6 +81,7 @@ export class FormPersonComponent implements OnInit {
         this.cols_registeredPeople = [
             { field: 'description', header: 'Identificación' },
             { field: 'description', header: 'Nombres' },
+            { field: 'phone_number', header: 'Celular' },
             { field: 'qr', header: 'Acciones' }
         ];
 
@@ -270,7 +271,7 @@ export class FormPersonComponent implements OnInit {
 
     generateModKey(formPerson : FormPerson)
     {
-        formPerson.mod_key = formPerson.key.replace('/','_slashslash_');
+        formPerson.mod_key = formPerson.key.replaceAll('/','_slashslash_');
         return formPerson;
     }
 
@@ -371,9 +372,12 @@ export class FormPersonComponent implements OnInit {
 
         const generateFormsObserver: Observer<any> = {
             next: (response: ResponseData) => {
+                console.log(response)
                 if(response.status)
                 {
                     this.formPersons = response.data;
+                    this.formPersons.map((f) => this.generateModKey(f))
+                    this.formPersons.forEach((f) => f.people = [])
                     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: "Formularios creados exitosamente", life: 3000 });
                 }
                 else

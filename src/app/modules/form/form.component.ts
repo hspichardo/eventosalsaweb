@@ -52,7 +52,7 @@ export class FormComponent implements OnInit {
     
     cleanKey(key: string)
     {
-        return key.replace("/form/", "").replace("_slashslash_",'/')
+        return key.replace("/form/", "").replaceAll("_slashslash_",'/')
     }
 
     getFormPerson()
@@ -99,7 +99,7 @@ export class FormComponent implements OnInit {
                         this.router.navigate(['/registro_exitoso']);
                     }
                     else{
-                        console.log(response)
+                        console.error(response)
                         this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
                     }
                 },
@@ -109,6 +109,7 @@ export class FormComponent implements OnInit {
                 },
                 complete: () => {
                     this.submitted = false;
+                    this.sending = false;
                     return 0;
                 }
             };

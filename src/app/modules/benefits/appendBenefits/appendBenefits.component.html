@@ -4,6 +4,8 @@
             <h4 *ngIf="!selectedAccreditation">Escoga una acreditación</h4>
             <h4 *ngIf="selectedAccreditation">Mostrando beneficios de la acreditación seleccionada:</h4>
             <p-dropdown 
+                [filter]="true" 
+                filterBy="description"
                 [options]="accreditations" 
                 [(ngModel)]="selectedAccreditation" 
                 placeholder="Seleccione una acreditación"
