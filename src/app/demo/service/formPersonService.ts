@@ -14,27 +14,27 @@ export class FormPersonService {
 
 
     getFormPersons(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/registration_form');
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/registration_form');
     }
 
     getFormPerson(formPerson: FormPerson): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/registration_form/'+ formPerson.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/registration_form/'+ formPerson.id);
     }
 
     getFormPersonBykey(key: string): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/registration_form/bykey', { key });
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/registration_form/bykey', { key });
     }
 
     deleteFormPerson(formPerson: FormPerson): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/registration_form/' + formPerson.id)
+        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/registration_form/' + formPerson.id)
     }
 
     updateFormPerson(formPerson: FormPerson): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/registration_form', formPerson)
+        return this.http.put<ResponseData>('https://api.hpichardotesting.com/registration_form', formPerson)
     }
 
     newFormPerson(formPerson: FormPerson): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/formPersons', formPerson)
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/formPersons', formPerson)
     }
 
 
@@ -53,7 +53,7 @@ export class FormPersonService {
         }
 
         for (let i = 0; i < formPersons.length; i++) {
-            this.http.delete<ResponseData>('http://localhost:3000/registration_form/'+ formPersons[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('https://api.hpichardotesting.com/registration_form/'+ formPersons[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted formPerson and report
         return 0;
@@ -61,6 +61,6 @@ export class FormPersonService {
 
 
     getFormPersonsByClientId(selectedClientEntity: Client): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/client_accreditation/client/registration_forms/' + selectedClientEntity.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client_accreditation/client/registration_forms/' + selectedClientEntity.id);
     }
 }

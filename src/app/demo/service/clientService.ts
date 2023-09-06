@@ -12,23 +12,23 @@ export class ClientsService {
 
 
     getClients(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/client');
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client');
     }
 
     getClient(client: Client): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/client/'+ client.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client/'+ client.id);
     }
 
     deleteClient(client: Client): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/client/' + client.id)
+        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/client/' + client.id)
     }
 
     updateClient(client: Client): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/client', client)
+        return this.http.put<ResponseData>('https://api.hpichardotesting.com/client', client)
     }
 
     newClient(client: Client): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/client', client)
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/client', client)
     }
 
 
@@ -47,7 +47,7 @@ export class ClientsService {
         }
 
         for (let i = 0; i < clients.length; i++) {
-            this.http.delete<ResponseData>('http://localhost:3000/client/'+ clients[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('https://api.hpichardotesting.com/client/'+ clients[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted entity and report
         return 0;

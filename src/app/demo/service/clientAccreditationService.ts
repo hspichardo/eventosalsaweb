@@ -12,34 +12,34 @@ export class clientAccreditationService {
     constructor(private http: HttpClient) { }
 
     generateFormsByClient(client: Client): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/client_accreditation/registration_form', {id:client.id})
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/client_accreditation/registration_form', {id:client.id})
     }
 
     getClientAccreditations(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/client_accreditation');
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client_accreditation');
     }
 
     getClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/client_accreditation/'+ clientAccreditation.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client_accreditation/'+ clientAccreditation.id);
     }
 
     getClientAccreditationByClient(client: Client): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/client_accreditation/client/'+ client.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client_accreditation/client/'+ client.id);
     }
 
     deleteClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/client_accreditation/' + clientAccreditation.id)
+        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/client_accreditation/' + clientAccreditation.id)
     }
 
     updateClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/client_accreditation', clientAccreditation)
+        return this.http.put<ResponseData>('https://api.hpichardotesting.com/client_accreditation', clientAccreditation)
     }
 
     newClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData> {
         const body : any = {...clientAccreditation};
         body["accreditation"] = body["accreditation"].id;
         body["client"] = body["client"].id;
-        return this.http.post<ResponseData>('http://localhost:3000/client_accreditation', body)
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/client_accreditation', body)
     }
 
 
@@ -58,7 +58,7 @@ export class clientAccreditationService {
         }
 
         for (let i = 0; i < clientAccreditations.length; i++) {
-            this.http.delete<ResponseData>('http://localhost:3000/client_accreditation/'+ clientAccreditations[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('https://api.hpichardotesting.com/client_accreditation/'+ clientAccreditations[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted clientAccreditation and report
         return 0;

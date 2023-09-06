@@ -13,27 +13,27 @@ export class TicketsService {
 
 
     getTickets(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/ticket');
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/ticket');
     }
 
     getTicket(event: Ticket): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/ticket/'+ event.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/ticket/'+ event.id);
     }
 
     getTicketByPersonId(person: Person): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/ticket/person/'+ person.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/ticket/person/'+ person.id);
     }
 
     deleteTicket(event: Ticket): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/ticket/' + event.id)
+        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/ticket/' + event.id)
     }
 
     updateTicket(event: Ticket): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/ticket', event)
+        return this.http.put<ResponseData>('https://api.hpichardotesting.com/ticket', event)
     }
 
     newTicket(event: Ticket): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/ticket', event)
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/ticket', event)
     }
 
 
@@ -52,7 +52,7 @@ export class TicketsService {
         }
 
         for (let i = 0; i < tickets.length; i++) {
-            this.http.delete<ResponseData>('http://localhost:3000/ticket/'+ tickets[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('https://api.hpichardotesting.com/ticket/'+ tickets[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted entity and report
         return 0;

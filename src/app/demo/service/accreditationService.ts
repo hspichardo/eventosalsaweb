@@ -13,19 +13,19 @@ export class AccreditationService {
 
 
     getAccreditations(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/accreditations');
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/accreditations');
     }
 
     getAccreditation(acreditation: Accreditation): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/accreditations/'+ acreditation.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/accreditations/'+ acreditation.id);
     }
 
     getAccreditationsByEventId(event: EventEntity): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/accreditations/by_event/'+event.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/accreditations/by_event/'+event.id);
     }
 
     deleteAccreditation(acreditation: Accreditation): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/accreditations/' + acreditation.id);
+        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/accreditations/' + acreditation.id);
     }
 
     updateAccreditation(acreditation: Accreditation): Observable<ResponseData> {
@@ -37,14 +37,14 @@ export class AccreditationService {
         else {
             delete body['benefits'];
         }
-        return this.http.put<ResponseData>('http://localhost:3000/accreditations/', body)
+        return this.http.put<ResponseData>('https://api.hpichardotesting.com/accreditations/', body)
     }
 
     newAccreditation(acreditation: Accreditation): Observable<ResponseData> {
         let body: Object = {...acreditation};
         body['event'] = body['event'].id;
         body['benefits'] = body['benefits']? body['benefits'].map(benefit => benefit.id):[];
-        return this.http.post<ResponseData>('http://localhost:3000/accreditations', body)
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/accreditations', body)
     }
 
 
@@ -63,7 +63,7 @@ export class AccreditationService {
         }
 
         for (let i = 0; i < accreditations.length; i++) {
-            this.http.delete<ResponseData>('http://localhost:3000/accreditations/' + accreditations[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('https://api.hpichardotesting.com/accreditations/' + accreditations[i].id).subscribe(deleteObserver)
         }
         return 0;
     }

@@ -12,23 +12,23 @@ export class certificateService {
 
 
     getCertificates(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/certificate');
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/certificate');
     }
 
     getCertificate(certificate: Certificate): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/certificate/'+ certificate.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/certificate/'+ certificate.id);
     }
 
     deleteCertificate(certificate: Certificate): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/certificate/' + certificate.id)
+        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/certificate/' + certificate.id)
     }
 
     updateCertificate(certificate: Certificate): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/certificate', certificate)
+        return this.http.put<ResponseData>('https://api.hpichardotesting.com/certificate', certificate)
     }
 
     newCertificate(certificate: Certificate): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/certificate', certificate)
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/certificate', certificate)
     }
 
 
@@ -47,7 +47,7 @@ export class certificateService {
         }
 
         for (let i = 0; i < certificates.length; i++) {
-            this.http.delete<ResponseData>('http://localhost:3000/certificate/'+ certificates[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('https://api.hpichardotesting.com/certificate/'+ certificates[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted certificate and report
         return 0;
