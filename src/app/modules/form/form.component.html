@@ -11,9 +11,9 @@
                     <h3>Formulario para registro de persona</h3>
                 </div>
             </div>
-    
+
         </div>
-    
+
         <div class="grid">
             <div class="col-12">
                 <div class="card card-item">
@@ -36,15 +36,15 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="province">Provincia</label>
-                    <p-dropdown 
+                    <p-dropdown
                         id="province"
                         name="province"
-                        [options]="provinces" 
+                        [options]="provinces"
                         [(ngModel)]="person.province"
                         [showClear]="true"
                         placeholder="Escoga una provincia"
                         [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.province}"
-                        autoWidth="false" 
+                        autoWidth="false"
                         [style]="{'width':'60%'}" >
                     </p-dropdown>
                     <small class="empty-warning"  *ngIf="submitted && !person.province">Debe escoger una provincia</small>
@@ -55,15 +55,15 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="canton">Cantón</label>
-                    <p-dropdown 
+                    <p-dropdown
                         id="canton"
                         name="canton"
-                        [options]="cantons" 
+                        [options]="cantons"
                         [(ngModel)]="person.canton"
                         [showClear]="true"
                         placeholder="Escoga un cantón"
                         [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.canton}"
-                        autoWidth="false" 
+                        autoWidth="false"
                         [style]="{'width':'60%'}" >
                     </p-dropdown>
                     <small class="empty-warning"  *ngIf="submitted && !person.canton">Debe escoger un cantón</small>
@@ -80,7 +80,7 @@
                             <label [for]="type.key" class="ml-2">{{ type.name }}</label>
                         </div>
                     </div>
-                    <small class="empty-warning"  *ngIf="submitted && !person.position">Debe llenar con un cargo</small>
+<!--                    <small class="empty-warning"  *ngIf="submitted && !person.position">Debe llenar con un cargo</small>-->
                 </div>
             </div>
         </div>
@@ -88,13 +88,13 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="position">Indicar cargo que ocupa</label>
-                    <p-dropdown 
+                    <p-dropdown
                         id="position"
                         name="position"
-                        [options]="charges" 
+                        [options]="charges"
                         [(ngModel)]="person.position"
                         [showClear]="true"
-                        [editable]="true" 
+                        [editable]="true"
                         placeholder="llene con un cargo"
                         [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.position}">
                     </p-dropdown>
@@ -133,37 +133,37 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="ticket_given_means">Recibió la entrada a travéz de: </label>
-                    <p-dropdown 
+                    <p-dropdown
                         id="ticket_given_means"
                         name="ticket_given_means"
-                        [options]="ticket_given_means_options" 
+                        [options]="ticket_given_means_options"
                         [(ngModel)]="person.ticket_given_means"
                         [showClear]="true"
-                        [editable]="true" 
-                        placeholder="Escriba cómo recibió su entrada" 
+                        [editable]="true"
+                        placeholder="Escriba cómo recibió su entrada"
                         [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.ticket_given_means}"
-                        autoWidth="false" 
+                        autoWidth="false"
                         [style]="{'width':'60%'}" >
                     </p-dropdown>
                     <small class="empty-warning"  *ngIf="submitted && !person.ticket_given_means">Debe indicar algún método</small>
                 </div>
             </div>
         </div>
-    
+
 
 
         <div class="form-footer">
-            <button 
-                pButton pRipple 
-                label="Enviar respuesta" 
-                icon="pi pi-check" 
-                class="p-button-text" 
-                [disabled]="sending" 
+            <button
+                pButton pRipple
+                label="Enviar respuesta"
+                icon="pi pi-check"
+                class="p-button-text"
+                [disabled]="sending"
                 type="submit">
             </button>
         </div>
     </form>
-    
+
 
 </div>
 
