@@ -132,7 +132,7 @@
         <div class="grid">
             <div class="col-12">
                 <div class="card card-item">
-                    <label htmlFor="ticket_given_means">Recibió la entrada a travéz de: </label>
+                    <label htmlFor="ticket_given_means">Recibió la entrada a través de: </label>
                     <p-dropdown
                         id="ticket_given_means"
                         name="ticket_given_means"
@@ -166,5 +166,9 @@
 
 
 </div>
+
+<p-dialog header="Enviando Formulario" [(visible)]="showLoading" [modal]="true" [closable]="false" [draggable]="false" [resizable]="false">
+    <img src="assets/demo/images/loading.gif" alt="">
+</p-dialog>
 
 
