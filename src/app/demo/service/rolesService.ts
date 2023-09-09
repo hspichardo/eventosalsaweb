@@ -12,11 +12,11 @@ export class RolesService {
 
 
     getRoles(): Observable<ResponseData> {
-        return this.http.get<any>('http://localhost:3000/roles');
+        return this.http.get<any>('https://api.hpichardotesting.com/roles');
     }
 
     deleteRole(role: Role): Observable<void>  {
-        return this.http.delete<any>('http://localhost:3000/roles' + role.code)
+        return this.http.delete<any>('https://api.hpichardotesting.com/roles/' + role.code)
     }
 
     updateRole(role: Role): Observable<Role> {
@@ -24,7 +24,7 @@ export class RolesService {
     }
 
     newRole(role: Role): Observable<Role> {
-        return this.http.post<Role>('http://localhost:3000/roles', {code:role.code, description:role.description})
+        return this.http.post<Role>('https://api.hpichardotesting.com/roles', {code:role.code, description:role.description})
     }
 
 

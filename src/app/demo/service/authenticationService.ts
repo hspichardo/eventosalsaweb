@@ -7,10 +7,10 @@ import { Observable, Observer } from 'rxjs';
 export class AuthenticationService {
 
     constructor(private http: HttpClient) { }
-    
+
 
     login(user: User): any {
-        return this.http.post<HttpResponse<any>>('http://localhost:3000/auth/login', 
+        return this.http.post<HttpResponse<any>>('https://api.hpichardotesting.com/auth/login',
         {
             "username":user.username,
             "password": user.password

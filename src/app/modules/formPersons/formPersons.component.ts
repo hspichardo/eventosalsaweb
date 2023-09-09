@@ -398,7 +398,7 @@ export class FormPersonComponent implements OnInit {
     }
 
     copyFormLink(formPerson) {
-        this.copyTextOnClipboard('http://localhost:4200/#/form/' + formPerson.mod_key)
+        this.copyTextOnClipboard('https://harlynp.sg-host.com/#/form/' + formPerson.mod_key)
     }
 
     copyTextOnClipboard = async (text: string): Promise<void> => {

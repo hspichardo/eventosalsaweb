@@ -2,7 +2,7 @@
     height:100%;
     width: 40%;
     margin:0 auto;
-    padding:25vh 0%;
+    padding:25vh 0;
 }
 
 .card-item {
@@ -131,3 +131,12 @@
     }
 }
 
+
+@media only screen and (max-width: 600px) {
+    .form-body {
+        height:100%;
+        width: 90%;
+        margin:0 auto;
+        padding:25vh 0;
+    }
+}

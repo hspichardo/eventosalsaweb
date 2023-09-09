@@ -12,23 +12,23 @@ export class BenefitService {
 
 
     getBenefits(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/benefits');
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/benefits');
     }
 
     getBenefit(benefit: Benefit): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/benefits/'+ benefit.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/benefits/'+ benefit.id);
     }
 
     deleteBenefit(benefit: Benefit): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/benefits/' + benefit.id)
+        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/benefits/' + benefit.id)
     }
 
     updateBenefit(benefit: Benefit): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/benefits', benefit)
+        return this.http.put<ResponseData>('https://api.hpichardotesting.com/benefits', benefit)
     }
 
     newBenefit(benefit: Benefit): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/benefits', benefit)
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/benefits', benefit)
     }
 
 
@@ -47,7 +47,7 @@ export class BenefitService {
         }
 
         for (let i = 0; i < benefits.length; i++) {
-            this.http.delete<ResponseData>('http://localhost:3000/benefits/' + benefits[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('https://api.hpichardotesting.com/benefits/' + benefits[i].id).subscribe(deleteObserver)
         }
         return 0;
     }

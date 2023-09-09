@@ -12,23 +12,23 @@ export class EventEntitiesService {
 
 
     getEventEntities(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/events');
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/events');
     }
 
     getEventEntity(event: EventEntity): Observable<ResponseData> {
-        return this.http.get<ResponseData>('http://localhost:3000/events/'+ event.id);
+        return this.http.get<ResponseData>('https://api.hpichardotesting.com/events/'+ event.id);
     }
 
     deleteEventEntity(event: EventEntity): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('http://localhost:3000/events/' + event.id)
+        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/events/' + event.id)
     }
 
     updateEventEntity(event: EventEntity): Observable<ResponseData> {
-        return this.http.put<ResponseData>('http://localhost:3000/events', event)
+        return this.http.put<ResponseData>('https://api.hpichardotesting.com/events', event)
     }
 
     newEventEntity(event: EventEntity): Observable<ResponseData> {
-        return this.http.post<ResponseData>('http://localhost:3000/events', event)
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/events', event)
     }
 
 
@@ -47,7 +47,7 @@ export class EventEntitiesService {
         }
 
         for (let i = 0; i < events.length; i++) {
-            this.http.delete<ResponseData>('http://localhost:3000/events/'+ events[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>('https://api.hpichardotesting.com/events/'+ events[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted entity and report
         return 0;
