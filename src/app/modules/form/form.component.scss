@@ -21,6 +21,13 @@
 }
 
 .form-topbar{
+    height: 60px;
+    width: 100%;
+    background: rgb(242,167,27);
+    background: linear-gradient(90deg, rgba(242,167,27,1) 0%, rgba(242,187,22,1) 100%);
+    text-align: center;
+    position: fixed;
+
     z-index: 1;
     display: flex;
     justify-content: center;
@@ -36,5 +43,91 @@
     height: 75%;
     width: auto;
     margin: auto 0;
+}
+
+.tobar-form {
+    .exception-topbar {
+        height: 60px;
+        width: 100%;
+        background: rgb(242,167,27);
+        background: linear-gradient(90deg, rgba(242,167,27,1) 0%, rgba(242,187,22,1) 100%);
+        text-align: center;
+        position: fixed;
+
+        .logo {
+            height: 60px;
+            top: 20px;
+            position: relative;
+    
+            img {
+                height: 14px;
+                width: auto;
+                vertical-align: middle;
+                border: 0 none;
+            }
+        }
+    }
+
+    .exception-panel {
+        padding: 150px 30px;
+        position: relative;
+        top: 60px;
+        text-align: center;
+
+        .top {
+            text-align: center;
+
+            .left {
+                height: 108px;
+                width: auto;
+                vertical-align: middle;
+            }
+
+            .main {
+                height: 247px;
+                width: auto;
+                vertical-align: middle;
+                margin: 30px;
+            }
+
+            .right {
+                height: 108px;
+                width: auto;
+                vertical-align: middle;
+            }
+
+            span {
+                display: block;
+                color: #DDD5D0;
+                font-size: 30px;
+                font-family: 400;
+            }
+
+            .seperator {
+                height: 1px;
+                width: 600px;
+                margin: 30px auto;
+                background-color: #E2E2E2;
+            }
+        }
+
+        .bottom {
+            text-align: center;
+            color: #787878;
+
+            .exception-panel-header {
+                display: block;
+                font-size: 18px;
+
+            }
+
+            .exception-panel-subheader {
+                display: block;
+                font-size: 14px;
+                margin: 10px 0 20px 0;
+
+            }
+        }
+    }
 }
 

@@ -1,6 +1,6 @@
 <div class="exception-body">
-    <div class="exception-topbar form-topbar">
-        <img class="logotopbar" src="assets/demo/images/login/logo2.png" alt="ecuador-layout"/>
+    <div class="form-topbar">
+        <img class="logotopbar" src="assets/demo/images/excellent_bussines_marca.png" alt="ecuador-layout"/>
         <p-messages class="topbar-messages" [value]="msgs"></p-messages>
     </div>
 
@@ -14,15 +14,6 @@
     
         </div>
     
-        <div class="grid">
-            <div class="col-12">
-                <div class="card card-item">
-                    <label htmlFor="identification">Identificación</label>
-                    <input pInputText required id="identification" name="identification" [(ngModel)]="person.identification" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.identification}"/>
-                    <small class="empty-warning" *ngIf="submitted && !person.identification">Debe poner una identificación</small>
-                </div>
-            </div>
-        </div>
         <div class="grid">
             <div class="col-12">
                 <div class="card card-item">
@@ -46,14 +37,15 @@
                 <div class="card card-item">
                     <label htmlFor="province">Provincia</label>
                     <p-dropdown 
-                        required
                         id="province"
                         name="province"
                         [options]="provinces" 
                         [(ngModel)]="person.province"
                         [showClear]="true"
                         placeholder="Escoga una provincia"
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.province}">
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.province}"
+                        autoWidth="false" 
+                        [style]="{'width':'60%'}" >
                     </p-dropdown>
                     <small class="empty-warning"  *ngIf="submitted && !person.province">Debe escoger una provincia</small>
                 </div>
@@ -64,14 +56,15 @@
                 <div class="card card-item">
                     <label htmlFor="canton">Cantón</label>
                     <p-dropdown 
-                        required
                         id="canton"
                         name="canton"
                         [options]="cantons" 
                         [(ngModel)]="person.canton"
                         [showClear]="true"
                         placeholder="Escoga un cantón"
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.canton}">
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.canton}"
+                        autoWidth="false" 
+                        [style]="{'width':'60%'}" >
                     </p-dropdown>
                     <small class="empty-warning"  *ngIf="submitted && !person.canton">Debe escoger un cantón</small>
                 </div>
@@ -80,9 +73,22 @@
         <div class="grid">
             <div class="col-12">
                 <div class="card card-item">
-                    <label htmlFor="position">Indicar posisión que ocupa</label>
+                    <label htmlFor="position">Indicar si es:</label>
+                    <div class="flex gap-3">
+                        <div *ngFor="let type of people_type" class="field-checkbox">
+                            <p-radioButton [inputId]="type.key" name="type" [value]="type" [(ngModel)]="natural_person" (onClick)="changePeopleType(type)"></p-radioButton>
+                            <label [for]="type.key" class="ml-2">{{ type.name }}</label>
+                        </div>
+                    </div>
+                    <small class="empty-warning"  *ngIf="submitted && !person.position">Debe llenar con un cargo</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid" *ngIf="natural_person.key === 'company'">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="position">Indicar cargo que ocupa</label>
                     <p-dropdown 
-                        required
                         id="position"
                         name="position"
                         [options]="charges" 
@@ -96,11 +102,11 @@
                 </div>
             </div>
         </div>
-        <div class="grid">
+        <div class="grid" *ngIf="natural_person.key === 'company'">
             <div class="col-12">
                 <div class="card card-item">
-                    <label htmlFor="institution">Institucion o empresa a la que pertenece</label>
-                    <input pInputText required id="institution" name="institution" [(ngModel)]="person.institution" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.institution}"/>
+                    <label htmlFor="institution">Institución o empresa a la que pertenece</label>
+                    <input pInputText id="institution" name="institution" [(ngModel)]="person.institution" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.institution}"/>
                     <small class="empty-warning"  *ngIf="submitted && !person.institution">Debe poner indicar alguna entidad</small>
                 </div>
             </div>
@@ -128,15 +134,16 @@
                 <div class="card card-item">
                     <label htmlFor="ticket_given_means">Recibió la entrada a travéz de: </label>
                     <p-dropdown 
-                        required
                         id="ticket_given_means"
                         name="ticket_given_means"
                         [options]="ticket_given_means_options" 
                         [(ngModel)]="person.ticket_given_means"
                         [showClear]="true"
                         [editable]="true" 
-                        placeholder="Indique como recibió su entrada"
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.ticket_given_means}">
+                        placeholder="Escriba cómo recibió su entrada" 
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.ticket_given_means}"
+                        autoWidth="false" 
+                        [style]="{'width':'60%'}" >
                     </p-dropdown>
                     <small class="empty-warning"  *ngIf="submitted && !person.ticket_given_means">Debe indicar algún método</small>
                 </div>
