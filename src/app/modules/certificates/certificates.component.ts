@@ -6,6 +6,10 @@ import { Table } from 'primeng/table';
 import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
 import { certificateService } from 'src/app/demo/service/certificateService';
 import { Certificate } from 'src/app/demo/interfaces/certificate';
+import { Benefit } from 'src/app/demo/interfaces/benefit';
+import { BenefitService } from 'src/app/demo/service/benefitService';
+import { Person } from 'src/app/demo/interfaces/person';
+import { PersonService } from 'src/app/demo/service/personService';
 
 
 @Component({
@@ -22,6 +26,9 @@ export class CertificateComponent implements OnInit {
     deleteCertificateDialog: boolean = false;
     
     certificates: Certificate[];
+    benefits: Benefit[];
+    people: Person[];
+
 
     certificate: Certificate;
 
@@ -38,13 +45,37 @@ export class CertificateComponent implements OnInit {
 
     constructor(private messageService: MessageService,
                 private breadcrumbService: BreadcrumbService,
-                private CertificateService: certificateService) {
+                private CertificateService: certificateService,
+                private benefitService: BenefitService,
+                private personService: PersonService) {
 
         this.breadcrumbService.setItems([
             {label: 'Certificados'}
         ]);
 
     }
+    getPeopleObserver: Observer<any> = {
+        next: (response: ResponseData) => { 
+            if(response.status) 
+            {
+                this.people = response.data
+                this.filterPeopleWithCertificate()
+            }
+            else
+            {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
+                console.log(response.message);
+            } 
+        },
+        error: (error: any) => {
+            console.error(error);
+            return 1;
+        },
+        complete: () => {
+            return 0;
+        }
+    };
+
   
     ngOnInit() {
 
@@ -53,7 +84,42 @@ export class CertificateComponent implements OnInit {
             next: (response: ResponseData) => { 
                 if(response.status) 
                 {
-                    this.certificates = response.data
+                    this.certificates = response.data;
+                    this.certificates.forEach(certificate => {
+                        if (certificate.benefit == null)
+                        {
+                            certificate.benefit = {description:'description'}
+                        }
+                        if (certificate.person == null)
+                        {
+                            certificate.person = {names:'names'}
+                        }
+
+                    });
+
+                }
+                else
+                {
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
+                    console.log(response.message);
+                }
+            },
+            error: (error: any) => {
+                console.error(error);
+                return 1;
+            },
+            complete: () => {
+                this.personService.getPeople().subscribe(this.getPeopleObserver);
+                return 0;
+            }
+        };
+
+        const getBenefitsObserver: Observer<any> = {
+            next: (response: ResponseData) => {  
+                if(response.status) 
+                {
+                    this.benefits = response.data
+                    this.benefits = this.benefits.filter( benefit => benefit.generate_certificate)
                 }
                 else
                 {
@@ -70,15 +136,24 @@ export class CertificateComponent implements OnInit {
             }
         };
 
+
+
+        this.benefitService.getBenefits().subscribe(getBenefitsObserver);
         this.CertificateService.getCertificates().subscribe(getCertificatesObserver);
         
         
         this.cols = [
-			{ field: 'id', header: 'Id' },
 			{ field: 'Person', header: 'Persona' },
 			{ field: 'Benefit', header: 'Beneficio' },
             { field: 'actions', header: 'Acciones' }
         ];
+
+    }
+
+    filterPeopleWithCertificate()
+    {
+        const peopleIDWithCertificate = this.certificates? this.certificates.map( certificate => certificate.person.id) : []
+        this.people = this.people.filter( person => ! peopleIDWithCertificate.includes(person.id))
 
     }
 
@@ -134,6 +209,7 @@ export class CertificateComponent implements OnInit {
             complete: () => {
                 // Hide certificate dialog
                 this.deleteCertificateDialog = false;
+                this.personService.getPeople().subscribe(this.getPeopleObserver);
                 return 0;
             }
         };
@@ -175,15 +251,20 @@ export class CertificateComponent implements OnInit {
                 // Hide new certificate dialog
                 this.certificateDialog = false;
                 this.certificate = {};
+                this.personService.getPeople().subscribe(this.getPeopleObserver);
                 return 0;
             }
         };
 
-        if (this.certificate.id) {
-            this.CertificateService.updateCertificate(this.certificate).subscribe(saveCertificateObserver)
-        }
-        else {
-            this.CertificateService.newCertificate(this.certificate).subscribe(saveCertificateObserver)
+        if (this.certificate.person && this.certificate.benefit)
+        {
+            if (this.certificate.id) {
+                this.CertificateService.updateCertificate(this.certificate).subscribe(saveCertificateObserver)
+            }
+            else {
+                this.CertificateService.newCertificate(this.certificate).subscribe(saveCertificateObserver)
+            }
+
         }
 
     }

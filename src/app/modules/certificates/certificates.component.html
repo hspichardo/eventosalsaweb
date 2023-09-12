@@ -21,7 +21,7 @@
                 [columns]="cols" 
                 responsiveLayout="scroll" 
                 [rows]="10" 
-                [globalFilterFields]="['name','country.name','representative.name','status']" 
+                [globalFilterFields]="['person.names','benefit.description']" 
                 [rows]="10" 
                 [paginator]="true" 
                 [rowsPerPageOptions]="[10,20,30]" 
@@ -60,21 +60,17 @@
                         <td>
                             <p-tableCheckbox [value]="certificate"></p-tableCheckbox>
                         </td>
-                        <td style="width:50%; min-width:10rem;"><span class="p-column-title">Nombre</span>
-                            {{ certificate.benefit.description }}
-                        </td>
                         <td style="width:50%; min-width:10rem;">
-                            <span class="p-column-title">Descripción</span>
-                            {{ certificate.person.identification }}
-                        </td>
-                        <td style="width:50%; min-width:10rem;">
-                            <span class="p-column-title">Descripción</span>
+                            <span class="p-column-title">Persona</span>
                             {{ certificate.person.names }}
+                        </td>
+                        <td style="width:50%; min-width:10rem;">
+                            <span class="p-column-title">Beneficio</span>
+                            {{ certificate.benefit.description }}
                         </td>
 
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editCertificate(certificate)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCertificate(certificate)"></button>
                             </div>
                         </td>
@@ -84,16 +80,37 @@
         </div>
 
 
-        <p-dialog [(visible)]="certificateDialog" [style]="{width: '450px'}" header="Detalles del Certificados" [modal]="true" class="p-fluid">
+        <p-dialog  [(visible)]="certificateDialog" [style]="{width: '30%', minWidth: '450px'}" header="Detalles del Certificados" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
-                <div class="field">
-                    <label for="name">Nombre</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="certificate.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !certificate.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !certificate.name">Debe poner un nombre.</small>
+                <div class="field" id="newDialog">
+                    <label for="client">Cliente</label>
+                    <p-dropdown 
+                        id="person"
+                        name="cliente"
+                        appendTo="body"
+                        [options]="people" 
+                        [(ngModel)]="certificate.person"
+                        optionLabel="names" [filter]="true" filterBy="names" 
+                        [showClear]="true"
+                        placeholder="Escoga un cliente"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !certificate.person}">
+                    </p-dropdown>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !certificate.person">Debe seleccionar un cliente</small>
                 </div>
                 <div class="field">
-                    <label for="description">Descripción</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="certificate.description" required rows="3" cols="20"></textarea>
+                    <label for="client">Beneficio</label>
+                    <p-dropdown 
+                        id="benefit"
+                        name="benefit"
+                        appendTo="body"
+                        [options]="benefits" 
+                        [(ngModel)]="certificate.benefit"
+                        optionLabel="description" [filter]="true" filterBy="description" 
+                        [showClear]="true"
+                        placeholder="Escoga un beneficio"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !certificate.benefit}">
+                    </p-dropdown>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !certificate.benefit">Debe seleccionar un beneficio</small>
                 </div>
 
             </ng-template>

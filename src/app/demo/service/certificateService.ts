@@ -24,11 +24,19 @@ export class certificateService {
     }
 
     updateCertificate(certificate: Certificate): Observable<ResponseData> {
-        return this.http.put<ResponseData>('https://api.hpichardotesting.com/certificate', certificate)
+        const body = {
+            benefit: certificate.benefit.id,
+            person: certificate.person.id
+        }
+        return this.http.put<ResponseData>('https://api.hpichardotesting.com/certificate', body)
     }
 
     newCertificate(certificate: Certificate): Observable<ResponseData> {
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/certificate', certificate)
+        const body = {
+            benefit: certificate.benefit.id,
+            person: certificate.person.id
+        }
+        return this.http.post<ResponseData>('https://api.hpichardotesting.com/certificate', body)
     }
 
 
