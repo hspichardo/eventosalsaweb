@@ -6,6 +6,7 @@ export interface Person {
     identification?: string;
     names?: string;
     surnames?: string;
+    country?: string;
     province?: string;
     canton?: string;
     position?: string;
