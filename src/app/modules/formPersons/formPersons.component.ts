@@ -80,7 +80,8 @@ export class FormPersonComponent implements OnInit {
 
         this.cols_registeredPeople = [
             { field: 'description', header: 'Identificación' },
-            { field: 'description', header: 'Nombres' },
+            { field: 'names', header: 'Nombres' },
+            { field: 'surnames', header: 'Apellidos' },
             { field: 'phone_number', header: 'Celular' },
             { field: 'qr', header: 'Acciones' }
         ];
