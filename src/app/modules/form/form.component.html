@@ -1,6 +1,6 @@
 <div class="exception-body">
     <div class="form-topbar">
-        <img class="logotopbar" src="assets/demo/images/discoverlogo.png" alt="ecuador-layout"/>
+        <img class="logotopbar" src="assets/demo/images/logo.png" alt="ecuador-layout"/>
         <p-messages class="topbar-messages" [value]="msgs"></p-messages>
     </div>
 
@@ -125,7 +125,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid">
+        <!--<div class="grid">
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="position">Indicar si es:</label>
@@ -135,10 +135,10 @@
                             <label [for]="type.key" class="ml-2">{{ type.name }}</label>
                         </div>
                     </div>
-<!--                    <small class="empty-warning"  *ngIf="submitted && !person.position">Debe llenar con un cargo</small>-->
+&lt;!&ndash;                    <small class="empty-warning"  *ngIf="submitted && !person.position">Debe llenar con un cargo</small>&ndash;&gt;
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="grid" *ngIf="natural_person.key === 'company' || natural_person.key === 'institution'">
             <div class="col-12">
                 <div class="card card-item">
@@ -158,10 +158,10 @@
                 </div>
             </div>
         </div>
-        <div class="grid" *ngIf="natural_person.key === 'company' || natural_person.key === 'institution'">
+        <div class="grid" >
             <div class="col-12">
                 <div class="card card-item">
-                    <label htmlFor="institution">Institución o empresa a la que pertenece</label>
+                    <label htmlFor="institution">Establecimiento a la que pertenece (si no pertenece debe poner no aplica)</label>
                     <input pInputText id="institution" name="institution" [(ngModel)]="person.institution" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.institution}"/>
                     <small class="empty-warning"  *ngIf="submitted && !person.institution">Debe poner indicar alguna entidad</small>
                 </div>
@@ -185,7 +185,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid">
+        <!--<div class="grid">
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="ticket_given_means">Recibió la entrada a través de: </label>
@@ -204,7 +204,7 @@
                     <small class="empty-warning"  *ngIf="submitted && !person.ticket_given_means">Debe indicar algún método</small>
                 </div>
             </div>
-        </div>
+        </div>-->
 
 
 

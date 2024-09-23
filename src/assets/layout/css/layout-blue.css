@@ -2110,7 +2110,7 @@ body .layout-wrapper .layout-main .layout-content {
 .exception-body .exception-topbar {
   height: 60px;
   width: 100%;
-  background-color: #1C8177 ;
+  background-color: #cfffd8 ;
   background-image: -webkit-gradient(linear, left top, right top, from(#1C8177), to(#1C8177));
   background-image: -webkit-linear-gradient(to right, #1C8177, #1C8177);
   background-image: -moz-linear-gradient(to right, #1C8177, #1C8177);
