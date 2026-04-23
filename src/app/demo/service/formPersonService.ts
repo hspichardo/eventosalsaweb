@@ -1,6 +1,7 @@
 
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { FormPerson } from '../interfaces/formPerson';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
@@ -14,27 +15,27 @@ export class FormPersonService {
 
 
     getFormPersons(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/registration_form');
+        return this.http.get<ResponseData>(environment.apiUrl + '/registration_form');
     }
 
     getFormPerson(formPerson: FormPerson): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/registration_form/'+ formPerson.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/registration_form/'+ formPerson.id);
     }
 
     getFormPersonBykey(key: string): Observable<ResponseData> {
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/registration_form/bykey', { key });
+        return this.http.post<ResponseData>(environment.apiUrl + '/registration_form/bykey', { key });
     }
 
     deleteFormPerson(formPerson: FormPerson): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/registration_form/' + formPerson.id)
+        return this.http.delete<ResponseData>(environment.apiUrl + '/registration_form/' + formPerson.id)
     }
 
     updateFormPerson(formPerson: FormPerson): Observable<ResponseData> {
-        return this.http.put<ResponseData>('https://api.hpichardotesting.com/registration_form', formPerson)
+        return this.http.put<ResponseData>(environment.apiUrl + '/registration_form', formPerson)
     }
 
     newFormPerson(formPerson: FormPerson): Observable<ResponseData> {
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/formPersons', formPerson)
+        return this.http.post<ResponseData>(environment.apiUrl + '/formPersons', formPerson)
     }
 
 
@@ -53,7 +54,7 @@ export class FormPersonService {
         }
 
         for (let i = 0; i < formPersons.length; i++) {
-            this.http.delete<ResponseData>('https://api.hpichardotesting.com/registration_form/'+ formPersons[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>(environment.apiUrl + '/registration_form/'+ formPersons[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted formPerson and report
         return 0;
@@ -61,6 +62,6 @@ export class FormPersonService {
 
 
     getFormPersonsByClientId(selectedClientEntity: Client): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client_accreditation/client/registration_forms/' + selectedClientEntity.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/client_accreditation/client/registration_forms/' + selectedClientEntity.id);
     }
 }

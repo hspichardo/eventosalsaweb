@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { User } from '../interfaces/user';
 import { Observable, Observer, elementAt } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
@@ -11,11 +12,11 @@ export class UserService {
 
 
     getUsers(): Observable<ResponseData> {
-        return this.http.get<any>('https://api.hpichardotesting.com/users');
+        return this.http.get<any>(environment.apiUrl + '/users');
     }
 
     getUser(username:string): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/users/'+username);
+        return this.http.get<ResponseData>(environment.apiUrl + '/users/'+username);
     }
 
     deleteUser(user: User): Observable<ResponseData>  {
@@ -23,7 +24,7 @@ export class UserService {
             'authorization': 'Bearer '+ localStorage.getItem('access_token'),
         });
 
-        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/users/' + user.username, { headers: headers })
+        return this.http.delete<ResponseData>(environment.apiUrl + '/users/' + user.username, { headers: headers })
     }
 
     updateUser(user: User): any {
@@ -34,7 +35,7 @@ export class UserService {
         var result : any = null;
 
         if (user.password){
-            result = this.http.put<HttpResponse<any>>('https://api.hpichardotesting.com/users/update/password',
+            result = this.http.put<HttpResponse<any>>(environment.apiUrl + '/users/update/password',
             {
                 "username": user.username,
                 "password": user.password,
@@ -43,7 +44,7 @@ export class UserService {
         }
 
         if (result == null || result.status == 200){
-            return this.http.put<HttpResponse<any>>('https://api.hpichardotesting.com/users/update/roles',
+            return this.http.put<HttpResponse<any>>(environment.apiUrl + '/users/update/roles',
             {
                 "username": user.username,
                 "roleCodes": user.roles.map(element => element.code)
@@ -55,7 +56,7 @@ export class UserService {
     }
 
     newUser(user: User): any {
-        return this.http.post<HttpResponse<any>>('https://api.hpichardotesting.com/users',
+        return this.http.post<HttpResponse<any>>(environment.apiUrl + '/users',
             {
                 "username": user.username,
                 "password": user.password,

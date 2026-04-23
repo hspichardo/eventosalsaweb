@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Role } from '../interfaces/role';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
@@ -12,11 +13,11 @@ export class RolesService {
 
 
     getRoles(): Observable<ResponseData> {
-        return this.http.get<any>('https://api.hpichardotesting.com/roles');
+        return this.http.get<any>(environment.apiUrl + '/roles');
     }
 
     deleteRole(role: Role): Observable<void>  {
-        return this.http.delete<any>('https://api.hpichardotesting.com/roles/' + role.code)
+        return this.http.delete<any>(environment.apiUrl + '/roles/' + role.code)
     }
 
     updateRole(role: Role): Observable<Role> {
@@ -24,7 +25,7 @@ export class RolesService {
     }
 
     newRole(role: Role): Observable<Role> {
-        return this.http.post<Role>('https://api.hpichardotesting.com/roles', {code:role.code, description:role.description})
+        return this.http.post<Role>(environment.apiUrl + '/roles', {code:role.code, description:role.description})
     }
 
 

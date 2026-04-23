@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Client } from '../interfaces/client';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
@@ -12,23 +13,23 @@ export class ClientsService {
 
 
     getClients(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client');
+        return this.http.get<ResponseData>(environment.apiUrl + '/client');
     }
 
     getClient(client: Client): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client/'+ client.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/client/'+ client.id);
     }
 
     deleteClient(client: Client): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/client/' + client.id)
+        return this.http.delete<ResponseData>(environment.apiUrl + '/client/' + client.id)
     }
 
     updateClient(client: Client): Observable<ResponseData> {
-        return this.http.put<ResponseData>('https://api.hpichardotesting.com/client', client)
+        return this.http.put<ResponseData>(environment.apiUrl + '/client', client)
     }
 
     newClient(client: Client): Observable<ResponseData> {
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/client', client)
+        return this.http.post<ResponseData>(environment.apiUrl + '/client', client)
     }
 
 
@@ -47,7 +48,7 @@ export class ClientsService {
         }
 
         for (let i = 0; i < clients.length; i++) {
-            this.http.delete<ResponseData>('https://api.hpichardotesting.com/client/'+ clients[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>(environment.apiUrl + '/client/'+ clients[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted entity and report
         return 0;

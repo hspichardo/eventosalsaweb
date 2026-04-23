@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Person } from '../interfaces/person';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
@@ -12,25 +13,25 @@ export class PersonService {
 
 
     getPeople(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/person');
+        return this.http.get<ResponseData>(environment.apiUrl + '/person');
     }
 
     getPerson(person: Person): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/person/'+ person.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/person/'+ person.id);
     }
 
     deletePerson(person: Person): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/person/' + person.id)
+        return this.http.delete<ResponseData>(environment.apiUrl + '/person/' + person.id)
     }
 
     updatePerson(person: Person): Observable<ResponseData> {
-        return this.http.put<ResponseData>('https://api.hpichardotesting.com/person', person)
+        return this.http.put<ResponseData>(environment.apiUrl + '/person', person)
     }
 
     newPerson(person: Person): Observable<ResponseData> {
         const body : Object = {...person};
         body['registration_form'] = person.registration_form.id;
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/person', body)
+        return this.http.post<ResponseData>(environment.apiUrl + '/person', body)
     }
 
 
@@ -49,7 +50,7 @@ export class PersonService {
         }
 
         for (let i = 0; i < person.length; i++) {
-            this.http.delete<ResponseData>('https://api.hpichardotesting.com/person/'+ person[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>(environment.apiUrl + '/person/'+ person[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted entity and report
         return 0;

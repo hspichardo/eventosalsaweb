@@ -1,6 +1,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { ClientAccreditation } from '../interfaces/clientAccreditation';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
@@ -12,34 +13,34 @@ export class clientAccreditationService {
     constructor(private http: HttpClient) { }
 
     generateFormsByClient(client: Client): Observable<ResponseData> {
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/client_accreditation/registration_form', {id:client.id})
+        return this.http.post<ResponseData>(environment.apiUrl + '/client_accreditation/registration_form', {id:client.id})
     }
 
     getClientAccreditations(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client_accreditation');
+        return this.http.get<ResponseData>(environment.apiUrl + '/client_accreditation');
     }
 
     getClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client_accreditation/'+ clientAccreditation.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/client_accreditation/'+ clientAccreditation.id);
     }
 
     getClientAccreditationByClient(client: Client): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/client_accreditation/client/'+ client.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/client_accreditation/client/'+ client.id);
     }
 
     deleteClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/client_accreditation/' + clientAccreditation.id)
+        return this.http.delete<ResponseData>(environment.apiUrl + '/client_accreditation/' + clientAccreditation.id)
     }
 
     updateClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData> {
-        return this.http.put<ResponseData>('https://api.hpichardotesting.com/client_accreditation', clientAccreditation)
+        return this.http.put<ResponseData>(environment.apiUrl + '/client_accreditation', clientAccreditation)
     }
 
     newClientAccreditation(clientAccreditation: ClientAccreditation): Observable<ResponseData> {
         const body : any = {...clientAccreditation};
         body["accreditation"] = body["accreditation"].id;
         body["client"] = body["client"].id;
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/client_accreditation', body)
+        return this.http.post<ResponseData>(environment.apiUrl + '/client_accreditation', body)
     }
 
 

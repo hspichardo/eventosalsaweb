@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
 import { Benefit } from '../interfaces/benefit';
@@ -12,23 +13,23 @@ export class BenefitService {
 
 
     getBenefits(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/benefits');
+        return this.http.get<ResponseData>(environment.apiUrl + '/benefits');
     }
 
     getBenefit(benefit: Benefit): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/benefits/'+ benefit.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/benefits/'+ benefit.id);
     }
 
     deleteBenefit(benefit: Benefit): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/benefits/' + benefit.id)
+        return this.http.delete<ResponseData>(environment.apiUrl + '/benefits/' + benefit.id)
     }
 
     updateBenefit(benefit: Benefit): Observable<ResponseData> {
-        return this.http.put<ResponseData>('https://api.hpichardotesting.com/benefits', benefit)
+        return this.http.put<ResponseData>(environment.apiUrl + '/benefits', benefit)
     }
 
     newBenefit(benefit: Benefit): Observable<ResponseData> {
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/benefits', benefit)
+        return this.http.post<ResponseData>(environment.apiUrl + '/benefits', benefit)
     }
 
 
@@ -47,7 +48,7 @@ export class BenefitService {
         }
 
         for (let i = 0; i < benefits.length; i++) {
-            this.http.delete<ResponseData>('https://api.hpichardotesting.com/benefits/' + benefits[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>(environment.apiUrl + '/benefits/' + benefits[i].id).subscribe(deleteObserver)
         }
         return 0;
     }

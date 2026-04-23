@@ -1,6 +1,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Certificate } from '../interfaces/certificate';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
@@ -12,15 +13,15 @@ export class certificateService {
 
 
     getCertificates(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/certificate');
+        return this.http.get<ResponseData>(environment.apiUrl + '/certificate');
     }
 
     getCertificate(certificate: Certificate): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/certificate/'+ certificate.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/certificate/'+ certificate.id);
     }
 
     deleteCertificate(certificate: Certificate): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/certificate/' + certificate.id)
+        return this.http.delete<ResponseData>(environment.apiUrl + '/certificate/' + certificate.id)
     }
 
     updateCertificate(certificate: Certificate): Observable<ResponseData> {
@@ -28,7 +29,7 @@ export class certificateService {
             benefit: certificate.benefit.id,
             person: certificate.person.id
         }
-        return this.http.put<ResponseData>('https://api.hpichardotesting.com/certificate', body)
+        return this.http.put<ResponseData>(environment.apiUrl + '/certificate', body)
     }
 
     newCertificate(certificate: Certificate): Observable<ResponseData> {
@@ -36,7 +37,7 @@ export class certificateService {
             benefit: certificate.benefit.id,
             person: certificate.person.id
         }
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/certificate', body)
+        return this.http.post<ResponseData>(environment.apiUrl + '/certificate', body)
     }
 
 
@@ -55,7 +56,7 @@ export class certificateService {
         }
 
         for (let i = 0; i < certificates.length; i++) {
-            this.http.delete<ResponseData>('https://api.hpichardotesting.com/certificate/'+ certificates[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>(environment.apiUrl + '/certificate/'+ certificates[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted certificate and report
         return 0;

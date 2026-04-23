@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {ConfirmationService, MessageService} from 'primeng/api';
-import {BreadcrumbService} from "../../app.breadcrumb.service";
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { BreadcrumbService } from "../../app.breadcrumb.service";
 import { Observer } from 'rxjs';
 import { Table } from 'primeng/table';
 import { ResponseData } from 'src/app/demo/interfaces/ResponseData';
@@ -37,8 +37,8 @@ export class FormPersonComponent implements OnInit {
 
     selectedformPerson: FormPerson;
 
-    selectedRegisteredPerson : Person;
-    selectedRegisteredPeople : Person[];
+    selectedRegisteredPerson: Person;
+    selectedRegisteredPeople: Person[];
 
     selectedFormPersons: FormPerson[];
 
@@ -59,16 +59,16 @@ export class FormPersonComponent implements OnInit {
 
 
     constructor(private messageService: MessageService,
-                private breadcrumbService: BreadcrumbService,
-                private FormPersonService: FormPersonService,
-                private clientsService:ClientsService,
-                private ClientAccreditationService: clientAccreditationService,
-                private ticketsService: TicketsService,
-                private personService: PersonService
-                ) {
+        private breadcrumbService: BreadcrumbService,
+        private FormPersonService: FormPersonService,
+        private clientsService: ClientsService,
+        private ClientAccreditationService: clientAccreditationService,
+        private ticketsService: TicketsService,
+        private personService: PersonService
+    ) {
 
         this.breadcrumbService.setItems([
-            {label: 'Formulario de Personas'}
+            { label: 'Formulario de Personas' }
         ]);
 
     }
@@ -76,7 +76,7 @@ export class FormPersonComponent implements OnInit {
 
     ngOnInit() {
 
-        this.selectedRegisteredPerson = {names:''}
+        this.selectedRegisteredPerson = { names: '' }
 
         this.cols_registeredPeople = [
             { field: 'description', header: 'Identificación' },
@@ -88,7 +88,7 @@ export class FormPersonComponent implements OnInit {
 
 
         this.clientAccreditations = [
-            {formsGenerated:true}
+            { formsGenerated: true }
         ];
 
 
@@ -112,8 +112,8 @@ export class FormPersonComponent implements OnInit {
 
 
         this.cols = [
-			{ field: 'benefit', header: 'Beneficio' },
-			{ field: 'counter', header: 'Cupos disponibles' },
+            { field: 'benefit', header: 'Beneficio' },
+            { field: 'counter', header: 'Cupos disponibles' },
             { field: 'actions', header: 'Acciones' }
         ];
 
@@ -183,10 +183,10 @@ export class FormPersonComponent implements OnInit {
         this.deletePeopleDialog = false;
         this.selectedformPerson.people = this.selectedformPerson.people.filter(person => !this.selectedRegisteredPeople.includes(person)) as [];
         console.log(this.selectedformPerson.people)
-        if ( this.personService.deletePeople(this.selectedRegisteredPeople) == 0 ){
+        if (this.personService.deletePeople(this.selectedRegisteredPeople) == 0) {
             this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Personas eliminadas', life: 3000 });
         }
-        else{
+        else {
             console.error("no se pudieron eliminar los registros de Personas seleccionados")
         }
         this.selectedRegisteredPeople = [];
@@ -233,7 +233,7 @@ export class FormPersonComponent implements OnInit {
                 // Update FormPersons array to refresh table
                 const newFormPerson: FormPerson = response.data;
                 const oldFormPersonIndex = this.formPersons.findIndex(r => r.id == newFormPerson.id);
-                if (oldFormPersonIndex != -1)  {
+                if (oldFormPersonIndex != -1) {
                     this.formPersons[oldFormPersonIndex] = newFormPerson
                 }
                 else {
@@ -270,23 +270,20 @@ export class FormPersonComponent implements OnInit {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
-    generateModKey(formPerson : FormPerson)
-    {
-        formPerson.mod_key = formPerson.key.replaceAll('/','_slashslash_');
+    generateModKey(formPerson: FormPerson) {
+        formPerson.mod_key = formPerson.key.replaceAll('/', '_slashslash_');
         return formPerson;
     }
 
     getClientFormsObserver: Observer<any> = {
         next: (response: ResponseData) => {
             console.log(response)
-            if(response.status)
-            {
+            if (response.status) {
                 this.formPersons = response.data;
                 this.formPersons.map((f) => this.generateModKey(f))
                 this.formPersons.forEach((f) => f.people = [])
             }
-            else
-            {
+            else {
                 this.messageService.add({ severity: 'info', summary: 'Info', detail: "El usuario no posee acreditaciones", life: 3000 });
                 // this.messageService.add({ severity: 'error', summary: 'error', detail: response.message, life: 3000 });
             }
@@ -303,21 +300,18 @@ export class FormPersonComponent implements OnInit {
     getClientAccreditationsObserver: Observer<any> = {
         next: (response: ResponseData) => {
 
-            if(response.status)
-            {
+            if (response.status) {
                 this.clientAccreditations = []
-                this.clientAccreditations.push( response.data)
+                this.clientAccreditations.push(response.data)
 
-                if (this.clientAccreditations[0].formsGenerated)
-                {
+                if (this.clientAccreditations[0].formsGenerated) {
                     this.FormPersonService.getFormPersonsByClientId(this.selectedClientEntity).subscribe(this.getClientFormsObserver)
                 }
             }
-            else
-            {
+            else {
                 this.formPersons = [];
                 this.clientAccreditations = [
-                    {formsGenerated:true}
+                    { formsGenerated: true }
                 ];
                 this.messageService.add({ severity: 'info', summary: 'Info', detail: "El usuario no posee acreditaciones", life: 3000 });
                 // this.messageService.add({ severity: 'error', summary: 'error', detail: response.message, life: 3000 });
@@ -335,16 +329,14 @@ export class FormPersonComponent implements OnInit {
     getFormPersonObserver: Observer<any> = {
         next: (response: ResponseData) => {
 
-            if(response.status)
-            {
+            if (response.status) {
                 const mod_key = this.selectedformPerson.mod_key;
                 this.selectedformPerson = response.data;
                 this.selectedformPerson.people = response.data.persons || []; // correction persons to people
-                delete this.selectedformPerson['persons'] ; // correction persons to people
+                delete this.selectedformPerson['persons']; // correction persons to people
                 this.selectedformPerson.mod_key = mod_key;
             }
-            else
-            {
+            else {
                 this.messageService.add({ severity: 'info', summary: 'Info', detail: response.message, life: 3000 });
             }
         },
@@ -364,7 +356,7 @@ export class FormPersonComponent implements OnInit {
 
     updateFormTable(event) {
         this.selectedClientEntity = event.value
-        console.log(this.selectedClientEntity   )
+        console.log(this.selectedClientEntity)
         this.ClientAccreditationService.getClientAccreditationByClient(this.selectedClientEntity).subscribe(this.getClientAccreditationsObserver);
     }
 
@@ -374,15 +366,13 @@ export class FormPersonComponent implements OnInit {
         const generateFormsObserver: Observer<any> = {
             next: (response: ResponseData) => {
                 console.log(response)
-                if(response.status)
-                {
+                if (response.status) {
                     this.formPersons = response.data;
                     this.formPersons.map((f) => this.generateModKey(f))
                     this.formPersons.forEach((f) => f.people = [])
                     this.messageService.add({ severity: 'success', summary: 'Éxito', detail: "Formularios creados exitosamente", life: 3000 });
                 }
-                else
-                {
+                else {
                     this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
                 }
             },
@@ -399,7 +389,7 @@ export class FormPersonComponent implements OnInit {
     }
 
     copyFormLink(formPerson) {
-        this.copyTextOnClipboard('https://harlynp1.sg-host.com/#/form/' + formPerson.mod_key)
+        this.copyTextOnClipboard('https://harlynp3.sg-host.com/#/form/' + formPerson.mod_key)
     }
 
     copyTextOnClipboard = async (text: string): Promise<void> => {
@@ -410,22 +400,19 @@ export class FormPersonComponent implements OnInit {
         catch (error) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: "No se puedo copiar el link", life: 3000 });
         }
-      }
+    }
 
-    showQRCodes(person: Person)
-    {
+    showQRCodes(person: Person) {
         this.QRDialog = true;
         this.selectedRegisteredPerson = person;
 
 
         const getTicketObserver: Observer<any> = {
             next: (response: ResponseData) => {
-                if(response.status)
-                {
+                if (response.status) {
                     this.selectedRegisteredPerson.ticket = response.data;
                 }
-                else
-                {
+                else {
                     this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
                 }
             },

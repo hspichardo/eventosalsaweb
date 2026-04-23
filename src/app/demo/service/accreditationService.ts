@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Observable, Observer } from 'rxjs';
 import { ResponseData } from '../interfaces/ResponseData';
 import { Accreditation } from '../interfaces/accreditation';
@@ -13,19 +14,19 @@ export class AccreditationService {
 
 
     getAccreditations(): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/accreditations');
+        return this.http.get<ResponseData>(environment.apiUrl + '/accreditations');
     }
 
     getAccreditation(acreditation: Accreditation): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/accreditations/'+ acreditation.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/accreditations/'+ acreditation.id);
     }
 
     getAccreditationsByEventId(event: EventEntity): Observable<ResponseData> {
-        return this.http.get<ResponseData>('https://api.hpichardotesting.com/accreditations/by_event/'+event.id);
+        return this.http.get<ResponseData>(environment.apiUrl + '/accreditations/by_event/'+event.id);
     }
 
     deleteAccreditation(acreditation: Accreditation): Observable<ResponseData>  {
-        return this.http.delete<ResponseData>('https://api.hpichardotesting.com/accreditations/' + acreditation.id);
+        return this.http.delete<ResponseData>(environment.apiUrl + '/accreditations/' + acreditation.id);
     }
 
     updateAccreditation(acreditation: Accreditation): Observable<ResponseData> {
@@ -37,14 +38,14 @@ export class AccreditationService {
         else {
             delete body['benefits'];
         }
-        return this.http.put<ResponseData>('https://api.hpichardotesting.com/accreditations/', body)
+        return this.http.put<ResponseData>(environment.apiUrl + '/accreditations/', body)
     }
 
     newAccreditation(acreditation: Accreditation): Observable<ResponseData> {
         let body: Object = {...acreditation};
         body['event'] = body['event'].id;
         body['benefits'] = body['benefits']? body['benefits'].map(benefit => benefit.id):[];
-        return this.http.post<ResponseData>('https://api.hpichardotesting.com/accreditations', body)
+        return this.http.post<ResponseData>(environment.apiUrl + '/accreditations', body)
     }
 
 
@@ -63,7 +64,7 @@ export class AccreditationService {
         }
 
         for (let i = 0; i < accreditations.length; i++) {
-            this.http.delete<ResponseData>('https://api.hpichardotesting.com/accreditations/' + accreditations[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>(environment.apiUrl + '/accreditations/' + accreditations[i].id).subscribe(deleteObserver)
         }
         return 0;
     }
