@@ -63,8 +63,8 @@ export class ClientAccreditationComponent implements OnInit {
     getClientAccreditationsObserver: Observer<any> = {
         next: (response: ResponseData) => { 
             if(response.status)
-            {   this.clientAccreditations = []
-                this.clientAccreditations.push( response.data)
+            {
+                this.clientAccreditations = response.data;
             }
             else
             {

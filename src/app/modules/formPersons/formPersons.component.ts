@@ -301,10 +301,9 @@ export class FormPersonComponent implements OnInit {
         next: (response: ResponseData) => {
 
             if (response.status) {
-                this.clientAccreditations = []
-                this.clientAccreditations.push(response.data)
+                this.clientAccreditations = response.data;
 
-                if (this.clientAccreditations[0].formsGenerated) {
+                if (this.clientAccreditations.some(ca => ca.formsGenerated)) {
                     this.FormPersonService.getFormPersonsByClientId(this.selectedClientEntity).subscribe(this.getClientFormsObserver)
                 }
             }
