@@ -146,18 +146,18 @@ a {
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-  background-color: #2872B4;
-  background-image: -webkit-gradient(linear, left top, right top, from(#2872B4), to(#26BED0));
-  background-image: -webkit-linear-gradient(to right, #2872B4, #26BED0);
-  background-image: -moz-linear-gradient(to right, #2872B4, #26BED0);
-  background-image: -ms-linear-gradient(to right, #2872B4, #26BED0);
-  background-image: -o-linear-gradient(to right, #2872B4, #26BED0);
-  background-image: linear-gradient(to right, #2872B4, #26BED0);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2872B4", endColorstr="#26BED0", gradientType="1");
+  background-color: #F8A800;
+  background-image: -webkit-gradient(linear, left top, right top, from(#F8A800), to(#F8A800));
+  background-image: -webkit-linear-gradient(to right, #F8A800, #F8A800);
+  background-image: -moz-linear-gradient(to right, #F8A800, #F8A800);
+  background-image: -ms-linear-gradient(to right, #F8A800, #F8A800);
+  background-image: -o-linear-gradient(to right, #F8A800, #F8A800);
+  background-image: linear-gradient(to right, #F8A800, #F8A800);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#F8A800", endColorstr="#F8A800", gradientType="1");
 }
 .layout-wrapper .layout-topbar #topbar-menu-button {
   float: left;
-  color: #ffffff;
+  color: #111D29;
   height: 60px;
   width: 60px;
   display: none;
@@ -169,7 +169,7 @@ a {
   transition: transform 0.3s;
 }
 .layout-wrapper .layout-topbar #topbar-menu-button:hover {
-  background-color: #18558A;
+  background-color: rgba(17, 29, 41, 0.15);
 }
 .layout-wrapper .layout-topbar #topbar-menu-button i {
   line-height: inherit;
@@ -299,14 +299,14 @@ a {
   line-height: 21px;
   text-align: left;
   margin-right: 10px;
-  color: #ffffff;
+  color: #111D29;
 }
 .layout-wrapper .layout-topbar #topbar-profile-menu-button i {
   vertical-align: middle;
-  color: #ffffff;
+  color: #111D29;
 }
 .layout-wrapper .layout-topbar #topbar-profile-menu-button:hover {
-  background-color: #0991A5;
+  background-color: rgba(17, 29, 41, 0.15);
 }
 .layout-wrapper .layout-topbar #topbar-usermenu {
   right: 0;
@@ -320,7 +320,7 @@ a {
   position: fixed;
   display: none;
   width: 240px;
-  background-color: #050505;
+  background-color: #111D29;
   -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
@@ -331,7 +331,7 @@ a {
 .layout-wrapper .layout-topbar #topbar-usermenu li a {
   display: block;
   text-align: left;
-  color: #BBBBBB;
+  color: #ffffff;
   padding: 10px 20px;
   font-weight: 500;
   text-decoration: none;
@@ -358,7 +358,7 @@ a {
   border-radius: 24px;
 }
 .layout-wrapper .layout-topbar #topbar-usermenu li a:hover {
-  border-color: #2D8EE3;
+  border-color: #F8A800;
 }
 .layout-wrapper .layout-topbar #topbar-usermenu li ul {
   display: none;
@@ -379,7 +379,7 @@ a {
   display: block;
 }
 .layout-wrapper .layout-topbar #topbar-usermenu > li.menuitem-active > a {
-  color: #2D8EE3;
+  color: #F8A800;
 }
 .layout-wrapper.layout-menu-light .layout-topbar #topbar-usermenu {
   background-color: #ffffff;
@@ -2110,14 +2110,14 @@ body .layout-wrapper .layout-main .layout-content {
 .exception-body .exception-topbar {
   height: 60px;
   width: 100%;
-  background-color: #cfffd8 ;
-  background-image: -webkit-gradient(linear, left top, right top, from(#1C8177), to(#1C8177));
-  background-image: -webkit-linear-gradient(to right, #1C8177, #1C8177);
-  background-image: -moz-linear-gradient(to right, #1C8177, #1C8177);
-  background-image: -ms-linear-gradient(to right, #1C8177, #1C8177);
-  background-image: -o-linear-gradient(to right, #1C8177, #1C8177);
-  background-image: linear-gradient(to right, #1C8177, #1C8177);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1C8177", endColorstr="#1C8177", gradientType="1");
+  background-color: #F8A800 ;
+  background-image: -webkit-gradient(linear, left top, right top, from(#F8A800), to(#F8A800));
+  background-image: -webkit-linear-gradient(to right, #F8A800, #F8A800);
+  background-image: -moz-linear-gradient(to right, #F8A800, #F8A800);
+  background-image: -ms-linear-gradient(to right, #F8A800, #F8A800);
+  background-image: -o-linear-gradient(to right, #F8A800, #F8A800);
+  background-image: linear-gradient(to right, #F8A800, #F8A800);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#F8A800", endColorstr="#F8A800", gradientType="1");
   text-align: center;
   position: fixed;
 }
