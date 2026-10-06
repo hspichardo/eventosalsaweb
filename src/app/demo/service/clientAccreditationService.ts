@@ -59,7 +59,7 @@ export class clientAccreditationService {
         }
 
         for (let i = 0; i < clientAccreditations.length; i++) {
-            this.http.delete<ResponseData>('https://api.hpichardotesting.com/client_accreditation/'+ clientAccreditations[i].id).subscribe(deleteObserver)
+            this.http.delete<ResponseData>(environment.apiUrl + '/client_accreditation/'+ clientAccreditations[i].id).subscribe(deleteObserver)
         }
         //TODO: list non deleted clientAccreditation and report
         return 0;

@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://api.hpichardotesting.com'
+  apiUrl: 'https://apieventosalsa-qjwos.ondigitalocean.app'
 };
