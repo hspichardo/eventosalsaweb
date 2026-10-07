@@ -1,6 +1,6 @@
 <div class="exception-body">
     <div class="form-topbar">
-        <img class="logotopbar" src="assets/demo/images/logo.png" alt="ecuador-layout"/>
+        <img class="logotopbar" src="assets/demo/images/logo.png" alt="ecuador-layout" />
         <p-messages class="topbar-messages" [value]="msgs"></p-messages>
     </div>
 
@@ -18,8 +18,9 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="names">Nombres</label>
-                    <input pInputText required id="names" name="names" [(ngModel)]="person.names" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.names}" />
-                    <small class="empty-warning"  *ngIf="submitted && !person.names">Debe poner sus nombres</small>
+                    <input pInputText required id="names" name="names" [(ngModel)]="person.names"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.names}" />
+                    <small class="empty-warning" *ngIf="submitted && !person.names">Debe poner sus nombres</small>
                 </div>
             </div>
         </div>
@@ -27,8 +28,9 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="surnames">Apellidos</label>
-                    <input pInputText required id="surnames" name="surnames" [(ngModel)]="person.surnames" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.surnames}" />
-                    <small class="empty-warning"  *ngIf="submitted && !person.surnames">Debe poner sus apellidos</small>
+                    <input pInputText required id="surnames" name="surnames" [(ngModel)]="person.surnames"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.surnames}" />
+                    <small class="empty-warning" *ngIf="submitted && !person.surnames">Debe poner sus apellidos</small>
                 </div>
             </div>
         </div>
@@ -36,8 +38,11 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="identification">Cédula/Pasaporte</label>
-                    <input pInputText required id="identification" name="identification" [maxlength]="13" [(ngModel)]="person.identification" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.identification}" />
-                    <small class="empty-warning"  *ngIf="submitted && !person.identification">Debe indicar su Num. de Cédula o Pasaporte</small>
+                    <input pInputText required id="identification" name="identification" [maxlength]="13"
+                        [(ngModel)]="person.identification"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.identification}" />
+                    <small class="empty-warning" *ngIf="submitted && !person.identification">Debe indicar su Num. de
+                        Cédula o Pasaporte</small>
                 </div>
             </div>
         </div>
@@ -45,21 +50,12 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="province">País</label>
-                    <p-dropdown
-                        id="country"
-                        name="country"
-                        [options]="countryA"
-                        optionValue="label"
-                        [(ngModel)]="person.country"
-                        [filter]="true"
-                        filterBy="label"
-                        [showClear]="true"
-                        placeholder="Escoga un país"
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.country}"
-                        autoWidth="false"
-                        [style]="{'width':'60%'}" >
+                    <p-dropdown id="country" name="country" [options]="countryA" optionValue="label"
+                        [(ngModel)]="person.country" [filter]="true" filterBy="label" [showClear]="true"
+                        placeholder="Escoga un país" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.country}"
+                        autoWidth="false" [style]="{'width':'60%'}">
                     </p-dropdown>
-                    <small class="empty-warning"  *ngIf="submitted && !person.country">Debe escoger un país</small>
+                    <small class="empty-warning" *ngIf="submitted && !person.country">Debe escoger un país</small>
                 </div>
             </div>
         </div>
@@ -67,21 +63,14 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="province">Provincia</label>
-                    <p-dropdown
-                        id="province"
-                        name="province"
-                        [options]="provincesA"
-                        optionValue="label"
-                        [(ngModel)]="person.province"
-                        [filter]="true"
-                        filterBy="label"
-                        [showClear]="true"
+                    <p-dropdown id="province" name="province" [options]="provincesA" optionValue="label"
+                        [(ngModel)]="person.province" [filter]="true" filterBy="label" [showClear]="true"
                         placeholder="Escoga una provincia"
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.province}"
-                        autoWidth="false"
-                        [style]="{'width':'60%'}" >
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.province}" autoWidth="false"
+                        [style]="{'width':'60%'}">
                     </p-dropdown>
-                    <small class="empty-warning"  *ngIf="submitted && !person.province">Debe escoger una provincia</small>
+                    <small class="empty-warning" *ngIf="submitted && !person.province">Debe escoger una
+                        provincia</small>
                 </div>
             </div>
         </div>
@@ -89,21 +78,13 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="canton">Ciudad</label>
-                    <p-dropdown
-                        id="canton"
-                        name="canton"
-                        [options]="cities"
-                        [(ngModel)]="person.canton"
-                        [showClear]="true"
-                        [filter] = "true"
-                        filterBy="label"
-                        optionValue="label"
+                    <p-dropdown id="canton" name="canton" [options]="cities" [(ngModel)]="person.canton"
+                        [showClear]="true" [filter]="true" filterBy="label" optionValue="label"
                         placeholder="Escoga una Ciudad"
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.canton}"
-                        autoWidth="false"
-                        [style]="{'width':'60%'}" >
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.canton}" autoWidth="false"
+                        [style]="{'width':'60%'}">
                     </p-dropdown>
-                    <small class="empty-warning"  *ngIf="submitted && !person.canton">Debe escoger un cantón</small>
+                    <small class="empty-warning" *ngIf="submitted && !person.canton">Debe escoger un cantón</small>
                 </div>
             </div>
         </div>
@@ -111,8 +92,9 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="institution">Estado: </label>
-                    <input pInputText id="state" name="state" [(ngModel)]="person.province" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.province}"/>
-                    <small class="empty-warning"  *ngIf="submitted && !person.province">Debe indicar estado</small>
+                    <input pInputText id="state" name="state" [(ngModel)]="person.province"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.province}" />
+                    <small class="empty-warning" *ngIf="submitted && !person.province">Debe indicar estado</small>
                 </div>
             </div>
         </div>
@@ -120,8 +102,9 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="institution">Ciudad: </label>
-                    <input pInputText id="city" name="city" [(ngModel)]="person.canton" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.canton}"/>
-                    <small class="empty-warning"  *ngIf="submitted && !person.canton">Debe indicar Ciudad</small>
+                    <input pInputText id="city" name="city" [(ngModel)]="person.canton"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.canton}" />
+                    <small class="empty-warning" *ngIf="submitted && !person.canton">Debe indicar Ciudad</small>
                 </div>
             </div>
         </div>
@@ -153,26 +136,33 @@
                         placeholder="llene con un cargo"
                         [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.position}">
                     </p-dropdown>-->
-                    <input pInputText required id="position" name="position" [(ngModel)]="person.position" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.position}" />
-                    <small class="empty-warning"  *ngIf="submitted && !person.position">Debe llenar con un cargo</small>
-                </div>
-            </div>
-        </div>
-        <div class="grid" >
-            <div class="col-12">
-                <div class="card card-item">
-                    <label htmlFor="institution">Establecimiento a la que pertenece (si no pertenece debe poner no aplica)</label>
-                    <input pInputText id="institution" name="institution" [(ngModel)]="person.institution" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.institution}"/>
-                    <small class="empty-warning"  *ngIf="submitted && !person.institution">Debe poner indicar alguna entidad</small>
+                    <input pInputText required id="position" name="position" [(ngModel)]="person.position"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.position}" />
+                    <small class="empty-warning" *ngIf="submitted && !person.position">Debe llenar con un cargo</small>
                 </div>
             </div>
         </div>
         <div class="grid">
             <div class="col-12">
                 <div class="card card-item">
-                    <label htmlFor="phone_number">Número de Whatsapp (Debe indicar código de país, ejem: +593987654321</label>
-                    <input pInputText required id="phone_number" name="phone_number" [(ngModel)]="person.phone_number" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.phone_number}" />
-                    <small class="empty-warning"  *ngIf="submitted && !person.phone_number">Debe poner un número celular</small>
+                    <label htmlFor="institution">Coloca el CÓDIGO de tu profesor o academia: (en caso de venir de manera
+                        individual colocar NO APLICA)</label>
+                    <input pInputText id="institution" name="institution" [(ngModel)]="person.institution"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.institution}" />
+                    <small class="empty-warning" *ngIf="submitted && !person.institution">Debe poner indicar alguna
+                        entidad</small>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <div class="card card-item">
+                    <label htmlFor="phone_number">Número de Whatsapp (Debe indicar código de país, ejem:
+                        +593987654321</label>
+                    <input pInputText required id="phone_number" name="phone_number" [(ngModel)]="person.phone_number"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.phone_number}" />
+                    <small class="empty-warning" *ngIf="submitted && !person.phone_number">Debe poner un número
+                        celular</small>
                 </div>
             </div>
         </div>
@@ -180,8 +170,10 @@
             <div class="col-12">
                 <div class="card card-item">
                     <label htmlFor="email">Correo electrónico</label>
-                    <input pInputText required id="email" name="email" [(ngModel)]="person.email" [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.email}"/>
-                    <small class="empty-warning"  *ngIf="submitted && !person.email">Debe poner un correo electrónico</small>
+                    <input pInputText required id="email" name="email" [(ngModel)]="person.email"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !person.email}" />
+                    <small class="empty-warning" *ngIf="submitted && !person.email">Debe poner un correo
+                        electrónico</small>
                 </div>
             </div>
         </div>
@@ -209,13 +201,8 @@
 
 
         <div class="form-footer">
-            <button
-                pButton pRipple
-                label="Enviar respuesta"
-                icon="pi pi-check"
-                class="p-button-text"
-                [disabled]="sending"
-                type="submit">
+            <button pButton pRipple label="Enviar respuesta" icon="pi pi-check" class="p-button-text"
+                [disabled]="sending" type="submit">
             </button>
         </div>
     </form>
@@ -223,8 +210,7 @@
 
 </div>
 
-<p-dialog header="Enviando Formulario" [(visible)]="showLoading" [modal]="true" [closable]="false" [draggable]="false" [resizable]="false">
+<p-dialog header="Enviando Formulario" [(visible)]="showLoading" [modal]="true" [closable]="false" [draggable]="false"
+    [resizable]="false">
     <img src="assets/demo/images/loading.gif" alt="">
 </p-dialog>
-
-
