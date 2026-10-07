@@ -24,6 +24,9 @@
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "aot": true,
+                        "allowedCommonJsDependencies": [
+                            "xlsx"
+                        ],
                         "assets": [
                             "src/assets",
                             "src/upload.php",

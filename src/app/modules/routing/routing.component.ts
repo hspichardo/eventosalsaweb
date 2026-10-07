@@ -20,6 +20,7 @@ import { ClientComponent } from '../client/client.component';
 import { FormComponent } from '../form/form.component';
 import { AppendBenefitsComponent } from '../benefits/appendBenefits/appendBenefits.component';
 import { SuccessRegisterComponent } from '../successRegister/successRegister.component';
+import { ReportsComponent } from '../reports/reports.component';
 
 @NgModule({
     imports: [
@@ -37,6 +38,7 @@ import { SuccessRegisterComponent } from '../successRegister/successRegister.com
 					{path: 'asignar_beneficios', component: AppendBenefitsComponent, canActivate:[CheckLoginGuard]},
                     {path: 'acreditaciones', component: AccreditationComponent, canActivate:[CheckLoginGuard]},
                     {path: 'clientes', component: ClientComponent, canActivate:[CheckLoginGuard]},
+                    {path: 'reportes', component: ReportsComponent, canActivate:[CheckLoginGuard]},
                 ]
             },
             {path: 'form/:key', component: FormComponent},

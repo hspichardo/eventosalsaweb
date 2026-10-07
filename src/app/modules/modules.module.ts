@@ -37,6 +37,7 @@ import { AppendBenefitsComponent } from './benefits/appendBenefits/appendBenefit
 import { TooltipModule } from 'primeng/tooltip';
 import { TicketsService } from '../demo/service/ticketService';
 import { PersonService } from '../demo/service/personService';
+import { ReportsComponent } from './reports/reports.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -72,7 +73,8 @@ import { PersonService } from '../demo/service/personService';
     UsersComponent,
     createAccountComponent,
     ClientComponent,
-    AppendBenefitsComponent
+    AppendBenefitsComponent,
+    ReportsComponent
   ],
   exports:[
   ],
